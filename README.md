@@ -37,9 +37,3 @@ Akses antarmuka di `http://localhost:3000`.
 
 ---
 
-## 📌 Progress Saat Ini (Roadmap FSD 01 Nov 2026)
-- [x] Blueprint Arsitektur Sistem, ERD, dan Penyelarasan 4 Subtema WIA MIA 2026 (`ARCHITECTURE.md`).
-- [x] Dataset Riil Terverifikasi (`data/seeders/`): 200 sekolah Dapodik, 14 pasar tradisional Pasar Jaya, dan 44 kecamatan DKI Jakarta.
-- [ ] Scaffolding Monorepo `backend/` dan `frontend/`.
-- [ ] Database Migration & Seeders.
-- [ ] Landing Page & Peta GIS Interaktif (`/map`).
