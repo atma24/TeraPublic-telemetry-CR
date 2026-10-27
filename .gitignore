@@ -1,8 +1,10 @@
 # Environment & Credentials
 .env
-.env.backup
-.env.production
-.env.local
+.env.*
+backend/.env
+backend/.env.*
+frontend/.env
+frontend/.env.*
 
 # Backend (Laravel)
 backend/vendor/
