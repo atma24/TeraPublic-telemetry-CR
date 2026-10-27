@@ -13,6 +13,7 @@ class CitizenFeedback extends Model
     protected $table = 'citizen_feedbacks';
 
     protected $fillable = [
+        'user_id',
         'facility_id',
         'tracking_code',
         'citizen_name',
@@ -33,6 +34,11 @@ class CitizenFeedback extends Model
         'longitude' => 'float',
         'resolved_at' => 'datetime',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function facility(): BelongsTo
     {

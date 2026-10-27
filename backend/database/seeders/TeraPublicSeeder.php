@@ -3,12 +3,15 @@
 namespace Database\Seeders;
 
 use App\Models\BudgetProject;
+use App\Models\CitizenFeedback;
 use App\Models\EquityMetric;
 use App\Models\FacilityCategory;
 use App\Models\PublicFacility;
 use App\Models\Region;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 
 class TeraPublicSeeder extends Seeder
 {
@@ -18,6 +21,27 @@ class TeraPublicSeeder extends Seeder
     public function run(): void
     {
         $this->command->info('Seeding TeraPublic master data...');
+
+        // 0. Default Users (Admin & Warga)
+        User::firstOrCreate(
+            ['email' => 'admin@terapublic.jakarta.go.id'],
+            [
+                'name' => 'Administrator TeraPublic',
+                'password' => Hash::make('password123'),
+                'role' => 'admin',
+            ]
+        );
+        $this->command->info('Created default admin: admin@terapublic.jakarta.go.id (role: admin)');
+
+        User::firstOrCreate(
+            ['email' => 'warga@terapublic.jakarta.go.id'],
+            [
+                'name' => 'Warga Jakarta Peduli',
+                'password' => Hash::make('password123'),
+                'role' => 'citizen',
+            ]
+        );
+        $this->command->info('Created sample citizen: warga@terapublic.jakarta.go.id (role: citizen)');
 
         // 1. Categories
         $schoolCat = FacilityCategory::firstOrCreate(
@@ -93,16 +117,14 @@ class TeraPublicSeeder extends Seeder
         $projectsPath = base_path('../data/seeders/budget_projects_jakarta.json');
         if (File::exists($projectsPath)) {
             $projectsData = json_decode(File::get($projectsPath), true);
-            foreach ($projectsData as $p) {
-                $matchedFacility = null;
-                if (! empty($p['facility_name'])) {
-                    $matchedFacility = PublicFacility::where('name', $p['facility_name'])->first();
-                }
-
-                BudgetProject::updateOrCreate(
-                    ['id' => $p['id']],
-                    [
-                        'facility_id' => $matchedFacility ? $matchedFacility->id : null,
+            $chunks = array_chunk($projectsData, 200);
+            $now = now();
+            foreach ($chunks as $chunk) {
+                $rows = [];
+                foreach ($chunk as $p) {
+                    $rows[] = [
+                        'id' => $p['id'],
+                        'facility_id' => null,
                         'region_id' => $p['region_id'],
                         'project_name' => $p['project_name'],
                         'fiscal_year' => $p['fiscal_year'],
@@ -114,7 +136,14 @@ class TeraPublicSeeder extends Seeder
                         'start_date' => $p['start_date'],
                         'target_completion_date' => $p['target_completion_date'],
                         'progress_percentage' => $p['progress_percentage'],
-                    ]
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+                }
+                BudgetProject::upsert(
+                    $rows,
+                    ['id'],
+                    ['region_id', 'project_name', 'fiscal_year', 'funding_source', 'budget_allocated', 'budget_realized', 'status', 'contractor_name', 'start_date', 'target_completion_date', 'progress_percentage', 'updated_at']
                 );
             }
             $this->command->info('Seeded '.count($projectsData).' budget projects.');
@@ -152,5 +181,26 @@ class TeraPublicSeeder extends Seeder
         }
 
         $this->command->info('Computed and seeded equity metrics for all '.$allRegions->count().' regions.');
+
+        // 6. Sample Citizen Feedback
+        $wargaUser = User::where('email', 'warga@terapublic.jakarta.go.id')->first();
+        $sampleFacility = PublicFacility::first();
+        if ($wargaUser && $sampleFacility) {
+            CitizenFeedback::firstOrCreate(
+                ['tracking_code' => 'TP-2026-0001'],
+                [
+                    'user_id' => $wargaUser->id,
+                    'facility_id' => $sampleFacility->id,
+                    'citizen_name' => $wargaUser->name,
+                    'citizen_email' => $wargaUser->email,
+                    'title' => 'Ramp kursi roda licin dan terhalang pedagang',
+                    'description' => 'Akses jalur difabel di pintu masuk tertutup gerobak semi-permanen dan ubin pemandu (tactile paving) rusak.',
+                    'category' => 'disability_access',
+                    'status' => 'verified',
+                    'admin_response' => 'Laporan telah diverifikasi oleh Satpol PP & Dinas Bina Marga. Penertiban dan perbaikan dijadwalkan minggu depan.',
+                ]
+            );
+            $this->command->info('Seeded sample citizen feedback with tracking code TP-2026-0001.');
+        }
     }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('citizen_feedbacks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('facility_id')->nullable()->constrained('public_facilities')->nullOnDelete();
             $table->string('tracking_code')->unique(); // e.g. TP-2026-0001
             $table->string('citizen_name');

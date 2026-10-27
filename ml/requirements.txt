@@ -1,0 +1,7 @@
+# TeraPublic Machine Learning Pipeline Requirements
+# Web In Action (WIA) — Multimedia In Action (MIA) 2026
+
+scikit-learn>=1.9.0
+numpy>=2.5.0
+scipy>=1.18.0
+joblib>=1.4.0

@@ -1,0 +1,258 @@
+[
+  {
+    "periode": "202401",
+    "year": 2024,
+    "month": 1,
+    "total_allocated": 1372859859080550.0,
+    "total_realized": 4961453340826.45,
+    "absorption_rate": 0.36
+  },
+  {
+    "periode": "202402",
+    "year": 2024,
+    "month": 2,
+    "total_allocated": 1244560534719666.0,
+    "total_realized": 5455360808012.9795,
+    "absorption_rate": 0.44
+  },
+  {
+    "periode": "202403",
+    "year": 2024,
+    "month": 3,
+    "total_allocated": 1382556579498493.0,
+    "total_realized": 14407518579466.031,
+    "absorption_rate": 1.04
+  },
+  {
+    "periode": "202404",
+    "year": 2024,
+    "month": 4,
+    "total_allocated": 1221021758554415.0,
+    "total_realized": 11701421688265.06,
+    "absorption_rate": 0.96
+  },
+  {
+    "periode": "202405",
+    "year": 2024,
+    "month": 5,
+    "total_allocated": 1433123925490508.0,
+    "total_realized": 7175051319999.68,
+    "absorption_rate": 0.5
+  },
+  {
+    "periode": "202406",
+    "year": 2024,
+    "month": 6,
+    "total_allocated": 1823285464397861.0,
+    "total_realized": 15744879567165.18,
+    "absorption_rate": 0.86
+  },
+  {
+    "periode": "202407",
+    "year": 2024,
+    "month": 7,
+    "total_allocated": 1947048221543267.0,
+    "total_realized": 11028626553317.86,
+    "absorption_rate": 0.57
+  },
+  {
+    "periode": "202408",
+    "year": 2024,
+    "month": 8,
+    "total_allocated": 1757795136992347.0,
+    "total_realized": 11289078118502.86,
+    "absorption_rate": 0.64
+  },
+  {
+    "periode": "202409",
+    "year": 2024,
+    "month": 9,
+    "total_allocated": 1707351554533672.0,
+    "total_realized": 11557240052843.361,
+    "absorption_rate": 0.68
+  },
+  {
+    "periode": "202410",
+    "year": 2024,
+    "month": 10,
+    "total_allocated": 324989391386027.0,
+    "total_realized": 1832126713107.48,
+    "absorption_rate": 0.56
+  },
+  {
+    "periode": "202411",
+    "year": 2024,
+    "month": 11,
+    "total_allocated": 1837851176766231.0,
+    "total_realized": 16475503966864.992,
+    "absorption_rate": 0.9
+  },
+  {
+    "periode": "202412",
+    "year": 2024,
+    "month": 12,
+    "total_allocated": 291604951202095.0,
+    "total_realized": 3183951438083.23,
+    "absorption_rate": 1.09
+  },
+  {
+    "periode": "202501",
+    "year": 2025,
+    "month": 1,
+    "total_allocated": 1220456181265978.0,
+    "total_realized": 4033797882041.68,
+    "absorption_rate": 0.33
+  },
+  {
+    "periode": "202502",
+    "year": 2025,
+    "month": 2,
+    "total_allocated": 1684549234296296.0,
+    "total_realized": 9533095252283.26,
+    "absorption_rate": 0.57
+  },
+  {
+    "periode": "202503",
+    "year": 2025,
+    "month": 3,
+    "total_allocated": 1536084824148376.0,
+    "total_realized": 10582688666028.748,
+    "absorption_rate": 0.69
+  },
+  {
+    "periode": "202504",
+    "year": 2025,
+    "month": 4,
+    "total_allocated": 1320556348566004.0,
+    "total_realized": 12771510722862.06,
+    "absorption_rate": 0.97
+  },
+  {
+    "periode": "202505",
+    "year": 2025,
+    "month": 5,
+    "total_allocated": 1448771375896586.0,
+    "total_realized": 13164529575773.049,
+    "absorption_rate": 0.91
+  },
+  {
+    "periode": "202506",
+    "year": 2025,
+    "month": 6,
+    "total_allocated": 1857995902525129.0,
+    "total_realized": 13986178260080.102,
+    "absorption_rate": 0.75
+  },
+  {
+    "periode": "202507",
+    "year": 2025,
+    "month": 7,
+    "total_allocated": 2198657020486143.0,
+    "total_realized": 11522536811871.938,
+    "absorption_rate": 0.52
+  },
+  {
+    "periode": "202508",
+    "year": 2025,
+    "month": 8,
+    "total_allocated": 1725073454869261.0,
+    "total_realized": 13969849122693.04,
+    "absorption_rate": 0.81
+  },
+  {
+    "periode": "202509",
+    "year": 2025,
+    "month": 9,
+    "total_allocated": 1970381103488631.0,
+    "total_realized": 11130945544725.18,
+    "absorption_rate": 0.56
+  },
+  {
+    "periode": "202510",
+    "year": 2025,
+    "month": 10,
+    "total_allocated": 2236471679147990.0,
+    "total_realized": 9683041742332.93,
+    "absorption_rate": 0.43
+  },
+  {
+    "periode": "202511",
+    "year": 2025,
+    "month": 11,
+    "total_allocated": 1878797763183957.0,
+    "total_realized": 13530088178161.191,
+    "absorption_rate": 0.72
+  },
+  {
+    "periode": "202512",
+    "year": 2025,
+    "month": 12,
+    "total_allocated": 2416974267063974.0,
+    "total_realized": 28407664683373.184,
+    "absorption_rate": 1.18
+  },
+  {
+    "periode": "202601",
+    "year": 2026,
+    "month": 1,
+    "total_allocated": 1384024041252065.0,
+    "total_realized": 4972750776042.85,
+    "absorption_rate": 0.36
+  },
+  {
+    "periode": "202602",
+    "year": 2026,
+    "month": 2,
+    "total_allocated": 1544916452771699.0,
+    "total_realized": 6631179344596.3,
+    "absorption_rate": 0.43
+  },
+  {
+    "periode": "202603",
+    "year": 2026,
+    "month": 3,
+    "total_allocated": 1344934712345161.0,
+    "total_realized": 10196197411496.219,
+    "absorption_rate": 0.76
+  },
+  {
+    "periode": "202604",
+    "year": 2026,
+    "month": 4,
+    "total_allocated": 1811916444394949.0,
+    "total_realized": 8793982932961.78,
+    "absorption_rate": 0.49
+  },
+  {
+    "periode": "202605",
+    "year": 2026,
+    "month": 5,
+    "total_allocated": 1424688197309304.0,
+    "total_realized": 14358841002549.24,
+    "absorption_rate": 1.01
+  },
+  {
+    "periode": "202606",
+    "year": 2026,
+    "month": 6,
+    "total_allocated": 2029443319906909.0,
+    "total_realized": 11368582177488.25,
+    "absorption_rate": 0.56
+  },
+  {
+    "periode": "202607",
+    "year": 2026,
+    "month": 7,
+    "total_allocated": 2122789120140318.0,
+    "total_realized": 10963677923331.04,
+    "absorption_rate": 0.52
+  },
+  {
+    "periode": "202608",
+    "year": 2026,
+    "month": 8,
+    "total_allocated": 1832361858053460.0,
+    "total_realized": 9653164809915.14,
+    "absorption_rate": 0.53
+  }
+]
