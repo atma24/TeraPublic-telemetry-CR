@@ -34,7 +34,7 @@ export function Logo({
           src="/brand/logo-horizontal-dark.png"
           alt={SITE_NAME}
           width={1600}
-          height={517}
+          height={510}
           priority={priority}
           sizes={compact ? "132px" : "190px"}
           className={imageClassNameValue}
@@ -54,7 +54,7 @@ export function Logo({
             src="/brand/logo-horizontal-dark.png"
             alt=""
             width={1600}
-            height={517}
+            height={510}
             priority={priority}
             sizes={compact ? "132px" : "190px"}
             className={cn(imageClassNameValue, "hidden dark:block")}
@@ -89,3 +89,5 @@ export function LogoIcon({ className }: { className?: string }) {
     />
   );
 }
+
+
