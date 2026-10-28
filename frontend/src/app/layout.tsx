@@ -1,22 +1,68 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import type { Metadata, Viewport } from "next";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+
+import { ThemeProvider, ThemeScript } from "@/components/theme/theme-provider";
+import { ToastProvider } from "@/components/ui/toast";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
-  title: "TeraPublic — Transparansi Layanan & Anggaran Publik DKI Jakarta",
-  description: "Platform cerdas untuk pemetaan fasilitas publik (sekolah & pasar), monitoring proyek APBN/APBD, dan analitik pemerataan wilayah di DKI Jakarta.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    template: `%s · ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "TeraPublic",
+    "fasilitas publik",
+    "transparansi anggaran",
+    "DKI Jakarta",
+    "data terbuka",
+    "sekolah",
+    "pasar",
+    "aksesibilitas",
+  ],
+  authors: [{ name: SITE_NAME }],
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    images: [{ url: "/brand/logo-horizontal.png", width: 1600, height: 510, alt: SITE_NAME }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    images: ["/brand/logo-horizontal.png"],
+  },
+  formatDetection: { telephone: false, address: false, email: false },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#081724" },
+  ],
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({
@@ -25,19 +71,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="id"
+      suppressHydrationWarning
+      className={`${jakarta.variable} ${inter.variable}`}
+    >
       <head>
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossOrigin=""
-        />
+        <ThemeScript />
       </head>
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body className="min-h-dvh antialiased">
+        <ThemeProvider>
+          <ToastProvider>
+            <a href="#main-content" className="skip-link">
+              Lewati ke konten utama
+            </a>
+            {children}
+          </ToastProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
