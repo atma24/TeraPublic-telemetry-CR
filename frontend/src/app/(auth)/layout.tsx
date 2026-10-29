@@ -4,7 +4,7 @@ import { ArrowLeft, BarChart3, MapPinned, ShieldCheck } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { SITE_TAGLINE } from "@/lib/constants";
+import { SITE_TAGLINE, TEAM_NAME } from "@/lib/constants";
 
 const points = [
   { icon: MapPinned, text: "Telusuri fasilitas dan pemerataan akses per kecamatan." },
@@ -49,7 +49,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         </ul>
 
         <p className="relative mt-14 text-[10px] text-white/40">
-          Data ditampilkan dari layanan TeraPublic. Verifikasi dokumen resmi untuk keputusan formal.
+          Data ditampilkan dari layanan TeraPublic · Inisiatif {TEAM_NAME}. Verifikasi dokumen resmi untuk keputusan formal.
         </p>
       </aside>
 

@@ -3,7 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 
 import { ThemeProvider, ThemeScript } from "@/components/theme/theme-provider";
 import { ToastProvider } from "@/components/ui/toast";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, TEAM_NAME } from "@/lib/constants";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     "pasar",
     "aksesibilitas",
   ],
-  authors: [{ name: SITE_NAME }],
+  authors: [{ name: SITE_NAME }, { name: TEAM_NAME }],
   openGraph: {
     type: "website",
     locale: "id_ID",

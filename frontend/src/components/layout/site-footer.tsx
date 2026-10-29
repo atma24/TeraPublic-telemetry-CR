@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
-import { DATA_SOURCES, NAV_LINKS, SITE_TAGLINE } from "@/lib/constants";
+import { DATA_SOURCES, NAV_LINKS, SITE_TAGLINE, TEAM_NAME } from "@/lib/constants";
 
 const exploreLinks = [...NAV_LINKS, { href: "/data/fasilitas", label: "Direktori fasilitas" }];
 const participationLinks = [
@@ -26,7 +26,13 @@ export function SiteFooter() {
               Ruang baca terbuka untuk fasilitas publik, anggaran, dan suara warga Jakarta. Setiap angka
               ditautkan ke sumber data yang dapat diperiksa.
             </p>
-            <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+            <div className="mt-3.5 flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-2 px-2.5 py-0.5 text-[10px] font-medium text-muted">
+                <span className="size-1.5 rounded-full bg-brand-teal" aria-hidden="true" />
+                Inisiatif data oleh <strong className="font-semibold text-text">{TEAM_NAME}</strong>
+              </span>
+            </div>
+            <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
               {SITE_TAGLINE}
             </p>
           </div>
@@ -77,9 +83,9 @@ export function SiteFooter() {
             </p>
           </div>
           <div className="mt-6 flex flex-col gap-2 border-t border-border pt-5 text-[11px] text-muted sm:flex-row sm:items-center sm:justify-between">
-            <p>© {year} TeraPublic. Data publik untuk Jakarta.</p>
+            <p>© {year} TeraPublic · {TEAM_NAME}. Data publik untuk Jakarta.</p>
             <p>
-              Dibangun untuk keterbukaan informasi.{" "}
+              Dikembangkan oleh tim <strong className="font-semibold text-text">{TEAM_NAME}</strong> untuk keterbukaan informasi.{" "}
               <Link href="/tentang" className="font-semibold text-interactive hover:underline">
                 Metodologi & sumber
               </Link>

@@ -1,6 +1,7 @@
 import type { UserRole } from "@/types/auth";
 
 export const SITE_NAME = "TeraPublic";
+export const TEAM_NAME = "Telemetry-CR";
 export const SITE_TAGLINE = "Public Facilities & Accessibility";
 export const SITE_DESCRIPTION =
   "Platform data publik untuk memahami persebaran fasilitas, anggaran, dan laporan warga di DKI Jakarta.";

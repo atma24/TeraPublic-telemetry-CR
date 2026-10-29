@@ -12,7 +12,7 @@ import {
 
 import { ButtonLink } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
-import { DATA_SOURCES, SITE_TAGLINE } from "@/lib/constants";
+import { DATA_SOURCES, SITE_TAGLINE, TEAM_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Tentang",
@@ -292,7 +292,7 @@ export default function AboutPage() {
         <div className="mt-14 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-surface-2/60 px-5 py-4">
           <p className="inline-flex items-center gap-1.5 text-[11px] text-muted">
             <MapPinned className="size-3.5" aria-hidden="true" />
-            Fokus wilayah: DKI Jakarta · {SITE_TAGLINE}
+            Fokus wilayah: DKI Jakarta · Inisiatif oleh {TEAM_NAME} · {SITE_TAGLINE}
           </p>
           <ButtonLink href="/data" variant="secondary" size="sm">
             Buka data publik
