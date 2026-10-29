@@ -81,7 +81,7 @@ export default async function AdminBudgetPage({
       </div>
 
       <div className="rounded-lg border border-highlight/30 bg-highlight/8 px-4 py-3 text-[11px] leading-relaxed text-muted">
-        Proyeksi insight dihitung ulang dari data anggaran. Setelah mengubah realisasi atau status, halaman insight
+        Proyeksi analitik dihitung ulang dari data anggaran. Setelah mengubah realisasi atau status, halaman analitik
         dapat memerlukan waktu singkat untuk menyegarkan cache.
       </div>
 

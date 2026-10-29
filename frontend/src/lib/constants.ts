@@ -9,7 +9,7 @@ export const SITE_DESCRIPTION =
 export const NAV_LINKS = [
   { href: "/data", label: "Data Publik" },
   { href: "/layanan-publik", label: "Layanan & Fasilitas" },
-  { href: "/insight", label: "Insight" },
+  { href: "/analitik", label: "Analitik" },
   { href: "/tentang", label: "Tentang" },
 ];
 

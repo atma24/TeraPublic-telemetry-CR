@@ -49,7 +49,7 @@ function revalidateData() {
   }
   revalidatePath("/");
   revalidatePath("/data");
-  revalidatePath("/insight");
+  revalidatePath("/analitik");
   revalidatePath("/admin");
 }
 

@@ -54,7 +54,7 @@ const STEPS = [
     description:
       "Transparansi bukan sekadar ada atau tidaknya gedung, tetapi memastikan fasilitas publik dapat dimasuki dan digunakan oleh semua warga tanpa hambatan.",
     actionLabel: "Analisis Indeks Pemerataan",
-    actionHref: "/insight",
+    actionHref: "/analitik",
     icon: ShieldCheck,
   },
   {
@@ -136,7 +136,7 @@ export function CivicJourneyStepper({
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-interactive/25 bg-interactive/8 px-3.5 py-1 text-xs font-semibold text-interactive backdrop-blur-sm">
             <Sparkles className="size-3.5 text-interactive" aria-hidden="true" />
-            <span>ALUR KETERBUKAAN DATA · TERAPUBLIC × TELEMETRY-CR</span>
+            <span>ALUR KETERBUKAAN DATA · TERAPUBLIC</span>
           </div>
           <h2 className="mt-4 font-display text-2xl font-bold tracking-[-0.035em] text-text sm:text-3xl lg:text-4xl">
             Perjalanan Data: Dari Temuan Lapangan ke Transparansi Publik.
@@ -443,7 +443,7 @@ export function CivicJourneyStepper({
 
               <div className="mt-6 flex items-center justify-between border-t border-border pt-4 text-xs text-muted">
                 <span>Standar: Permen PUPR No. 14/PRT/M/2017</span>
-                <Link href="/insight" className="font-semibold text-interactive hover:underline inline-flex items-center gap-1">
+                <Link href="/analitik" className="font-semibold text-interactive hover:underline inline-flex items-center gap-1">
                   Buka data lengkap <ArrowUpRight className="size-3" />
                 </Link>
               </div>

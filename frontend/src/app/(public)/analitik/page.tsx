@@ -29,7 +29,7 @@ import { cn, titleCase } from "@/lib/utils";
 import type { MLClusterGroup, Urgency } from "@/types/ml";
 
 export const metadata: Metadata = {
-  title: "Insight",
+  title: "Analitik",
   description:
     "Klaster prioritas wilayah, proyeksi serapan anggaran, risiko proyek, dan rekomendasi APBD DKI Jakarta.",
 };
@@ -52,7 +52,7 @@ const riskTone: Record<string, BadgeTone> = {
   LOW_RISK: "success",
 };
 
-export default async function InsightPage() {
+export default async function AnalyticsPage() {
   const [clusteringResult, predictionsResult] = await Promise.allSettled([
     getClustering(),
     getBudgetPredictions(),
@@ -66,16 +66,16 @@ export default async function InsightPage() {
       <>
         <PageHeader
           eyebrow="Analitik publik"
-          title="Insight"
+          title="Analitik"
           description="Bacaan analitik dari data fasilitas dan anggaran TeraPublic."
-          breadcrumbs={[{ label: "Insight" }]}
+          breadcrumbs={[{ label: "Analitik" }]}
         />
         <div className="container-page py-8 md:py-10">
           <ErrorState
-            title="Insight belum dapat dimuat"
+            title="Analitik belum dapat dimuat"
             description="Layanan analitik TeraPublic tidak merespons. Pastikan backend Laravel aktif dan artefak model tersedia."
             action={
-              <ButtonLink href="/insight" variant="secondary" size="sm">
+              <ButtonLink href="/analitik" variant="secondary" size="sm">
                 Muat ulang
               </ButtonLink>
             }
@@ -103,9 +103,9 @@ export default async function InsightPage() {
     <>
       <PageHeader
         eyebrow="Analitik publik"
-        title="Insight dari data"
+        title="Analitik dari data"
         description="Klaster wilayah, proyeksi serapan, dan prioritas anggaran dibaca dari model yang sama dengan data publik. Setiap keluaran tetap perlu diverifikasi."
-        breadcrumbs={[{ label: "Insight" }]}
+        breadcrumbs={[{ label: "Analitik" }]}
         actions={
           <div className="flex flex-wrap gap-2">
             <ButtonLink href="/data" variant="secondary" size="sm">

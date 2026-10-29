@@ -29,7 +29,7 @@ export function SiteFooter() {
             <div className="mt-3.5 flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-2 px-2.5 py-0.5 text-[10px] font-medium text-muted">
                 <span className="size-1.5 rounded-full bg-brand-teal" aria-hidden="true" />
-                Inisiatif data oleh <strong className="font-semibold text-text">{TEAM_NAME}</strong>
+                <strong className="font-semibold text-text">{TEAM_NAME}</strong>
               </span>
             </div>
             <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">

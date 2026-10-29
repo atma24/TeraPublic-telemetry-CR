@@ -119,10 +119,10 @@ export default async function AdminDashboardPage() {
                   <p className="mt-0.5 text-[10px] text-muted">Tiga wilayah dengan indeks pemerataan terendah.</p>
                 </div>
                 <Link
-                  href="/insight"
+                  href="/analitik"
                   className="inline-flex items-center gap-1 text-[11px] font-semibold text-interactive transition-colors hover:underline"
                 >
-                  Insight
+                  Analitik
                   <ArrowRight className="size-3" aria-hidden="true" />
                 </Link>
               </div>

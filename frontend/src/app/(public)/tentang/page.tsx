@@ -195,7 +195,7 @@ const faqs = [
       "Sangat aman. Platform TeraPublic menerapkan prinsip privasi pelapor ketat. Nama dan email Anda hanya digunakan untuk notifikasi akun pribadi dan verifikasi admin, tidak akan pernah ditampilkan pada direktori publik.",
   },
   {
-    question: "Bagaimana cara membaca angka proyeksi anggaran pada halaman Insight?",
+    question: "Bagaimana cara membaca angka proyeksi anggaran pada halaman Analitik?",
     answer:
       "Garis putus-putus pada grafik adalah hasil pemodelan deret waktu (time-series forecast) berbasis riwayat belanja bulanan tahun-tahun sebelumnya. Angka ini berfungsi sebagai peringatan dini mitigasi penyerapan anggaran, bukan angka realisasi final.",
   },

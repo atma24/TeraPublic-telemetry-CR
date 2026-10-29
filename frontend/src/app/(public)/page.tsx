@@ -105,7 +105,7 @@ export default async function LandingPage() {
           SYS // TERAPUBLIC TELEMETRY LIVE
         </div>
 
-        <div className="container-page relative grid gap-12 py-14 md:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+        <div className="container-page relative grid gap-12 py-14 md:py-20 lg:grid-cols-[1.18fr_0.82fr] lg:items-center lg:gap-10 xl:gap-14">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-interactive/25 bg-surface-2/90 px-3.5 py-1 text-xs font-semibold text-interactive shadow-2xs backdrop-blur-md">
               <span className="relative flex size-2">
@@ -141,32 +141,34 @@ export default async function LandingPage() {
             </div>
 
             {/* Akses Cepat Kategori */}
-            <div className="mt-8 flex flex-wrap items-center gap-2">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Akses Cepat:</span>
+            <div className="mt-8 flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
+              <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider text-muted mr-0.5">
+                Akses Cepat:
+              </span>
               <Link
                 href="/data?category=sekolah"
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
+                className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
               >
                 <Building2 className="size-3 text-interactive" />
                 Sekolah
               </Link>
               <Link
                 href="/data?category=pasar-tradisional"
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
+                className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
               >
                 <Landmark className="size-3 text-interactive" />
                 Pasar Tradisional
               </Link>
               <Link
                 href="/data?tab=anggaran"
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
+                className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
               >
                 <Wallet className="size-3 text-interactive" />
                 1.731 Proyek APBD
               </Link>
               <Link
-                href="/insight"
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
+                href="/analitik"
+                className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
               >
                 <Sparkles className="size-3 text-interactive" />
                 Klaster Wilayah
@@ -237,7 +239,7 @@ export default async function LandingPage() {
                             Kecamatan titik perhatian
                           </p>
                           <Link
-                            href="/insight"
+                            href="/analitik"
                             className="inline-flex items-center gap-1 text-[10px] font-semibold text-interactive hover:underline"
                           >
                             Semua wilayah
@@ -420,8 +422,8 @@ export default async function LandingPage() {
               title="Yang bisa dibaca dari data"
               description="Angka di bawah berasal langsung dari layanan TeraPublic. Gunakan sebagai pintu masuk, lalu periksa detail per wilayah dan per proyek."
               action={
-                <ButtonLink href="/insight" variant="secondary" size="sm" className="hover:border-interactive/40">
-                  Baca insight
+                <ButtonLink href="/analitik" variant="secondary" size="sm" className="hover:border-interactive/40">
+                  Baca analitik
                   <ArrowRight className="size-3.5" aria-hidden="true" />
                 </ButtonLink>
               }
@@ -535,7 +537,7 @@ export default async function LandingPage() {
                     </div>
                     <div className="border-t border-border px-5 py-3 bg-surface-2/30">
                       <Link
-                        href="/insight"
+                        href="/analitik"
                         className="inline-flex items-center gap-1 text-[11px] font-semibold text-interactive hover:underline"
                       >
                         Lihat analisis pemerataan lengkap
@@ -675,9 +677,9 @@ export default async function LandingPage() {
               />
               <ReadingRow
                 icon={Sparkles}
-                title="Insight"
+                title="Analitik"
                 body="Klaster wilayah, prioritas anggaran, dan proyeksi model penyerapan data."
-                href="/insight"
+                href="/analitik"
               />
             </div>
           </Reveal>

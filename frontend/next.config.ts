@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      {
+        source: "/insight",
+        destination: "/analitik",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
