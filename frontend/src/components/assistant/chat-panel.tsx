@@ -146,16 +146,16 @@ export function ChatPanel({ userName }: { userName: string }) {
 
           {messages.length === 1 ? (
             <div className="pl-11">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">
-                Contoh pertanyaan
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">
+                Contoh pertanyaan cepat
               </p>
-              <div className="mt-2 flex flex-wrap gap-1.5">
+              <div className="mt-2.5 flex flex-wrap gap-2">
                 {suggestions.map((suggestion) => (
                   <button
                     key={suggestion}
                     type="button"
                     onClick={() => void sendMessage(suggestion)}
-                    className="rounded-md border border-border bg-bg px-2.5 py-1.5 text-left text-[11px] font-medium text-muted transition-colors hover:border-interactive/40 hover:text-text"
+                    className="card-hover rounded-full border border-border bg-surface px-3.5 py-1.5 text-left text-xs font-medium text-text transition-all duration-200 hover:border-interactive/40 hover:bg-surface-2 hover:text-interactive hover:shadow-2xs"
                   >
                     {suggestion}
                   </button>
@@ -166,14 +166,16 @@ export function ChatPanel({ userName }: { userName: string }) {
 
           {loading ? (
             <div className="flex items-start gap-2.5">
-              <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-interactive/10 text-interactive">
+              <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
                 <Bot className="size-4" aria-hidden="true" />
               </span>
-              <div className="rounded-lg rounded-tl-sm border border-border bg-bg px-3.5 py-3">
-                <p className="inline-flex items-center gap-2 text-[11px] text-muted">
-                  <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
-                  Membaca data TeraPublic…
-                </p>
+              <div className="rounded-2xl rounded-tl-sm border border-border bg-surface px-4 py-3 shadow-2xs">
+                <div className="flex items-center gap-1.5 py-0.5">
+                  <span className="size-2 rounded-full bg-interactive animate-bounce" style={{ animationDelay: "0ms" }} />
+                  <span className="size-2 rounded-full bg-interactive animate-bounce" style={{ animationDelay: "150ms" }} />
+                  <span className="size-2 rounded-full bg-interactive animate-bounce" style={{ animationDelay: "300ms" }} />
+                  <span className="ml-2 text-xs text-muted">Membaca data TeraPublic…</span>
+                </div>
               </div>
             </div>
           ) : null}
@@ -264,8 +266,8 @@ function ChatBubble({ message }: { message: Message }) {
     <div className={cn("flex items-start gap-2.5", isUser && "flex-row-reverse")}>
       <span
         className={cn(
-          "inline-flex size-8 shrink-0 items-center justify-center rounded-md",
-          isUser ? "bg-primary text-bg" : "bg-interactive/10 text-interactive",
+          "inline-flex size-8 shrink-0 items-center justify-center rounded-lg shadow-2xs",
+          isUser ? "bg-interactive text-white" : "bg-interactive/10 text-interactive",
           message.error && "bg-danger/10 text-danger",
         )}
       >
@@ -277,28 +279,30 @@ function ChatBubble({ message }: { message: Message }) {
       </span>
       <div
         className={cn(
-          "max-w-[85%] rounded-lg rounded-tl-sm border px-3.5 py-3",
+          "max-w-[85%] rounded-2xl border px-4 py-3 shadow-2xs transition-all",
           isUser
-            ? "rounded-tr-sm border-primary/20 bg-primary text-bg"
+            ? "rounded-tr-xs border-interactive/30 bg-interactive text-white"
             : message.error
-              ? "border-danger/25 bg-danger/5"
-              : "border-border bg-bg",
+              ? "rounded-tl-xs border-danger/25 bg-danger/5"
+              : "rounded-tl-xs border-border bg-surface",
         )}
       >
-        <p className="whitespace-pre-wrap text-xs leading-relaxed">{message.content}</p>
+        <p className={cn("whitespace-pre-wrap text-xs leading-relaxed sm:text-[13px]", isUser ? "text-white" : "text-text")}>
+          {message.content}
+        </p>
         {message.matchedRegion ? (
-          <div className="mt-2">
+          <div className="mt-2.5">
             <Badge tone="info">Wilayah: {message.matchedRegion}</Badge>
           </div>
         ) : null}
         {message.citations && message.citations.length > 0 ? (
-          <div className="mt-3 border-t border-border pt-2">
-            <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-muted">Sumber</p>
+          <div className="mt-3 border-t border-border/80 pt-2">
+            <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-muted">Sumber data</p>
             <div className="mt-1 flex flex-wrap gap-1">
               {message.citations.map((citation) => (
                 <span
                   key={citation}
-                  className="rounded-sm bg-surface-2 px-1.5 py-0.5 text-[9px] font-medium text-muted"
+                  className="rounded-md border border-border/60 bg-surface-2 px-2 py-0.5 text-[9px] font-medium text-muted"
                 >
                   {citation}
                 </span>

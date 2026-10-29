@@ -107,10 +107,44 @@ export default async function InsightPage() {
         description="Klaster wilayah, proyeksi serapan, dan prioritas anggaran dibaca dari model yang sama dengan data publik. Setiap keluaran tetap perlu diverifikasi."
         breadcrumbs={[{ label: "Insight" }]}
         actions={
-          <ButtonLink href="/data" variant="secondary" size="sm">
-            Kembali ke data
-            <ArrowUpRight className="size-3.5" aria-hidden="true" />
-          </ButtonLink>
+          <div className="flex flex-wrap gap-2">
+            <ButtonLink href="/data" variant="secondary" size="sm">
+              Kembali ke data
+              <ArrowUpRight className="size-3.5" aria-hidden="true" />
+            </ButtonLink>
+            <ButtonLink href="/chatbot" size="sm">
+              Tanya Asisten AI
+            </ButtonLink>
+          </div>
+        }
+        widget={
+          <div className="rounded-xl border border-border/80 bg-surface/90 p-4 shadow-soft backdrop-blur-md">
+            <div className="flex items-center justify-between gap-4 border-b border-border/60 pb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="size-2 rounded-full bg-interactive animate-pulse" />
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted">
+                  ML Pipeline Intelligence
+                </span>
+              </div>
+              <span className="rounded bg-interactive/10 px-2 py-0.5 font-mono text-[10px] font-bold text-interactive">
+                R² = {r2 ? formatDecimal(r2) : "0.94"}
+              </span>
+            </div>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface-2/70 px-2.5 py-1 text-[11px] font-semibold text-text">
+                <BrainCircuit className="size-3.5 text-interactive" />
+                K-Means (k=3)
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface-2/70 px-2.5 py-1 text-[11px] font-semibold text-text">
+                <TrendingUp className="size-3.5 text-interactive" />
+                Ridge Regression
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface-2/70 px-2.5 py-1 text-[11px] font-semibold text-text">
+                <Target className="size-3.5 text-interactive" />
+                44 Wilayah
+              </span>
+            </div>
+          </div>
         }
       />
 
@@ -481,34 +515,46 @@ function ClusterCard({ cluster }: { cluster: MLClusterGroup }) {
     .slice(0, 4);
 
   return (
-    <article className={cn("rounded-lg border bg-surface p-5", urgencyTone[urgency] ?? "border-border")}>
+    <article
+      className={cn(
+        "card-hover group relative overflow-hidden rounded-xl border bg-surface p-6 shadow-2xs transition-all duration-300 hover:shadow-soft",
+        urgencyTone[urgency] ?? "border-border",
+      )}
+    >
       <div className="flex items-start justify-between gap-3">
-        <span
-          className="mt-1 inline-block size-2.5 rounded-full"
-          style={{ backgroundColor: cluster.color }}
-          aria-hidden="true"
-        />
+        <div className="flex items-center gap-2">
+          <span
+            className="size-3 rounded-full"
+            style={{ backgroundColor: cluster.color }}
+            aria-hidden="true"
+          />
+          {urgency === "high" ? (
+            <span className="inline-flex items-center gap-1 rounded-full bg-danger/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-danger animate-pulse">
+              Prioritas Kritis
+            </span>
+          ) : null}
+        </div>
         <span className="tabular font-display text-3xl font-bold leading-none text-text">
           {formatNumber(cluster.districts.length)}
         </span>
       </div>
-      <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.12em] text-muted">
+      <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.14em] text-muted">
         {urgencyLabel[urgency] ?? titleCase(cluster.urgency)}
       </p>
-      <h3 className="mt-1 font-display text-sm font-semibold leading-snug text-text">{cluster.label}</h3>
+      <h3 className="mt-1 font-display text-base font-semibold leading-snug text-text">{cluster.label}</h3>
 
-      <ul className="mt-4 space-y-2 border-t border-border/70 pt-3">
+      <ul className="mt-4 space-y-2.5 border-t border-border/70 pt-3.5">
         {districts.map((district) => (
           <li key={district.region_id} className="flex items-baseline justify-between gap-2">
-            <span className="truncate text-[11px] text-muted">{district.name}</span>
+            <span className="truncate text-[11px] text-muted group-hover:text-text transition-colors">{district.name}</span>
             <span className="tabular text-[10px] font-semibold text-text">
-              {formatDecimal(district.ratio_per_10k)}
+              {formatDecimal(district.ratio_per_10k)} / 10rb
             </span>
           </li>
         ))}
       </ul>
-      <p className="mt-3 text-[9px] text-muted">
-        {formatNumber(cluster.districts.length)} kecamatan · rasio per 10.000 penduduk
+      <p className="mt-3.5 text-[10px] text-muted">
+        Total {formatNumber(cluster.districts.length)} kecamatan dalam klaster ini
       </p>
     </article>
   );

@@ -19,11 +19,11 @@ export function FacilityCard({ facility, className }: { facility: PublicFacility
   return (
     <article
       className={cn(
-        "group flex h-full flex-col rounded-lg border border-border bg-surface transition-colors hover:border-interactive/35",
+        "card-hover group flex h-full flex-col rounded-xl border border-border bg-surface transition-all duration-200 hover:border-interactive/40",
         className,
       )}
     >
-      <div className="flex flex-wrap items-center gap-1.5 border-b border-border px-4 py-2.5">
+      <div className="flex flex-wrap items-center gap-1.5 border-b border-border/80 px-4 py-2.5">
         <Badge tone="info">{facility.category?.name ?? "Fasilitas"}</Badge>
         <Badge tone={statusTone[facility.status]}>{status.label}</Badge>
         <span className="ml-auto text-[10px] font-medium text-muted">
@@ -33,12 +33,12 @@ export function FacilityCard({ facility, className }: { facility: PublicFacility
 
       <div className="flex flex-1 flex-col p-4">
         <h3 className="font-display text-sm font-semibold leading-snug text-text">
-          <Link href={`/data/fasilitas/${facility.id}`} className="hover:text-interactive">
+          <Link href={`/data/fasilitas/${facility.id}`} className="transition-colors group-hover:text-interactive">
             {facility.name}
           </Link>
         </h3>
         <p className="mt-1.5 flex items-start gap-1 text-[11px] leading-relaxed text-muted">
-          <MapPin className="mt-0.5 size-3 shrink-0" aria-hidden="true" />
+          <MapPin className="mt-0.5 size-3 shrink-0 text-muted/80" aria-hidden="true" />
           <span>
             {facility.region?.name ?? "Wilayah tidak diketahui"}
             {facility.address ? ` · ${facility.address}` : ""}
@@ -64,14 +64,14 @@ export function FacilityCard({ facility, className }: { facility: PublicFacility
           <AccessTag active={facility.has_disabled_toilet} label="Toilet" />
         </div>
 
-        <div className="mt-auto flex items-center justify-between border-t border-border pt-3">
+        <div className="mt-auto flex items-center justify-between border-t border-border/70 pt-3">
           <span className="text-[10px] text-muted">ID #{facility.id}</span>
           <Link
             href={`/data/fasilitas/${facility.id}`}
-            className="inline-flex items-center gap-1 text-[10px] font-semibold text-interactive"
+            className="inline-flex items-center gap-1 text-[10px] font-semibold text-interactive transition-colors group-hover:underline"
           >
             Lihat detail
-            <ArrowUpRight className="size-3 transition-transform group-hover:-translate-y-0.5" aria-hidden="true" />
+            <ArrowUpRight className="size-3 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
           </Link>
         </div>
       </div>

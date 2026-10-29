@@ -112,23 +112,23 @@ export default async function AdminDashboardPage() {
           </div>
 
           <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-            <section className="rounded-lg border border-border bg-surface">
-              <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5">
+            <section className="card-hover overflow-hidden rounded-xl border border-border bg-surface shadow-2xs transition-all duration-200">
+              <div className="flex items-center justify-between gap-3 border-b border-border/80 px-5 py-3.5 bg-surface-2/30">
                 <div>
                   <h2 className="font-display text-sm font-semibold text-text">Kecamatan prioritas</h2>
                   <p className="mt-0.5 text-[10px] text-muted">Tiga wilayah dengan indeks pemerataan terendah.</p>
                 </div>
                 <Link
                   href="/insight"
-                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-interactive hover:underline"
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-interactive transition-colors hover:underline"
                 >
                   Insight
                   <ArrowRight className="size-3" aria-hidden="true" />
                 </Link>
               </div>
-              <div className="divide-y divide-border">
+              <div className="divide-y divide-border/70">
                 {overview.top_underserved.slice(0, 5).map((region) => (
-                  <div key={region.region_id} className="flex items-center justify-between gap-4 px-5 py-3">
+                  <div key={region.region_id} className="flex items-center justify-between gap-4 px-5 py-3 transition-colors hover:bg-surface-2/50">
                     <div className="min-w-0">
                       <p className="truncate text-xs font-semibold text-text">
                         {region.region?.name ?? `Kecamatan #${region.region_id}`}
@@ -151,8 +151,8 @@ export default async function AdminDashboardPage() {
               </div>
             </section>
 
-            <section className="rounded-lg border border-border bg-surface">
-              <div className="border-b border-border px-5 py-3.5">
+            <section className="card-hover overflow-hidden rounded-xl border border-border bg-surface shadow-2xs transition-all duration-200">
+              <div className="border-b border-border/80 px-5 py-3.5 bg-surface-2/30">
                 <h2 className="font-display text-sm font-semibold text-text">Status antrean aduan</h2>
                 <p className="mt-0.5 text-[10px] text-muted">
                   {formatNumber(loadedFeedbackTotal)} aduan tercatat di sistem.

@@ -14,6 +14,7 @@ import {
   Wallet,
 } from "lucide-react";
 
+import { CivicCtaCard } from "@/components/feedback/civic-cta-card";
 import { FacilityMapClient } from "@/components/map/facility-map-dynamic";
 import { Badge, type BadgeTone } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
@@ -137,6 +138,19 @@ export default async function FacilityDetailPage({
               Semua fasilitas
             </ButtonLink>
           </>
+        }
+        widget={
+          <div className="flex items-center gap-3 rounded-xl border border-border/80 bg-surface/90 px-4 py-3 shadow-soft backdrop-blur-md">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
+              <Users className="size-5" aria-hidden="true" />
+            </span>
+            <div className="min-w-0 pr-1">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Daya Tampung / Kapasitas</p>
+              <p className="font-display text-base font-bold text-text">
+                {formatNumber(facility.capacity)} <span className="text-xs font-normal text-muted">orang</span>
+              </p>
+            </div>
+          </div>
         }
       >
         <div className="flex flex-wrap items-center gap-1.5">
@@ -333,6 +347,20 @@ export default async function FacilityDetailPage({
               </p>
             </div>
           </aside>
+        </div>
+
+        {/* Civic Participation CTA Section */}
+        <div className="mt-14">
+          <CivicCtaCard
+            title={`Ada kendala di ${facility.name}?`}
+            highlightText="Laporkan langsung."
+            description={`Kirim laporan aduan terkait fasilitas atau aksesibilitas di ${facility.name}. Laporan Anda akan diverifikasi dan dipantau bersama dinas terkait secara terbuka.`}
+            reportHref={`/aduan/buat?fasilitas=${facility.id}`}
+            reportLabel="Laporkan fasilitas ini"
+            ticketCode={`#ADU-${facility.region?.code?.replace("31.", "") ?? "JKT"}-${facility.id}`}
+            ticketTitle={`Perbaikan Fasilitas / Akses: ${facility.name}`}
+            ticketMeta={`${facility.region?.name ?? "DKI Jakarta"} · ${facility.category?.name ?? "Fasilitas Publik"}`}
+          />
         </div>
       </div>
     </>

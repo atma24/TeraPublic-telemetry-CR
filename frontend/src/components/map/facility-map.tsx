@@ -1,7 +1,8 @@
 "use client";
 
 import L from "leaflet";
-import { useEffect, useRef } from "react";
+import { Layers, Map as MapIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 import { formatNumber } from "@/lib/format";
 import { cn, escapeHtml } from "@/lib/utils";
@@ -18,14 +19,35 @@ export interface FacilityMapProps {
   showLegend?: boolean;
 }
 
-const LIGHT_TILES = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
-const DARK_TILES = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
-const ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>';
+export type MapType = "satellite" | "streets";
 
-function tileUrl(): string {
-  return document.documentElement.classList.contains("dark") ? DARK_TILES : LIGHT_TILES;
-}
+const MAP_LAYERS: Record<
+  MapType,
+  {
+    name: string;
+    url: string;
+    subdomains: string[];
+    attribution: string;
+    maxZoom: number;
+  }
+> = {
+  satellite: {
+    name: "Citra Satelit",
+    url: "https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+    subdomains: ["0", "1", "2", "3"],
+    attribution:
+      '&copy; <a href="https://maps.google.com" target="_blank" rel="noreferrer">Google Maps Satellite</a>',
+    maxZoom: 20,
+  },
+  streets: {
+    name: "Peta Jalan Bersih",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    subdomains: [],
+    attribution:
+      '&copy; <a href="https://www.esri.com" target="_blank" rel="noreferrer">Esri</a> &copy; OpenStreetMap',
+    maxZoom: 19,
+  },
+};
 
 function facilityColor(facility: PublicFacility): string {
   return facility.category?.slug === "pasar-tradisional" ? "#f4b740" : "#0f766e";
@@ -69,6 +91,7 @@ export function FacilityMap({
   ariaLabel = "Peta interaktif fasilitas publik",
   showLegend = true,
 }: FacilityMapProps) {
+  const [mapType, setMapType] = useState<MapType>("satellite");
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const tileRef = useRef<L.TileLayer | null>(null);
@@ -90,13 +113,14 @@ export function FacilityMap({
       scrollWheelZoom: false,
       attributionControl: true,
       minZoom: 9,
-      maxZoom: 18,
+      maxZoom: 20,
     }).setView([-6.2, 106.83], 11);
 
-    const tiles = L.tileLayer(tileUrl(), {
-      attribution: ATTRIBUTION,
-      subdomains: "abcd",
-      maxZoom: 19,
+    const initialLayer = MAP_LAYERS["satellite"];
+    const tiles = L.tileLayer(initialLayer.url, {
+      attribution: initialLayer.attribution,
+      subdomains: initialLayer.subdomains,
+      maxZoom: initialLayer.maxZoom,
     }).addTo(map);
 
     L.control.scale({ imperial: false, position: "bottomright" }).addTo(map);
@@ -105,17 +129,11 @@ export function FacilityMap({
     mapRef.current = map;
     tileRef.current = tiles;
 
-    const observer = new MutationObserver(() => {
-      tileRef.current?.setUrl(tileUrl());
-    });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-
     const timer = window.setTimeout(() => map.invalidateSize(), 50);
     const markerMap = markerMapRef.current;
 
     return () => {
       window.clearTimeout(timer);
-      observer.disconnect();
       map.remove();
       mapRef.current = null;
       tileRef.current = null;
@@ -124,6 +142,26 @@ export function FacilityMap({
       markerMap.clear();
     };
   }, []);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    if (tileRef.current) {
+      map.removeLayer(tileRef.current);
+      tileRef.current = null;
+    }
+
+    const config = MAP_LAYERS[mapType];
+    const tiles = L.tileLayer(config.url, {
+      attribution: config.attribution,
+      subdomains: config.subdomains,
+      maxZoom: config.maxZoom,
+    }).addTo(map);
+
+    tiles.bringToBack();
+    tileRef.current = tiles;
+  }, [mapType]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -137,11 +175,11 @@ export function FacilityMap({
       if (!Number.isFinite(facility.latitude) || !Number.isFinite(facility.longitude)) continue;
 
       const marker = L.circleMarker([facility.latitude, facility.longitude], {
-        radius: 5,
+        radius: 6,
         color: "#ffffff",
-        weight: 1.4,
+        weight: 2,
         fillColor: facilityColor(facility),
-        fillOpacity: 0.92,
+        fillOpacity: 0.95,
       });
 
       marker.bindPopup(facilityPopup(facility), {
@@ -254,6 +292,39 @@ export function FacilityMap({
         role="region"
         aria-label={ariaLabel}
       />
+
+      {/* Map Layer Mode Switcher */}
+      <div className="absolute right-3 top-3 z-[400] flex items-center gap-1 rounded-lg border border-border/80 bg-surface/95 p-1 shadow-soft backdrop-blur-md">
+        <button
+          type="button"
+          onClick={() => setMapType("satellite")}
+          className={cn(
+            "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all",
+            mapType === "satellite"
+              ? "bg-interactive text-white shadow-2xs font-bold"
+              : "text-muted hover:bg-surface-2 hover:text-text",
+          )}
+          aria-pressed={mapType === "satellite"}
+        >
+          <Layers className="size-3.5" aria-hidden="true" />
+          Citra Satelit
+        </button>
+        <button
+          type="button"
+          onClick={() => setMapType("streets")}
+          className={cn(
+            "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all",
+            mapType === "streets"
+              ? "bg-interactive text-white shadow-2xs font-bold"
+              : "text-muted hover:bg-surface-2 hover:text-text",
+          )}
+          aria-pressed={mapType === "streets"}
+        >
+          <MapIcon className="size-3.5" aria-hidden="true" />
+          Peta Jalan
+        </button>
+      </div>
+
       {showLegend ? (
         <div className="pointer-events-none absolute bottom-3 left-3 z-[400] rounded-md border border-border bg-surface/95 px-3 py-2 shadow-soft backdrop-blur-sm">
           <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-muted">Legenda</p>

@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 
 import { FacilityMapClient } from "@/components/map/facility-map-dynamic";
+import { CivicJourneyStepper } from "@/components/home/civic-journey-stepper";
 import { Reveal } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { ErrorState } from "@/components/ui/states";
@@ -81,7 +82,11 @@ export default async function LandingPage() {
   return (
     <>
       {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden border-b border-border bg-surface">
+      <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-surface via-surface to-surface-2/30">
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-interactive/50 to-transparent"
+          aria-hidden="true"
+        />
         <div className="paper-grid absolute inset-0 opacity-45" aria-hidden="true" />
         <div
           className="pointer-events-none absolute -right-32 -top-16 size-[550px] rounded-full bg-interactive/10 blur-3xl"
@@ -92,14 +97,22 @@ export default async function LandingPage() {
           aria-hidden="true"
         />
 
+        {/* Telemetry live header watermark */}
+        <div
+          className="pointer-events-none absolute right-8 top-6 hidden select-none font-mono text-[9px] uppercase tracking-[0.25em] text-muted/20 lg:block"
+          aria-hidden="true"
+        >
+          SYS // TERAPUBLIC TELEMETRY LIVE
+        </div>
+
         <div className="container-page relative grid gap-12 py-14 md:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-interactive/20 bg-interactive/5 px-3 py-1 text-xs font-semibold text-interactive backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-interactive/25 bg-surface-2/90 px-3.5 py-1 text-xs font-semibold text-interactive shadow-2xs backdrop-blur-md">
               <span className="relative flex size-2">
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-interactive opacity-75" />
                 <span className="relative inline-flex size-2 rounded-full bg-interactive" />
               </span>
-              Data terbuka · DKI Jakarta
+              <span>Telemetri Data Terbuka · DKI Jakarta</span>
             </div>
 
             {/* Judul awal tetap dipertahankan sesuai permintaan */}
@@ -275,6 +288,18 @@ export default async function LandingPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Floating Hero Quick Chips */}
+              <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 px-1 text-[11px] text-muted">
+                <span className="inline-flex items-center gap-1.5 font-medium">
+                  <ShieldCheck className="size-3.5 text-interactive" aria-hidden="true" />
+                  100% Data BPS & LPSE Resmi
+                </span>
+                <span className="inline-flex items-center gap-1.5 font-medium">
+                  <Sparkles className="size-3.5 text-interactive" aria-hidden="true" />
+                  ML Intelligence Terintegrasi
+                </span>
+              </div>
             </div>
           </Reveal>
         </div>
@@ -337,7 +362,14 @@ export default async function LandingPage() {
         </section>
       ) : null}
 
-      {/* 3. TIGA RUANG BACA (Pillars) */}
+      {/* 3. INTERACTIVE CIVIC JOURNEY STEPPER (Walkthrough matching video reference with real map) */}
+      <CivicJourneyStepper
+        overview={overview}
+        facilities={facilities}
+        regions={regions}
+      />
+
+      {/* 4. TIGA RUANG BACA (Pillars) */}
       <section className="section-tight border-b border-border bg-bg">
         <div className="container-page">
           <div className="grid gap-4 sm:grid-cols-3">

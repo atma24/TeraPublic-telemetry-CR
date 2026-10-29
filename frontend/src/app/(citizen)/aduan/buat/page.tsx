@@ -57,6 +57,22 @@ export default async function CreateFeedbackPage({
         title="Buat aduan"
         description="Sampaikan temuan di fasilitas publik. Laporan yang jelas membantu admin memverifikasi dan menindaklanjuti."
         breadcrumbs={[{ label: "Aduan saya", href: "/aduan/saya" }, { label: "Buat aduan" }]}
+        widget={
+          <div className="rounded-xl border border-border/80 bg-surface/90 p-4 shadow-soft backdrop-blur-md">
+            <div className="flex items-center justify-between gap-4 border-b border-border/60 pb-2.5">
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted">
+                <ShieldCheck className="size-3.5 text-interactive" />
+                Jaminan Transparansi
+              </span>
+              <span className="rounded-full bg-interactive/10 px-2 py-0.5 text-[10px] font-bold text-interactive">
+                100% Terlindungi
+              </span>
+            </div>
+            <p className="mt-2 text-xs leading-relaxed text-muted">
+              Identitas Anda dilindungi penuh. Deskripsi kerusakan diverifikasi dalam 1x24 jam untuk tindak lanjut dinas terkait.
+            </p>
+          </div>
+        }
       />
 
       <div className="container-page py-8 md:py-10">

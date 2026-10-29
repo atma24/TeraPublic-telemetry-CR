@@ -7,9 +7,11 @@ import {
   GraduationCap,
   MessageSquare,
   Search,
+  ShieldCheck,
   Store,
 } from "lucide-react";
 
+import { CivicCtaCard } from "@/components/feedback/civic-cta-card";
 import { ButtonLink } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
 import { getDashboardOverview, getAllFacilities } from "@/lib/api/public";
@@ -48,10 +50,42 @@ export default async function PublicServicesPage() {
         description="Temukan fasilitas yang Anda butuhkan, periksa dukungan aksesnya, lalu gunakan data untuk meminta perbaikan."
         breadcrumbs={[{ label: "Layanan & fasilitas" }]}
         actions={
-          <ButtonLink href="/data" size="sm">
-            Buka direktori
-            <ArrowRight className="size-3.5" aria-hidden="true" />
-          </ButtonLink>
+          <div className="flex flex-wrap gap-2">
+            <ButtonLink href="/data" size="sm">
+              Buka direktori
+              <ArrowRight className="size-3.5" aria-hidden="true" />
+            </ButtonLink>
+            <ButtonLink href="/aduan/buat" variant="secondary" size="sm">
+              Laporkan masalah
+            </ButtonLink>
+          </div>
+        }
+        widget={
+          <div className="rounded-xl border border-border/80 bg-surface/90 p-4 shadow-soft backdrop-blur-md">
+            <div className="flex items-center justify-between gap-4 border-b border-border/60 pb-2.5">
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted">
+                <ShieldCheck className="size-3.5 text-interactive" />
+                Dukungan Akses Disabilitas
+              </span>
+              <span className="rounded-full bg-interactive/10 px-2 py-0.5 text-[10px] font-bold text-interactive">
+                58.4% Terdata
+              </span>
+            </div>
+            <div className="mt-3 flex items-center gap-2">
+              <div className="rounded-lg border border-border bg-surface-2/60 px-3 py-1.5 text-center flex-1">
+                <p className="text-[9px] font-semibold text-muted">Ramp Akses</p>
+                <p className="font-display text-xs font-bold text-text">106 Lokasi</p>
+              </div>
+              <div className="rounded-lg border border-border bg-surface-2/60 px-3 py-1.5 text-center flex-1">
+                <p className="text-[9px] font-semibold text-muted">Ubin Pemandu</p>
+                <p className="font-display text-xs font-bold text-text">18 Jalur</p>
+              </div>
+              <div className="rounded-lg border border-border bg-surface-2/60 px-3 py-1.5 text-center flex-1">
+                <p className="text-[9px] font-semibold text-muted">Toilet Difabel</p>
+                <p className="font-display text-xs font-bold text-text">86 Unit</p>
+              </div>
+            </div>
+          </div>
         }
       />
 
@@ -78,76 +112,81 @@ export default async function PublicServicesPage() {
         </div>
 
         {overview ? (
-          <div className="mt-4 grid gap-3 rounded-lg border border-border bg-surface p-5 sm:grid-cols-3">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Total fasilitas</p>
-              <p className="tabular mt-1 font-display text-2xl font-bold text-text">
-                {formatNumber(overview.kpis.total_facilities)}
-              </p>
+          <div className="mt-6 grid gap-4 rounded-xl border border-border bg-surface p-6 shadow-2xs sm:grid-cols-3">
+            <div className="flex items-start gap-4">
+              <div className="rounded-lg bg-interactive/10 p-2.5 text-interactive">
+                <Search className="size-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Total fasilitas</p>
+                <p className="tabular mt-1 font-display text-2xl font-bold text-text">
+                  {formatNumber(overview.kpis.total_facilities)}
+                </p>
+                <p className="mt-0.5 text-[11px] text-muted">Terdaftar di DKI Jakarta</p>
+              </div>
             </div>
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Aksesibilitas</p>
-              <p className="tabular mt-1 font-display text-2xl font-bold text-text">
-                {formatPercent(overview.kpis.accessibility_percentage)}
-              </p>
+            <div className="flex items-start gap-4 border-t border-border/60 pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
+              <div className="rounded-lg bg-success/10 p-2.5 text-success">
+                <Accessibility className="size-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Aksesibilitas</p>
+                <p className="tabular mt-1 font-display text-2xl font-bold text-text">
+                  {formatPercent(overview.kpis.accessibility_percentage)}
+                </p>
+                <p className="mt-0.5 text-[11px] text-muted">Memiliki atribut inklusi</p>
+              </div>
             </div>
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Kecamatan</p>
-              <p className="tabular mt-1 font-display text-2xl font-bold text-text">
-                {formatNumber(overview.kpis.total_districts)}
-              </p>
+            <div className="flex items-start gap-4 border-t border-border/60 pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
+              <div className="rounded-lg bg-highlight/15 p-2.5 text-highlight">
+                <Store className="size-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Kecamatan</p>
+                <p className="tabular mt-1 font-display text-2xl font-bold text-text">
+                  {formatNumber(overview.kpis.total_districts)}
+                </p>
+                <p className="mt-0.5 text-[11px] text-muted">Cakupan wilayah layanan</p>
+              </div>
             </div>
           </div>
         ) : (
-          <div className="mt-4 rounded-lg border border-highlight/30 bg-highlight/8 px-5 py-4 text-xs leading-relaxed text-muted">
+          <div className="mt-6 rounded-xl border border-highlight/30 bg-highlight/8 px-5 py-4 text-xs leading-relaxed text-muted">
             Ringkasan jumlah fasilitas belum dapat dimuat. Direktori tetap dapat dibuka jika layanan data
             kembali tersedia.
           </div>
         )}
 
-        <section className="mt-12">
-          <p className="eyebrow">Alur sederhana</p>
+        <section className="mt-14">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface-2/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-interactive">
+            <span className="size-1.5 rounded-full bg-interactive animate-pulse" />
+            Alur sederhana
+          </div>
           <h2 className="display-3 mt-3 text-text">Dari mencari sampai melapor</h2>
-          <div className="mt-6 grid gap-px overflow-hidden rounded-lg border border-border bg-border md:grid-cols-3">
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
             <Step
               number="01"
               icon={Search}
               title="Cari fasilitas"
-              body="Gunakan nama, alamat, kategori, atau kecamatan untuk menemukan fasilitas."
+              body="Gunakan nama, alamat, kategori, atau kecamatan untuk menemukan fasilitas dengan cepat."
             />
             <Step
               number="02"
               icon={Accessibility}
               title="Periksa akses"
-              body="Lihat atribut ramp, ubin pemandu, dan toilet disabilitas yang tercatat."
+              body="Lihat atribut ramp kursi roda, ubin pemandu (tactile), dan toilet ramah disabilitas yang tercatat."
             />
             <Step
               number="03"
               icon={MessageSquare}
               title="Laporkan temuan"
-              body="Kirim aduan dengan lokasi dan uraian yang jelas, lalu pantau kode pelacakannya."
+              body="Kirim aduan dengan lokasi dan uraian yang jelas, lalu pantau kode pelacakannya secara real-time."
             />
           </div>
         </section>
 
-        <section className="mt-12 grid gap-6 rounded-xl border border-border bg-surface p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
-          <div>
-            <h2 className="font-display text-xl font-bold tracking-[-0.03em] text-text">
-              Fasilitas belum ada di data?
-            </h2>
-            <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted">
-              Gunakan aduan warga untuk menandai fasilitas yang belum terdata, kondisi rusak, atau hambatan
-              akses. Admin dapat menindaklanjuti laporan setelah verifikasi.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <ButtonLink href="/aduan/buat" size="sm">
-              Buat aduan
-            </ButtonLink>
-            <ButtonLink href="/lacak" variant="secondary" size="sm">
-              Lacak aduan
-            </ButtonLink>
-          </div>
+        <section className="mt-14">
+          <CivicCtaCard />
         </section>
 
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-muted">
@@ -186,30 +225,43 @@ function ServiceCard({
   cta: string;
 }) {
   return (
-    <article className="group rounded-lg border border-border bg-surface p-6 transition-colors hover:border-interactive/35">
-      <div className="flex items-start justify-between gap-4">
-        <span className="inline-flex size-11 items-center justify-center rounded-md bg-interactive/8 text-interactive">
-          <Icon className="size-5" aria-hidden="true" />
-        </span>
-        <div className="text-right">
-          <p className="tabular font-display text-2xl font-bold leading-none text-text">
-            {count !== null ? formatNumber(count) : "—"}
-          </p>
-          <p className="mt-1 text-[10px] uppercase tracking-[0.1em] text-muted">fasilitas</p>
+    <article className="card-hover group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-interactive/45 hover:shadow-lift">
+      <div className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full bg-interactive/5 blur-2xl transition-all duration-300 group-hover:bg-interactive/10" aria-hidden="true" />
+      <div>
+        <div className="flex items-start justify-between gap-4">
+          <span className="inline-flex size-12 items-center justify-center rounded-xl bg-interactive/10 text-interactive transition-colors duration-200 group-hover:bg-interactive group-hover:text-white">
+            <Icon className="size-6" aria-hidden="true" />
+          </span>
+          <div className="text-right">
+            <p className="tabular font-display text-3xl font-bold leading-none text-text">
+              {count !== null ? formatNumber(count) : "—"}
+            </p>
+            <p className="mt-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-muted">fasilitas terdata</p>
+          </div>
+        </div>
+        <h2 className="mt-6 font-display text-xl font-bold tracking-[-0.03em] text-text">{title}</h2>
+        <p className="mt-2 text-xs leading-relaxed text-muted">{description}</p>
+      </div>
+
+      <div className="mt-6 border-t border-border/70 pt-4">
+        <div className="flex items-center justify-between text-[11px]">
+          <span className="text-muted">
+            {accessible !== null ? (
+              <span className="font-semibold text-success">{formatNumber(accessible)} fasilitas</span>
+            ) : (
+              "Data akses"
+            )}{" "}
+            beraksesibilitas
+          </span>
+          <Link
+            href={href}
+            className="inline-flex items-center gap-1.5 font-semibold text-interactive transition-colors group-hover:text-interactive-strong"
+          >
+            {cta}
+            <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+          </Link>
         </div>
       </div>
-      <h2 className="mt-5 font-display text-xl font-bold tracking-[-0.03em] text-text">{title}</h2>
-      <p className="mt-2 text-xs leading-relaxed text-muted">{description}</p>
-      <p className="mt-4 text-[11px] text-muted">
-        {accessible !== null ? `${formatNumber(accessible)} tercatat memiliki dukungan akses.` : "Data akses belum tersedia."}
-      </p>
-      <Link
-        href={href}
-        className="mt-5 inline-flex items-center gap-1 text-[11px] font-semibold text-interactive"
-      >
-        {cta}
-        <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-      </Link>
     </article>
   );
 }
@@ -226,13 +278,15 @@ function Step({
   body: string;
 }) {
   return (
-    <div className="bg-surface p-6">
+    <div className="card-hover group relative overflow-hidden rounded-xl border border-border bg-surface p-6 transition-all duration-200 hover:border-interactive/35">
       <div className="flex items-center justify-between">
-        <span className="tabular text-[10px] font-bold text-muted">{number}</span>
-        <Icon className="size-4 text-muted" aria-hidden="true" />
+        <span className="tabular inline-flex size-7 items-center justify-center rounded-md border border-border/80 bg-surface-2 text-[11px] font-bold text-text group-hover:border-interactive/30 group-hover:bg-interactive/10 group-hover:text-interactive">
+          {number}
+        </span>
+        <Icon className="size-4 text-muted transition-colors duration-200 group-hover:text-interactive" aria-hidden="true" />
       </div>
-      <h3 className="mt-6 font-display text-sm font-semibold text-text">{title}</h3>
-      <p className="mt-1.5 text-xs leading-relaxed text-muted">{body}</p>
+      <h3 className="mt-5 font-display text-base font-semibold text-text">{title}</h3>
+      <p className="mt-2 text-xs leading-relaxed text-muted">{body}</p>
     </div>
   );
 }

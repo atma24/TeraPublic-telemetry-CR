@@ -77,6 +77,22 @@ export default async function MyFeedbackPage({
             Buat aduan
           </ButtonLink>
         }
+        widget={
+          <div className="flex items-center gap-2">
+            <div className="rounded-xl border border-border/80 bg-surface/90 px-3.5 py-2 shadow-2xs backdrop-blur-md text-center min-w-[80px]">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Total</p>
+              <p className="font-display text-base font-bold text-text">{feedbacks.length}</p>
+            </div>
+            <div className="rounded-xl border border-border/80 bg-surface/90 px-3.5 py-2 shadow-2xs backdrop-blur-md text-center min-w-[80px]">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-interactive">Diproses</p>
+              <p className="font-display text-base font-bold text-interactive">{active}</p>
+            </div>
+            <div className="rounded-xl border border-border/80 bg-surface/90 px-3.5 py-2 shadow-2xs backdrop-blur-md text-center min-w-[80px]">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-success">Selesai</p>
+              <p className="font-display text-base font-bold text-success">{resolved}</p>
+            </div>
+          </div>
+        }
       />
 
       <div className="container-page py-8 md:py-10">
@@ -126,10 +142,10 @@ export default async function MyFeedbackPage({
                   <Link
                     key={option.value || "all"}
                     href={href}
-                    className={`inline-flex h-8 items-center rounded-md border px-2.5 text-[11px] font-semibold transition-colors ${
+                    className={`inline-flex h-8 items-center rounded-lg border px-3 text-[11px] font-semibold transition-all duration-200 ${
                       activeFilter
-                        ? "border-interactive bg-interactive text-bg"
-                        : "border-border bg-surface text-muted hover:text-text"
+                        ? "border-interactive bg-interactive text-white shadow-xs"
+                        : "border-border bg-surface text-muted hover:border-interactive/40 hover:text-text"
                     }`}
                   >
                     {option.label}

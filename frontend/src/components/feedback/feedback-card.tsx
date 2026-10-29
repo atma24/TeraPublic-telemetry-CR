@@ -22,14 +22,14 @@ export function FeedbackCard({
   className?: string;
 }) {
   return (
-    <article className={cn("rounded-lg border border-border bg-surface", className)}>
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-3">
+    <article className={cn("card-hover relative overflow-hidden rounded-xl border border-border bg-surface shadow-2xs transition-all duration-200 hover:border-interactive/35", className)}>
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/80 bg-surface-2/40 px-5 py-3">
         <div className="flex flex-wrap items-center gap-2">
           <FeedbackStatusBadge status={feedback.status} />
           <Badge tone="outline">{FEEDBACK_CATEGORIES[feedback.category] ?? feedback.category}</Badge>
         </div>
         <div className="flex items-center gap-1.5">
-          <code className="rounded-sm bg-surface-2 px-1.5 py-1 font-mono text-[10px] font-semibold tracking-wide text-muted">
+          <code className="rounded-md border border-border/60 bg-surface px-2 py-1 font-mono text-[10px] font-semibold tracking-wide text-text">
             {feedback.tracking_code}
           </code>
           <CopyButton value={feedback.tracking_code} label="Salin kode" />
