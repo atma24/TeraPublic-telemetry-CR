@@ -1,4 +1,3 @@
-
 # TeraPublic — Public Transparency & Civic Insights
 
 TeraPublic adalah platform transparansi publik yang mengintegrasikan informasi anggaran pemerintah, program, serta fasilitas dan layanan publik dalam satu platform digital. TeraPublic bertujuan membantu masyarakat mengakses, memahami, dan menelusuri informasi publik dengan lebih mudah, sekaligus mendorong partisipasi masyarakat dan akuntabilitas publik.
@@ -11,14 +10,14 @@ TeraPublic adalah platform transparansi publik yang mengintegrasikan informasi a
 
 ## Tech Stack
 
-Teknologi yang digunakan dalam pengembangan TeraPublic:
+Teknologi dan sumber data yang digunakan dalam pengembangan TeraPublic:
 
-| Bagian | Teknologi |
+| Bagian | Teknologi / Sumber |
 |---|---|
 | Frontend | Next.js, TypeScript |
 | Backend | Laravel (PHP) |
 | API | REST API |
-| Data | Public datasets |
+| Data Source | Satu Data Jakarta |
 | Machine Learning | Komponen dan model pada direktori `ml` |
 | Version Control | Git & GitHub |
 
@@ -69,7 +68,18 @@ TeraPublic-telemetry-CR/
 
 ## Installation & How to Run
 
+### Prerequisites
+
+Pastikan perangkat telah memiliki:
+
+- Git
+- PHP dan Composer
+- Database yang sesuai dengan konfigurasi Laravel
+- Node.js dan npm
+
 ### 1. Clone Repository
+
+Clone repository TeraPublic:
 
 ```bash
 git clone https://github.com/atma24/TeraPublic-telemetry-CR.git
@@ -83,26 +93,36 @@ cd TeraPublic-telemetry-CR
 
 ### 2. Menjalankan Backend
 
-Masuk ke folder backend:
+Masuk ke direktori backend:
 
 ```bash
 cd backend
 ```
 
-Install dependencies:
+Install dependencies Laravel:
 
 ```bash
 composer install
 ```
-Membuat file .env:
+
+Buat file konfigurasi environment:
 
 ```bash
-cp.env.example
+cp .env.example .env
 ```
-Lakukan migrasi data dan seed data:
+
+Selanjutnya, buka file `.env` dan sesuaikan konfigurasi database dengan database yang digunakan.
+
+Generate application key:
 
 ```bash
-php artisan migrate —seed
+php artisan key:generate
+```
+
+Jalankan migrasi database dan seeder:
+
+```bash
+php artisan migrate --seed
 ```
 
 Jalankan Laravel development server:
@@ -117,11 +137,11 @@ Backend secara default dapat diakses melalui:
 http://127.0.0.1:8000
 ```
 
-Pastikan konfigurasi `.env` dan database telah disiapkan sebelum menjalankan backend.
+**Catatan:** Pastikan database telah dibuat dan konfigurasi koneksinya pada file `.env` sudah benar sebelum menjalankan migrasi. Perintah `php artisan migrate --seed` menjalankan migrasi sekaligus seeder yang tersedia.
 
 ### 3. Menjalankan Frontend
 
-Buka terminal baru dari root repository, kemudian masuk ke folder frontend:
+Buka terminal baru dari root repository, kemudian masuk ke direktori frontend:
 
 ```bash
 cd frontend
@@ -133,7 +153,7 @@ Install dependencies:
 npm install
 ```
 
-Jalankan development server:
+Jalankan frontend development server:
 
 ```bash
 npm run dev
@@ -145,11 +165,13 @@ Frontend secara default dapat diakses melalui:
 http://localhost:3000
 ```
 
+Pastikan backend telah berjalan dan konfigurasi koneksi API frontend telah disesuaikan apabila diperlukan.
+
 ### 4. Data dan Machine Learning
 
-Folder `data` digunakan untuk menyimpan dataset dan data pendukung yang digunakan dalam project.
+Direktori `data` digunakan untuk menyimpan dataset dan data pendukung yang digunakan dalam project. Data publik yang menjadi salah satu sumber pengembangan TeraPublic diperoleh dari **Portal Satu Data Jakarta**.
 
-Folder `ml` berisi komponen Machine Learning yang mendukung kebutuhan pengolahan atau pemanfaatan data dalam sistem.
+Direktori `ml` berisi komponen Machine Learning yang mendukung kebutuhan pengolahan atau pemanfaatan data dalam sistem.
 
 Untuk petunjuk menjalankan komponen data dan Machine Learning, ikuti dokumentasi serta konfigurasi yang tersedia pada masing-masing direktori.
 
@@ -175,8 +197,8 @@ Pengembangan TeraPublic telah mencapai beberapa tahap berikut:
 - Penyesuaian data masih dilakukan agar sesuai dengan kebutuhan sistem.
 - Desain frontend telah ditetapkan sebagai acuan pengembangan dan masih dapat disempurnakan selama proses implementasi.
 - Integrasi antarbagian sistem dilakukan secara bertahap.
-- Pengujian akan mencakup fungsionalitas, integrasi API, tampilan, dan hak akses pengguna.
-- Perbaikan dan penyempurnaan akan dilakukan berdasarkan hasil pengujian.
+- Pengujian mencakup fungsionalitas, integrasi API, tampilan, dan hak akses pengguna.
+- Perbaikan dan penyempurnaan dilakukan berdasarkan hasil pengujian.
 
 ---
 
@@ -186,6 +208,11 @@ Pengembangan TeraPublic telah mencapai beberapa tahap berikut:
 **Full Name:** Public Transparency & Civic Insights  
 **Pilot Area:** DKI Jakarta  
 **Category:** Public Transparency & Civic Technology  
+**Data Source:** Satu Data Jakarta  
 **Status:** Development in Progress
 
 TeraPublic dikembangkan sebagai upaya mendukung keterbukaan informasi, kemudahan akses layanan publik, serta peningkatan partisipasi dan akuntabilitas melalui pemanfaatan teknologi digital.
+
+---
+
+*This project is currently under development. Features, implementation details, and documentation may be updated as development progresses.*
