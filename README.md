@@ -10,14 +10,14 @@ TeraPublic adalah platform transparansi publik yang mengintegrasikan informasi a
 
 ## Tech Stack
 
-Teknologi dan sumber data yang digunakan dalam pengembangan TeraPublic:
+Teknologi yang digunakan dalam pengembangan TeraPublic:
 
-| Bagian | Teknologi / Sumber |
+| Bagian | Teknologi |
 |---|---|
 | Frontend | Next.js, TypeScript |
 | Backend | Laravel (PHP) |
 | API | REST API |
-| Data Source | Satu Data Jakarta |
+| Data Source | Satu Data Jakarta|
 | Machine Learning | Komponen dan model pada direktori `ml` |
 | Version Control | Git & GitHub |
 
@@ -99,7 +99,7 @@ Masuk ke direktori backend:
 cd backend
 ```
 
-Install dependencies Laravel:
+Install dependencies:
 
 ```bash
 composer install
@@ -169,7 +169,7 @@ Pastikan backend telah berjalan dan konfigurasi koneksi API frontend telah dises
 
 ### 4. Data dan Machine Learning
 
-Direktori `data` digunakan untuk menyimpan dataset dan data pendukung yang digunakan dalam project. Data publik yang menjadi salah satu sumber pengembangan TeraPublic diperoleh dari **Portal Satu Data Jakarta**.
+Direktori `data` digunakan untuk menyimpan dataset dan data pendukung yang digunakan dalam project. Salah satu sumber data publik yang digunakan dalam pengembangan TeraPublic adalah **Satu Data Jakarta**.
 
 Direktori `ml` berisi komponen Machine Learning yang mendukung kebutuhan pengolahan atau pemanfaatan data dalam sistem.
 
@@ -186,7 +186,7 @@ Pengembangan TeraPublic telah mencapai beberapa tahap berikut:
 | Komponen | Progress |
 |---|---|
 | Backend | Struktur dan implementasi utama telah selesai; masih terdapat penyesuaian dan penyempurnaan data. |
-| Frontend | Konsep dan desain antarmuka telah ditetapkan; implementasi dan pengembangan masih berlangsung. |
+| Frontend | Desain antarmuka telah ditetapkan dan beberapa halaman website telah dikembangkan, meliputi Beranda, Layanan & Fasilitas, Analitik, Tentang TeraPublic, dan Chatbot. Implementasi dan penyempurnaan fitur masih berlangsung. |
 | Data | Dataset dan data pendukung telah disiapkan; penyesuaian masih dilakukan sesuai kebutuhan sistem. |
 | Machine Learning | Komponen ML tersedia dalam struktur project dan pengembangannya mengikuti kebutuhan integrasi sistem. |
 | Integration & Testing | Integrasi dan pengujian sistem dilakukan secara bertahap, dengan kemungkinan perbaikan berdasarkan hasil evaluasi. |
@@ -196,6 +196,7 @@ Pengembangan TeraPublic telah mencapai beberapa tahap berikut:
 - Struktur backend dan implementasi utamanya telah diselesaikan.
 - Penyesuaian data masih dilakukan agar sesuai dengan kebutuhan sistem.
 - Desain frontend telah ditetapkan sebagai acuan pengembangan dan masih dapat disempurnakan selama proses implementasi.
+- Beberapa halaman utama website telah dikembangkan berdasarkan desain yang telah ditetapkan.
 - Integrasi antarbagian sistem dilakukan secara bertahap.
 - Pengujian mencakup fungsionalitas, integrasi API, tampilan, dan hak akses pengguna.
 - Perbaikan dan penyempurnaan dilakukan berdasarkan hasil pengujian.
@@ -208,7 +209,7 @@ Pengembangan TeraPublic telah mencapai beberapa tahap berikut:
 **Full Name:** Public Transparency & Civic Insights  
 **Pilot Area:** DKI Jakarta  
 **Category:** Public Transparency & Civic Technology  
-**Data Source:** Satu Data Jakarta  
+**Data Source:** Satu Data Jakarta 
 **Status:** Development in Progress
 
 TeraPublic dikembangkan sebagai upaya mendukung keterbukaan informasi, kemudahan akses layanan publik, serta peningkatan partisipasi dan akuntabilitas melalui pemanfaatan teknologi digital.
