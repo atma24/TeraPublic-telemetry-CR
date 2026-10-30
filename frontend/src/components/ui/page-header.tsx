@@ -76,7 +76,7 @@ export function PageHeader({
             {actions ? <div className="mt-5 flex flex-wrap items-center gap-2.5">{actions}</div> : null}
           </div>
 
-          <div className="shrink-0 lg:max-w-md">
+          <div className="shrink-0 w-full sm:w-auto lg:max-w-lg">
             {widget ? (
               widget
             ) : (
