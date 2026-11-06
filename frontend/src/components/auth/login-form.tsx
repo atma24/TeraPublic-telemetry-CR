@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AlertCircle, Eye, EyeOff, Loader2, Lock, LogIn, Mail } from "lucide-react";
+import { AlertCircle, CheckCircle2, Eye, EyeOff, Loader2, Lock, LogIn, Mail } from "lucide-react";
 import { useActionState, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -11,13 +11,23 @@ import type { AuthActionState } from "@/types/auth";
 
 const initialState: AuthActionState = { ok: false };
 
-export function LoginForm({ nextPath }: { nextPath: string }) {
+export function LoginForm({ nextPath, registered = false }: { nextPath: string; registered?: boolean }) {
   const [state, formAction, pending] = useActionState(loginAction, initialState);
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <form action={formAction} className="space-y-5">
       <input type="hidden" name="next" value={nextPath} />
+
+      {registered && !state.message ? (
+        <div
+          role="status"
+          className="flex items-start gap-2.5 rounded-xl border border-success/30 bg-success/10 px-4 py-3 text-xs leading-relaxed text-success shadow-2xs"
+        >
+          <CheckCircle2 className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+          <span>Pendaftaran berhasil! Silakan masuk menggunakan akun baru Anda.</span>
+        </div>
+      ) : null}
 
       {state.message ? (
         <div

@@ -210,7 +210,7 @@ export default async function FacilityDetailPage({
 
             <section className="overflow-hidden rounded-lg border border-border bg-surface">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-3.5">
-                <div>
+                <div className="min-w-0 flex-1">
                   <h2 className="font-display text-sm font-semibold text-text">Lokasi</h2>
                   <p className="mt-0.5 text-[11px] text-muted">
                     Koordinat {Number(facility.latitude).toFixed(5)}, {Number(facility.longitude).toFixed(5)}
@@ -234,7 +234,7 @@ export default async function FacilityDetailPage({
 
             <section className="rounded-lg border border-border bg-surface">
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-3.5">
-                <div>
+                <div className="min-w-0 flex-1">
                   <h2 className="font-display text-sm font-semibold text-text">Proyek anggaran terkait</h2>
                   <p className="mt-0.5 text-[11px] text-muted">
                     {projects.length > 0
@@ -293,7 +293,7 @@ export default async function FacilityDetailPage({
 
             <section className="rounded-lg border border-border bg-surface px-5 py-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
+                <div className="min-w-0 flex-1">
                   <h2 className="font-display text-sm font-semibold text-text">Laporan warga</h2>
                   <p className="mt-0.5 text-[11px] text-muted">
                     {formatNumber(feedbacks.length)} laporan tercatat · {formatNumber(resolvedFeedbacks)} selesai
@@ -377,7 +377,7 @@ function AccessItem({
   active: boolean;
 }) {
   return (
-    <div className={cn("p-5", active ? "bg-success/5" : "bg-surface")}>
+    <div className={cn("p-4 sm:p-5", active ? "bg-success/5" : "bg-surface")}>
       <span
         className={cn(
           "inline-flex size-9 items-center justify-center rounded-md",
@@ -408,9 +408,9 @@ function DataRow({
       <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-md bg-surface-2 text-muted">
         <Icon className="size-3.5" aria-hidden="true" />
       </span>
-      <div>
+      <div className="min-w-0 flex-1">
         <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">{label}</p>
-        <p className="mt-0.5 text-xs text-text">{value}</p>
+        <p className="mt-0.5 text-xs text-text break-words">{value}</p>
       </div>
     </div>
   );

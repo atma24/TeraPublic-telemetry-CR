@@ -287,7 +287,7 @@ function ChatBubble({ message }: { message: Message }) {
               : "rounded-tl-xs border-border bg-surface",
         )}
       >
-        <p className={cn("whitespace-pre-wrap text-xs leading-relaxed sm:text-[13px]", isUser ? "text-white" : "text-text")}>
+        <p className={cn("whitespace-pre-wrap text-xs leading-relaxed sm:text-[13px] break-words", isUser ? "text-white" : "text-text")}>
           {message.content}
         </p>
         {message.matchedRegion ? (

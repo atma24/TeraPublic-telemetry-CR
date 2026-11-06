@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 
+import { LanguageProvider } from "@/components/i18n/language-provider";
 import { ThemeProvider, ThemeScript } from "@/components/theme/theme-provider";
 import { ToastProvider } from "@/components/ui/toast";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, TEAM_NAME } from "@/lib/constants";
@@ -81,12 +82,14 @@ export default function RootLayout({
       </head>
       <body className="min-h-dvh antialiased">
         <ThemeProvider>
-          <ToastProvider>
-            <a href="#main-content" className="skip-link">
+          <LanguageProvider>
+            <ToastProvider>
+              <a href="#main-content" className="skip-link">
               Lewati ke konten utama
             </a>
-            {children}
-          </ToastProvider>
+              {children}
+            </ToastProvider>
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

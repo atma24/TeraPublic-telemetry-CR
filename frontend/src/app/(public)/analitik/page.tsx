@@ -517,7 +517,7 @@ function ClusterCard({ cluster }: { cluster: MLClusterGroup }) {
   return (
     <article
       className={cn(
-        "card-hover group relative overflow-hidden rounded-xl border bg-surface p-6 shadow-2xs transition-all duration-300 hover:shadow-soft",
+        "card-hover group relative overflow-hidden rounded-xl border bg-surface p-4 sm:p-6 shadow-2xs transition-all duration-300 hover:shadow-soft",
         urgencyTone[urgency] ?? "border-border",
       )}
     >
@@ -541,7 +541,7 @@ function ClusterCard({ cluster }: { cluster: MLClusterGroup }) {
       <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.14em] text-muted">
         {urgencyLabel[urgency] ?? titleCase(cluster.urgency)}
       </p>
-      <h3 className="mt-1 font-display text-base font-semibold leading-snug text-text">{cluster.label}</h3>
+      <h3 className="mt-1 font-display text-base font-semibold leading-snug text-text break-words">{cluster.label}</h3>
 
       <ul className="mt-4 space-y-2.5 border-t border-border/70 pt-3.5">
         {districts.map((district) => (

@@ -40,7 +40,7 @@ export function CivicCtaCard({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-[#10273a] via-[#15324b] to-[#0c1e2d] p-6 text-white shadow-xl md:p-10 lg:p-12",
+        "relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-[#10273a] via-[#15324b] to-[#0c1e2d] p-5 text-white shadow-xl sm:p-8 md:p-10 lg:p-12",
         className,
       )}
     >
@@ -51,18 +51,19 @@ export function CivicCtaCard({
 
       <div className="paper-grid absolute inset-0 opacity-[0.05]" aria-hidden="true" />
 
+      {/* Responsive blur ambient background - lightweight on mobile */}
       <div
-        className="pointer-events-none absolute -left-20 -top-20 size-72 rounded-full bg-brand-teal/20 blur-3xl"
+        className="pointer-events-none absolute -left-16 -top-16 size-44 rounded-full bg-brand-teal/20 blur-xl sm:-left-20 sm:-top-20 sm:size-72 sm:blur-3xl"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute -bottom-20 right-0 size-80 rounded-full bg-brand-mint/10 blur-3xl"
+        className="pointer-events-none absolute -bottom-16 right-0 size-48 rounded-full bg-brand-mint/10 blur-xl sm:-bottom-20 sm:size-80 sm:blur-3xl"
         aria-hidden="true"
       />
 
-      <div className="relative grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+      <div className="relative grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-10">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-mint/30 bg-brand-mint/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-mint backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand-mint/30 bg-brand-mint/10 px-3 py-1 text-[10px] font-semibold tracking-wider text-brand-mint backdrop-blur-sm sm:text-[11px]">
             <span className="relative flex size-2">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-mint opacity-75" />
               <span className="relative inline-flex size-2 rounded-full bg-brand-mint" />
@@ -70,51 +71,51 @@ export function CivicCtaCard({
             {badgeLabel}
           </div>
 
-          <h2 className="mt-4 font-display text-3xl font-bold leading-[1.15] tracking-[-0.035em] text-white md:text-4xl lg:text-[40px]">
+          <h2 className="mt-3.5 font-display text-2xl font-bold leading-tight tracking-[-0.03em] text-white sm:text-3xl sm:leading-[1.15] md:text-4xl lg:text-[40px]">
             {title} <span className="text-brand-mint">{highlightText}</span>
           </h2>
 
-          <p className="mt-3.5 max-w-xl text-sm leading-relaxed text-white/75">
+          <p className="mt-3 max-w-xl text-xs leading-relaxed text-white/80 sm:text-sm sm:leading-relaxed">
             {description}
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-white/80">
-            <span className="inline-flex items-center gap-1.5">
-              <ShieldCheck className="size-4 text-brand-mint shrink-0" aria-hidden="true" />
+          <div className="mt-5 grid grid-cols-1 gap-2 text-xs text-white/80 sm:mt-6 sm:flex sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2">
+            <span className="inline-flex items-center gap-2">
+              <ShieldCheck className="size-4 shrink-0 text-brand-mint" aria-hidden="true" />
               Kode pelacakan unik
             </span>
-            <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="size-4 text-brand-mint shrink-0" aria-hidden="true" />
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle2 className="size-4 shrink-0 text-brand-mint" aria-hidden="true" />
               Diverifikasi 1x24 jam
             </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Users className="size-4 text-brand-mint shrink-0" aria-hidden="true" />
+            <span className="inline-flex items-center gap-2">
+              <Users className="size-4 shrink-0 text-brand-mint" aria-hidden="true" />
               Terbuka untuk semua warga
             </span>
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:items-center sm:gap-3">
             <Link
               href={reportHref}
-              className="group inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-brand-mint px-5 text-sm font-bold text-brand-navy shadow-sm transition-all hover:bg-[#68dac5] hover:shadow-md hover:shadow-brand-mint/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-mint"
+              className="group inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-brand-mint px-5 text-xs font-bold text-brand-navy shadow-sm transition-all hover:bg-[#68dac5] hover:shadow-md hover:shadow-brand-mint/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-mint sm:w-auto sm:text-sm"
             >
-              <FilePlus2 className="size-4" aria-hidden="true" />
+              <FilePlus2 className="size-4 shrink-0" aria-hidden="true" />
               {reportLabel}
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              <ArrowRight className="size-4 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </Link>
             <Link
               href="/chatbot"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/5 px-4 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-white/35 hover:bg-white/10"
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/5 px-4 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:border-white/35 hover:bg-white/10 sm:w-auto sm:text-sm"
             >
-              <Bot className="size-4 text-brand-mint" aria-hidden="true" />
+              <Bot className="size-4 shrink-0 text-brand-mint" aria-hidden="true" />
               Tanya asisten data
             </Link>
           </div>
         </div>
 
         <div className="relative">
-          <div className="rounded-xl border border-white/15 bg-white/[0.04] p-5 shadow-2xl backdrop-blur-md">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3.5">
+          <div className="rounded-xl border border-white/15 bg-white/[0.04] p-4 shadow-2xl backdrop-blur-md sm:p-5">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-xs font-bold tracking-wider text-brand-mint">
                   {ticketCode}
@@ -123,26 +124,26 @@ export function CivicCtaCard({
                   PUBLIK
                 </span>
               </div>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-teal/40 bg-brand-teal/20 px-2.5 py-0.5 text-[10px] font-semibold text-brand-mint">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-teal/40 bg-brand-teal/20 px-2 py-0.5 text-[10px] font-semibold text-brand-mint">
                 <span className="size-1.5 rounded-full bg-brand-mint animate-pulse" />
                 Ditindaklanjuti
               </span>
             </div>
 
-            <div className="mt-3.5 space-y-1.5">
-              <p className="text-sm font-semibold text-white">
+            <div className="mt-3 space-y-1">
+              <p className="text-xs font-semibold text-white sm:text-sm">
                 {ticketTitle}
               </p>
-              <p className="text-xs text-white/60">
+              <p className="text-[11px] text-white/60 sm:text-xs">
                 {ticketMeta}
               </p>
             </div>
 
-            <div className="mt-4 rounded-lg bg-black/20 p-3">
-              <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-wider text-white/50">
-                <span className="text-brand-mint">1. Terkirim</span>
-                <span className="text-brand-mint">2. Terverifikasi</span>
-                <span className="text-white/40">3. Selesai</span>
+            <div className="mt-3.5 rounded-lg bg-black/20 p-2.5 sm:p-3">
+              <div className="grid grid-cols-3 gap-1 text-[10px] font-semibold uppercase tracking-wider text-white/50 text-center">
+                <span className="truncate text-brand-mint">1. Terkirim</span>
+                <span className="truncate text-brand-mint">2. Terverifikasi</span>
+                <span className="truncate text-white/40">3. Selesai</span>
               </div>
               <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
                 <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-brand-teal to-brand-mint" />
@@ -152,11 +153,11 @@ export function CivicCtaCard({
               </p>
             </div>
 
-            <div className="mt-3.5 flex items-center justify-between pt-3 border-t border-white/10 text-[11px] text-white/60">
-              <span>Lacak riwayat dengan kode tiket</span>
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3 text-[11px] text-white/60">
+              <span className="truncate">Lacak riwayat dengan kode tiket</span>
               <Link
                 href="/lacak"
-                className="inline-flex items-center gap-1 font-semibold text-brand-mint hover:underline"
+                className="inline-flex items-center gap-1 font-semibold text-brand-mint hover:underline shrink-0"
               >
                 Lacak aduan
                 <ArrowUpRight className="size-3" aria-hidden="true" />

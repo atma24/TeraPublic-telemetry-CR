@@ -17,6 +17,7 @@ export default async function LoginPage({
 }) {
   const params = await searchParams;
   const nextPath = safeNextPath(firstParam(params.next), "/");
+  const registered = firstParam(params.registered) === "1";
 
   return (
     <div className="animate-fade-in-up">
@@ -40,7 +41,7 @@ export default async function LoginPage({
         </div>
 
         <div className="relative">
-          <LoginForm nextPath={nextPath} />
+          <LoginForm nextPath={nextPath} registered={registered} />
         </div>
       </div>
 

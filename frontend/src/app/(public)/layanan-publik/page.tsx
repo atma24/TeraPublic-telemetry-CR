@@ -225,7 +225,7 @@ function ServiceCard({
   cta: string;
 }) {
   return (
-    <article className="card-hover group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-interactive/45 hover:shadow-lift">
+    <article className="card-hover group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-surface p-5 sm:p-7 transition-all duration-300 hover:border-interactive/45 hover:shadow-lift">
       <div className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full bg-interactive/5 blur-2xl transition-all duration-300 group-hover:bg-interactive/10" aria-hidden="true" />
       <div>
         <div className="flex items-start justify-between gap-4">
@@ -244,7 +244,7 @@ function ServiceCard({
       </div>
 
       <div className="mt-6 border-t border-border/70 pt-4">
-        <div className="flex items-center justify-between text-[11px]">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px]">
           <span className="text-muted">
             {accessible !== null ? (
               <span className="font-semibold text-success">{formatNumber(accessible)} fasilitas</span>
@@ -278,7 +278,7 @@ function Step({
   body: string;
 }) {
   return (
-    <div className="card-hover group relative overflow-hidden rounded-xl border border-border bg-surface p-6 transition-all duration-200 hover:border-interactive/35">
+    <div className="card-hover group relative overflow-hidden rounded-xl border border-border bg-surface p-4 sm:p-6 transition-all duration-200 hover:border-interactive/35">
       <div className="flex items-center justify-between">
         <span className="tabular inline-flex size-7 items-center justify-center rounded-md border border-border/80 bg-surface-2 text-[11px] font-bold text-text group-hover:border-interactive/30 group-hover:bg-interactive/10 group-hover:text-interactive">
           {number}

@@ -22,9 +22,14 @@ export function FeedbackCard({
   className?: string;
 }) {
   return (
-    <article className={cn("card-hover relative overflow-hidden rounded-xl border border-border bg-surface shadow-2xs transition-all duration-200 hover:border-interactive/35", className)}>
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/80 bg-surface-2/40 px-5 py-3">
-        <div className="flex flex-wrap items-center gap-2">
+    <article
+      className={cn(
+        "card-hover relative overflow-hidden rounded-xl border border-border bg-surface shadow-2xs transition-all duration-200 hover:border-interactive/35",
+        className,
+      )}
+    >
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/80 bg-surface-2/40 px-4 py-2.5 sm:px-5 sm:py-3">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
           <FeedbackStatusBadge status={feedback.status} />
           <Badge tone="outline">{FEEDBACK_CATEGORIES[feedback.category] ?? feedback.category}</Badge>
         </div>
@@ -36,21 +41,25 @@ export function FeedbackCard({
         </div>
       </div>
 
-      <div className="px-5 py-4">
-        <h2 className="font-display text-base font-semibold leading-snug text-text">{feedback.title}</h2>
-        <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed text-muted">{feedback.description}</p>
+      <div className="px-4 py-3.5 sm:px-5 sm:py-4">
+        <h2 className="font-display text-base font-semibold leading-snug text-text break-words">
+          {feedback.title}
+        </h2>
+        <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed text-muted break-words">
+          {feedback.description}
+        </p>
 
         <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-muted">
           <div className="inline-flex items-center gap-1.5">
-            <CalendarDays className="size-3.5" aria-hidden="true" />
+            <CalendarDays className="size-3.5 shrink-0" aria-hidden="true" />
             <dt className="sr-only">Tanggal laporan</dt>
             <dd>{formatDateTime(feedback.created_at)}</dd>
           </div>
           {feedback.facility ? (
-            <div className="inline-flex items-center gap-1.5">
-              <MapPin className="size-3.5" aria-hidden="true" />
+            <div className="inline-flex items-center gap-1.5 min-w-0">
+              <MapPin className="size-3.5 shrink-0" aria-hidden="true" />
               <dt className="sr-only">Fasilitas</dt>
-              <dd>
+              <dd className="min-w-0 truncate">
                 <Link
                   href={`/data/fasilitas/${feedback.facility.id}`}
                   className="font-medium text-text hover:text-interactive hover:underline"
@@ -61,10 +70,10 @@ export function FeedbackCard({
             </div>
           ) : null}
           {showCitizen ? (
-            <div className="inline-flex items-center gap-1.5">
-              <UserRound className="size-3.5" aria-hidden="true" />
+            <div className="inline-flex items-center gap-1.5 min-w-0">
+              <UserRound className="size-3.5 shrink-0" aria-hidden="true" />
               <dt className="sr-only">Pelapor</dt>
-              <dd>
+              <dd className="min-w-0 truncate">
                 {feedback.citizen_name}
                 {feedback.citizen_email ? ` · ${feedback.citizen_email}` : ""}
               </dd>
@@ -75,9 +84,9 @@ export function FeedbackCard({
               href={feedback.photo_url}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 font-medium text-interactive hover:underline"
+              className="inline-flex items-center gap-1 font-medium text-interactive hover:underline shrink-0"
             >
-              <ExternalLink className="size-3.5" aria-hidden="true" />
+              <ExternalLink className="size-3.5 shrink-0" aria-hidden="true" />
               Foto lampiran
             </a>
           ) : null}
@@ -86,10 +95,10 @@ export function FeedbackCard({
         {feedback.admin_response ? (
           <div className="mt-4 rounded-md border border-interactive/20 bg-interactive/5 px-3.5 py-3">
             <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-interactive">
-              <MessageSquareQuote className="size-3.5" aria-hidden="true" />
+              <MessageSquareQuote className="size-3.5 shrink-0" aria-hidden="true" />
               Tanggapan admin
             </p>
-            <p className="mt-1.5 whitespace-pre-wrap text-xs leading-relaxed text-text">
+            <p className="mt-1.5 whitespace-pre-wrap text-xs leading-relaxed text-text break-words">
               {feedback.admin_response}
             </p>
             {feedback.resolved_at ? (
@@ -99,7 +108,7 @@ export function FeedbackCard({
         ) : null}
       </div>
 
-      {actions ? <div className="border-t border-border px-5 py-3">{actions}</div> : null}
+      {actions ? <div className="border-t border-border px-4 py-2.5 sm:px-5 sm:py-3">{actions}</div> : null}
     </article>
   );
 }

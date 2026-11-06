@@ -17,6 +17,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import { Logo } from "@/components/brand/logo";
 import { AccountMenu } from "@/components/layout/account-menu";
+import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { logoutAction } from "@/lib/auth/actions";
 import { ADMIN_LINKS, ROLE_LABELS } from "@/lib/constants";
@@ -163,6 +164,7 @@ export function AdminShell({ user, children }: { user: User; children: ReactNode
                 <ExternalLink className="size-3" aria-hidden="true" />
               </Link>
               <ThemeToggle />
+              <LanguageSwitcher />
               <AccountMenu user={user} />
             </div>
           </div>

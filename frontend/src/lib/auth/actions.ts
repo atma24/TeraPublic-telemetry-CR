@@ -78,15 +78,14 @@ export async function registerAction(
   }
 
   try {
-    const response = await register({
+    await register({
       name,
       email,
       password,
       password_confirmation: confirmation,
     });
-    await setSessionCookie(response.data.access_token);
-    revalidatePath("/", "layout");
-    redirect("/aduan/saya");
+    // Pengguna yang baru mendaftar diarahkan ke halaman login (tanpa auto-login)
+    redirect("/login?registered=1");
   } catch (error) {
     if (error instanceof ApiError) {
       return {

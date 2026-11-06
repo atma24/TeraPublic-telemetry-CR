@@ -23,7 +23,7 @@ export function FacilityCard({ facility, className }: { facility: PublicFacility
         className,
       )}
     >
-      <div className="flex flex-wrap items-center gap-1.5 border-b border-border/80 px-4 py-2.5">
+      <div className="flex flex-wrap items-center gap-1.5 border-b border-border/80 px-3.5 py-2 sm:px-4 sm:py-2.5">
         <Badge tone="info">{facility.category?.name ?? "Fasilitas"}</Badge>
         <Badge tone={statusTone[facility.status]}>{status.label}</Badge>
         <span className="ml-auto text-[10px] font-medium text-muted">
@@ -31,15 +31,15 @@ export function FacilityCard({ facility, className }: { facility: PublicFacility
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-4">
-        <h3 className="font-display text-sm font-semibold leading-snug text-text">
+      <div className="flex flex-1 flex-col p-3.5 sm:p-4">
+        <h3 className="font-display text-sm font-semibold leading-snug text-text break-words line-clamp-2">
           <Link href={`/data/fasilitas/${facility.id}`} className="transition-colors group-hover:text-interactive">
             {facility.name}
           </Link>
         </h3>
-        <p className="mt-1.5 flex items-start gap-1 text-[11px] leading-relaxed text-muted">
+        <p className="mt-1.5 flex items-start gap-1 text-[11px] leading-relaxed text-muted min-w-0">
           <MapPin className="mt-0.5 size-3 shrink-0 text-muted/80" aria-hidden="true" />
-          <span>
+          <span className="break-words line-clamp-2">
             {facility.region?.name ?? "Wilayah tidak diketahui"}
             {facility.address ? ` · ${facility.address}` : ""}
           </span>
@@ -47,13 +47,13 @@ export function FacilityCard({ facility, className }: { facility: PublicFacility
 
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[10px] text-muted">
           <span className="inline-flex items-center gap-1">
-            <Users className="size-3" aria-hidden="true" />
-            {formatNumber(facility.capacity)} kapasitas
+            <Users className="size-3 shrink-0" aria-hidden="true" />
+            <span>{formatNumber(facility.capacity)} kapasitas</span>
           </span>
           {facility.npsn ? (
             <span className="inline-flex items-center gap-1">
-              <Building2 className="size-3" aria-hidden="true" />
-              NPSN {facility.npsn}
+              <Building2 className="size-3 shrink-0" aria-hidden="true" />
+              <span>NPSN {facility.npsn}</span>
             </span>
           ) : null}
         </div>
@@ -64,8 +64,8 @@ export function FacilityCard({ facility, className }: { facility: PublicFacility
           <AccessTag active={facility.has_disabled_toilet} label="Toilet" />
         </div>
 
-        <div className="mt-auto flex items-center justify-between border-t border-border/70 pt-3">
-          <span className="text-[10px] text-muted">ID #{facility.id}</span>
+        <div className="mt-auto flex items-center justify-between border-t border-border/70 pt-2.5 mt-3 sm:pt-3">
+          <span className="text-[10px] text-muted font-mono">#{facility.id}</span>
           <Link
             href={`/data/fasilitas/${facility.id}`}
             className="inline-flex items-center gap-1 text-[10px] font-semibold text-interactive transition-colors group-hover:underline"

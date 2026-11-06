@@ -1,27 +1,22 @@
 import Link from "next/link";
 import {
-  Activity,
   ArrowRight,
   ArrowUpRight,
-  BarChart3,
-  Bot,
   Building2,
-  CheckCircle2,
   Database,
-  FilePlus2,
   Landmark,
-  Layers,
   MapPinned,
   MessageSquare,
   ShieldCheck,
   Sparkles,
-  TrendingUp,
   Users,
   Wallet,
 } from "lucide-react";
 
 import { FacilityMapClient } from "@/components/map/facility-map-dynamic";
 import { CivicJourneyStepper } from "@/components/home/civic-journey-stepper";
+import { HeroBadge } from "@/components/home/hero-badge";
+import { CivicCtaCard } from "@/components/feedback/civic-cta-card";
 import { Reveal } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { ErrorState } from "@/components/ui/states";
@@ -89,11 +84,11 @@ export default async function LandingPage() {
         />
         <div className="paper-grid absolute inset-0 opacity-45" aria-hidden="true" />
         <div
-          className="pointer-events-none absolute -right-32 -top-16 size-[550px] rounded-full bg-interactive/10 blur-3xl"
+          className="pointer-events-none absolute -right-32 -top-16 size-[280px] rounded-full bg-interactive/10 blur-xl sm:size-[550px] sm:blur-3xl"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute -left-24 bottom-0 size-[420px] rounded-full bg-brand-mint/10 blur-3xl"
+          className="pointer-events-none absolute -left-24 bottom-0 size-[240px] rounded-full bg-brand-mint/10 blur-xl sm:size-[420px] sm:blur-3xl"
           aria-hidden="true"
         />
 
@@ -107,16 +102,10 @@ export default async function LandingPage() {
 
         <div className="container-page relative grid gap-12 py-14 md:py-20 lg:grid-cols-[1.18fr_0.82fr] lg:items-center lg:gap-10 xl:gap-14">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-interactive/25 bg-surface-2/90 px-3.5 py-1 text-xs font-semibold text-interactive shadow-2xs backdrop-blur-md">
-              <span className="relative flex size-2">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-interactive opacity-75" />
-                <span className="relative inline-flex size-2 rounded-full bg-interactive" />
-              </span>
-              <span>Telemetri Data Terbuka · DKI Jakarta</span>
-            </div>
+            <HeroBadge />
 
             {/* Judul awal tetap dipertahankan sesuai permintaan */}
-            <h1 className="display-1 mt-6 max-w-[13ch] text-text">
+            <h1 className="mt-4 font-display text-2xl font-extrabold tracking-[-0.035em] text-text sm:mt-6 sm:text-4xl md:text-5xl md:max-w-[14ch] lg:display-1">
               Fasilitas publik yang <span className="text-interactive">terlihat.</span> Anggaran yang bisa
               ditelusuri.
             </h1>
@@ -141,7 +130,7 @@ export default async function LandingPage() {
             </div>
 
             {/* Akses Cepat Kategori */}
-            <div className="mt-8 flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
+            <div className="mt-6 flex flex-wrap items-center gap-1.5 sm:mt-8">
               <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider text-muted mr-0.5">
                 Akses Cepat:
               </span>
@@ -192,10 +181,10 @@ export default async function LandingPage() {
 
           {/* Hero Right Widget - Animated Civic Ledger Card */}
           <Reveal delay={80} className="lg:pl-4">
-            <div className="animate-float-soft relative">
+            <div className="relative sm:animate-float-soft">
               <div className="card-hover overflow-hidden rounded-2xl border border-border/80 bg-surface/95 p-1 shadow-lift backdrop-blur-md">
                 <div className="rounded-xl border border-border bg-surface">
-                  <div className="flex items-center justify-between border-b border-border px-4 py-3 bg-surface-2/40">
+                  <div className="flex flex-wrap items-center justify-between gap-1.5 border-b border-border px-3.5 py-2.5 sm:px-4 sm:py-3 bg-surface-2/40">
                     <div className="flex items-center gap-2">
                       <span className="relative flex size-2">
                         <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-75" />
@@ -210,27 +199,35 @@ export default async function LandingPage() {
 
                   {isOnline ? (
                     <>
-                      <div className="grid grid-cols-2 divide-x divide-border border-b border-border">
-                        <LedgerMetric
-                          label="Fasilitas terdata"
-                          value={formatNumber(overview.kpis.total_facilities)}
-                          hint={`${formatNumber(overview.kpis.total_districts)} kecamatan`}
-                        />
-                        <LedgerMetric
-                          label="Aksesibilitas"
-                          value={formatPercent(overview.kpis.accessibility_percentage)}
-                          hint={`${formatNumber(overview.kpis.accessible_facilities)} fasilitas ramah akses`}
-                        />
-                        <LedgerMetric
-                          label="Alokasi APBD"
-                          value={formatCompactRupiah(overview.kpis.total_budget_allocated)}
-                          hint={`Realisasi ${formatPercent(overview.kpis.realization_percentage)}`}
-                        />
-                        <LedgerMetric
-                          label="Aduan warga"
-                          value={formatNumber(overview.kpis.total_citizen_feedbacks)}
-                          hint={`${formatNumber(overview.kpis.resolved_citizen_feedbacks)} ditangani`}
-                        />
+                      <div className="grid grid-cols-2 border-b border-border">
+                        <div className="border-r border-b border-border">
+                          <LedgerMetric
+                            label="Fasilitas terdata"
+                            value={formatNumber(overview.kpis.total_facilities)}
+                            hint={`${formatNumber(overview.kpis.total_districts)} kecamatan`}
+                          />
+                        </div>
+                        <div className="border-b border-border">
+                          <LedgerMetric
+                            label="Aksesibilitas"
+                            value={formatPercent(overview.kpis.accessibility_percentage)}
+                            hint={`${formatNumber(overview.kpis.accessible_facilities)} fasilitas ramah`}
+                          />
+                        </div>
+                        <div className="border-r border-border">
+                          <LedgerMetric
+                            label="Alokasi APBD"
+                            value={formatCompactRupiah(overview.kpis.total_budget_allocated)}
+                            hint={`Realisasi ${formatPercent(overview.kpis.realization_percentage)}`}
+                          />
+                        </div>
+                        <div>
+                          <LedgerMetric
+                            label="Aduan warga"
+                            value={formatNumber(overview.kpis.total_citizen_feedbacks)}
+                            hint={`${formatNumber(overview.kpis.resolved_citizen_feedbacks)} ditangani`}
+                          />
+                        </div>
                       </div>
 
                       <div className="px-4 py-4 bg-surface">
@@ -311,52 +308,52 @@ export default async function LandingPage() {
       {overview ? (
         <section className="border-b border-border bg-surface-2/40 py-5">
           <div className="container-page">
-            <div className="grid grid-cols-2 gap-4 divide-y divide-border/60 sm:grid-cols-4 sm:divide-y-0 sm:divide-x sm:divide-border/60">
-              <div className="flex items-center gap-3 px-2 pt-2 sm:pt-0">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
-                  <Building2 className="size-4" />
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-4 sm:divide-x sm:divide-border/60">
+              <div className="flex items-center gap-2.5 rounded-lg border border-border/50 bg-surface/60 p-2.5 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:px-2">
+                <span className="flex size-8 sm:size-9 shrink-0 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
+                  <Building2 className="size-3.5 sm:size-4" />
                 </span>
-                <div>
-                  <p className="font-display text-lg font-bold text-text">
+                <div className="min-w-0">
+                  <p className="font-display text-base sm:text-lg font-bold text-text truncate">
                     {formatNumber(overview.kpis.total_facilities)}
                   </p>
-                  <p className="text-[11px] text-muted">Fasilitas Publik Terdata</p>
+                  <p className="text-[10px] sm:text-[11px] text-muted truncate">Fasilitas Publik</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 px-2 pt-2 sm:px-4 sm:pt-0">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
-                  <ShieldCheck className="size-4" />
+              <div className="flex items-center gap-2.5 rounded-lg border border-border/50 bg-surface/60 p-2.5 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:px-4">
+                <span className="flex size-8 sm:size-9 shrink-0 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
+                  <ShieldCheck className="size-3.5 sm:size-4" />
                 </span>
-                <div>
-                  <p className="font-display text-lg font-bold text-text">
+                <div className="min-w-0">
+                  <p className="font-display text-base sm:text-lg font-bold text-text truncate">
                     {formatPercent(overview.kpis.accessibility_percentage)}
                   </p>
-                  <p className="text-[11px] text-muted">Aksesibilitas Ramah</p>
+                  <p className="text-[10px] sm:text-[11px] text-muted truncate">Aksesibilitas</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 px-2 pt-2 sm:px-4 sm:pt-0">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
-                  <Wallet className="size-4" />
+              <div className="flex items-center gap-2.5 rounded-lg border border-border/50 bg-surface/60 p-2.5 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:px-4">
+                <span className="flex size-8 sm:size-9 shrink-0 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
+                  <Wallet className="size-3.5 sm:size-4" />
                 </span>
-                <div>
-                  <p className="font-display text-lg font-bold text-text">
+                <div className="min-w-0">
+                  <p className="font-display text-base sm:text-lg font-bold text-text truncate">
                     {formatCompactRupiah(overview.kpis.total_budget_allocated)}
                   </p>
-                  <p className="text-[11px] text-muted">Alokasi APBD 2024–2026</p>
+                  <p className="text-[10px] sm:text-[11px] text-muted truncate">Alokasi APBD</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 px-2 pt-2 sm:px-4 sm:pt-0">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
-                  <MapPinned className="size-4" />
+              <div className="flex items-center gap-2.5 rounded-lg border border-border/50 bg-surface/60 p-2.5 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:px-4">
+                <span className="flex size-8 sm:size-9 shrink-0 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
+                  <MapPinned className="size-3.5 sm:size-4" />
                 </span>
-                <div>
-                  <p className="font-display text-lg font-bold text-text">
-                    {formatNumber(overview.kpis.total_districts)} Kecamatan
+                <div className="min-w-0">
+                  <p className="font-display text-base sm:text-lg font-bold text-text truncate">
+                    {formatNumber(overview.kpis.total_districts)} Kec.
                   </p>
-                  <p className="text-[11px] text-muted">Cakupan Seluruh Jakarta</p>
+                  <p className="text-[10px] sm:text-[11px] text-muted truncate">Seluruh Jakarta</p>
                 </div>
               </div>
             </div>
@@ -381,7 +378,7 @@ export default async function LandingPage() {
                 <Reveal key={room.number} delay={index * 70}>
                   <Link
                     href={room.href}
-                    className="card-hover group relative flex h-full flex-col justify-between gap-8 overflow-hidden rounded-xl border border-border bg-surface p-6 shadow-soft transition-all hover:border-interactive/50 hover:shadow-lift"
+                    className="card-hover group relative flex h-full flex-col justify-between gap-8 overflow-hidden rounded-xl border border-border bg-surface p-4 sm:p-6 shadow-soft transition-all hover:border-interactive/50 hover:shadow-lift"
                   >
                     <div
                       className="absolute inset-x-0 top-0 h-[2px] w-0 bg-interactive transition-all duration-300 group-hover:w-full"
@@ -512,11 +509,11 @@ export default async function LandingPage() {
                           const score = Math.max(0, Math.min(100, Number(metric.equity_index)));
                           return (
                             <li key={metric.id}>
-                              <div className="flex items-baseline justify-between gap-3">
-                                <span className="truncate text-xs font-semibold text-text">
+                              <div className="flex min-w-0 items-baseline justify-between gap-2">
+                                <span className="min-w-0 flex-1 truncate text-xs font-semibold text-text">
                                   {metric.region?.name ?? `Wilayah ${metric.region_id}`}
                                 </span>
-                                <span className="tabular text-[10px] text-muted">
+                                <span className="shrink-0 tabular text-[10px] text-muted">
                                   {formatNumber(metric.facility_count)} fasilitas
                                 </span>
                               </div>
@@ -585,7 +582,7 @@ export default async function LandingPage() {
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {overview.city_breakdown.map((city, idx) => (
                 <Reveal key={city.city} delay={idx * 50}>
-                  <div className="card-hover group relative flex h-full flex-col justify-between overflow-hidden rounded-xl border border-border bg-surface p-5 shadow-soft transition-all hover:border-interactive/50 hover:shadow-lift">
+                  <div className="card-hover group relative flex h-full flex-col justify-between overflow-hidden rounded-xl border border-border bg-surface p-3.5 sm:p-5 shadow-soft transition-all hover:border-interactive/50 hover:shadow-lift">
                     <div
                       className="absolute inset-x-0 top-0 h-[2px] w-0 bg-gradient-to-r from-brand-teal to-brand-mint transition-all duration-300 group-hover:w-full"
                       aria-hidden="true"
@@ -632,7 +629,7 @@ export default async function LandingPage() {
                           style={{ width: `${Math.min(100, Math.max(4, city.realization_rate))}%` }}
                         />
                       </div>
-                      <div className="mt-2.5 flex items-center justify-between text-[10px] text-muted">
+                      <div className="mt-2.5 flex flex-wrap items-center justify-between gap-1 text-[10px] text-muted">
                         <span>Realisasi: {formatCompactRupiah(city.budget_realized)}</span>
                         <Link
                           href={`/data?search=${encodeURIComponent(city.city.replace("Kota ", "").replace("Kab. ", ""))}`}
@@ -686,135 +683,11 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* 7. CTA PARTISIPASI WARGA (Bespoke Civic Ticket Architecture) */}
+      {/* 7. CTA PARTISIPASI WARGA */}
       <section className="section-tight bg-bg">
         <div className="container-page">
           <Reveal>
-            <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-[#10273a] via-[#15324b] to-[#0c1e2d] p-6 text-white shadow-xl md:p-10 lg:p-12">
-              <div
-                className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-brand-mint/70 to-transparent"
-                aria-hidden="true"
-              />
-
-              <div className="paper-grid absolute inset-0 opacity-[0.05]" aria-hidden="true" />
-
-              <div
-                className="pointer-events-none absolute -left-20 -top-20 size-72 rounded-full bg-brand-teal/20 blur-3xl"
-                aria-hidden="true"
-              />
-              <div
-                className="pointer-events-none absolute -bottom-20 right-0 size-80 rounded-full bg-brand-mint/10 blur-3xl"
-                aria-hidden="true"
-              />
-
-              <div className="relative grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-                <div>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-brand-mint/30 bg-brand-mint/10 px-3 py-1 text-[11px] font-semibold tracking-wider text-brand-mint backdrop-blur-sm">
-                    <span className="relative flex size-2">
-                      <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-mint opacity-75" />
-                      <span className="relative inline-flex size-2 rounded-full bg-brand-mint" />
-                    </span>
-                    KANAL PARTISIPASI WARGA
-                  </div>
-
-                  <h2 className="mt-4 font-display text-3xl font-bold leading-[1.15] tracking-[-0.035em] text-white md:text-4xl lg:text-[40px]">
-                    Punya temuan di sekitar Anda?{" "}
-                    <span className="text-brand-mint">Jadikan data.</span>
-                  </h2>
-
-                  <p className="mt-3.5 max-w-xl text-sm leading-relaxed text-white/75">
-                    Laporkan kerusakan fasilitas atau hambatan aksesibilitas di Jakarta. Setiap laporan warga
-                    diverifikasi menjadi data terbuka yang dapat dipantau bersama dinas terkait.
-                  </p>
-
-                  <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-white/80">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ShieldCheck className="size-4 text-brand-mint shrink-0" aria-hidden="true" />
-                      Kode pelacakan unik
-                    </span>
-                    <span className="inline-flex items-center gap-1.5">
-                      <CheckCircle2 className="size-4 text-brand-mint shrink-0" aria-hidden="true" />
-                      Diverifikasi 1x24 jam
-                    </span>
-                    <span className="inline-flex items-center gap-1.5">
-                      <Users className="size-4 text-brand-mint shrink-0" aria-hidden="true" />
-                      Terbuka untuk semua warga
-                    </span>
-                  </div>
-
-                  <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                    <Link
-                      href="/aduan/buat"
-                      className="group inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-brand-mint px-5 text-sm font-bold text-brand-navy shadow-sm transition-all hover:bg-[#68dac5] hover:shadow-md hover:shadow-brand-mint/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-mint"
-                    >
-                      <FilePlus2 className="size-4" aria-hidden="true" />
-                      Buat aduan sekarang
-                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-                    </Link>
-                    <Link
-                      href="/chatbot"
-                      className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/5 px-4 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-white/35 hover:bg-white/10"
-                    >
-                      <Bot className="size-4 text-brand-mint" aria-hidden="true" />
-                      Tanya asisten data
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <div className="rounded-xl border border-white/15 bg-white/[0.04] p-5 shadow-2xl backdrop-blur-md">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-3.5">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-bold tracking-wider text-brand-mint">
-                          #ADU-JKT-8492
-                        </span>
-                        <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] font-semibold text-white/70">
-                          PUBLIK
-                        </span>
-                      </div>
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-teal/40 bg-brand-teal/20 px-2.5 py-0.5 text-[10px] font-semibold text-brand-mint">
-                        <span className="size-1.5 rounded-full bg-brand-mint animate-pulse" />
-                        Ditindaklanjuti
-                      </span>
-                    </div>
-
-                    <div className="mt-3.5 space-y-1.5">
-                      <p className="text-sm font-semibold text-white">
-                        Ubin Pemandu Tunanetra Rusak di Trotoar
-                      </p>
-                      <p className="text-xs text-white/60">
-                        Kec. Menteng, Jakarta Pusat · Fasilitas Pejalan Kaki
-                      </p>
-                    </div>
-
-                    <div className="mt-4 rounded-lg bg-black/20 p-3">
-                      <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-wider text-white/50">
-                        <span className="text-brand-mint">1. Terkirim</span>
-                        <span className="text-brand-mint">2. Terverifikasi</span>
-                        <span className="text-white/40">3. Selesai</span>
-                      </div>
-                      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-                        <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-brand-teal to-brand-mint" />
-                      </div>
-                      <p className="mt-2 text-[10px] text-white/50">
-                        Target respon: <span className="font-semibold text-white/80">&lt; 24 jam kerja</span>
-                      </p>
-                    </div>
-
-                    <div className="mt-3.5 flex items-center justify-between pt-3 border-t border-white/10 text-[11px] text-white/60">
-                      <span>Lacak riwayat dengan kode tiket</span>
-                      <Link
-                        href="/lacak"
-                        className="inline-flex items-center gap-1 font-semibold text-brand-mint hover:underline"
-                      >
-                        Lacak aduan
-                        <ArrowUpRight className="size-3" aria-hidden="true" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <CivicCtaCard />
           </Reveal>
         </div>
       </section>

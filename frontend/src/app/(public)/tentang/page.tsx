@@ -262,42 +262,42 @@ export default function AboutPage() {
       <div className="container-page py-8 md:py-14 space-y-16">
         {/* 1. RIBBON HIGHLIGHT METRICS */}
         <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <div className="card-hover flex flex-col justify-between rounded-xl border border-border bg-surface p-5 shadow-2xs">
+          <div className="card-hover flex flex-col justify-between rounded-xl border border-border bg-surface p-3.5 sm:p-5 shadow-2xs">
             <span className="inline-flex size-9 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
               <Database className="size-4" />
             </span>
             <div className="mt-4">
-              <p className="font-display text-2xl font-bold text-text">5 Sumber</p>
+              <p className="font-display text-lg sm:text-2xl font-bold text-text break-words">5 Sumber</p>
               <p className="mt-0.5 text-[11px] text-muted">Data Resmi Terverifikasi</p>
             </div>
           </div>
 
-          <div className="card-hover flex flex-col justify-between rounded-xl border border-border bg-surface p-5 shadow-2xs">
+          <div className="card-hover flex flex-col justify-between rounded-xl border border-border bg-surface p-3.5 sm:p-5 shadow-2xs">
             <span className="inline-flex size-9 items-center justify-center rounded-lg bg-success/10 text-success">
               <FileCheck2 className="size-4" />
             </span>
             <div className="mt-4">
-              <p className="font-display text-2xl font-bold text-text">100% Terbuka</p>
+              <p className="font-display text-lg sm:text-2xl font-bold text-text break-words">100% Terbuka</p>
               <p className="mt-0.5 text-[11px] text-muted">Bisa Ditinjau & Diuji Publik</p>
             </div>
           </div>
 
-          <div className="card-hover flex flex-col justify-between rounded-xl border border-border bg-surface p-5 shadow-2xs">
+          <div className="card-hover flex flex-col justify-between rounded-xl border border-border bg-surface p-3.5 sm:p-5 shadow-2xs">
             <span className="inline-flex size-9 items-center justify-center rounded-lg bg-interactive/10 text-interactive">
               <MapPin className="size-4" />
             </span>
             <div className="mt-4">
-              <p className="font-display text-2xl font-bold text-text">44 Kecamatan</p>
+              <p className="font-display text-lg sm:text-2xl font-bold text-text break-words">44 Kecamatan</p>
               <p className="mt-0.5 text-[11px] text-muted">Cakupan Seluruh Wilayah DKI</p>
             </div>
           </div>
 
-          <div className="card-hover flex flex-col justify-between rounded-xl border border-border bg-surface p-5 shadow-2xs">
+          <div className="card-hover flex flex-col justify-between rounded-xl border border-border bg-surface p-3.5 sm:p-5 shadow-2xs">
             <span className="inline-flex size-9 items-center justify-center rounded-lg bg-brand-mint/20 text-brand-teal">
               <Lock className="size-4" />
             </span>
             <div className="mt-4">
-              <p className="font-display text-2xl font-bold text-text">Privat & Aman</p>
+              <p className="font-display text-lg sm:text-2xl font-bold text-text break-words">Privat & Aman</p>
               <p className="mt-0.5 text-[11px] text-muted">Identitas Pelapor Terlindungi</p>
             </div>
           </div>
@@ -325,7 +325,7 @@ export default function AboutPage() {
               return (
                 <article
                   key={principle.title}
-                  className="card-hover group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-surface p-7 shadow-soft transition-all duration-300 hover:border-interactive/40 hover:shadow-lift"
+                  className="card-hover group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-surface p-5 sm:p-7 shadow-soft transition-all duration-300 hover:border-interactive/40 hover:shadow-lift"
                 >
                   <div className="pointer-events-none absolute -right-12 -top-12 size-32 rounded-full bg-interactive/5 blur-2xl group-hover:bg-interactive/10 transition-colors" />
                   <div>
@@ -338,10 +338,10 @@ export default function AboutPage() {
                       </span>
                     </div>
 
-                    <h3 className="mt-6 font-display text-lg font-bold tracking-[-0.02em] text-text">
+                    <h3 className="mt-6 font-display text-lg font-bold tracking-[-0.02em] text-text break-words">
                       {principle.title}
                     </h3>
-                    <p className="mt-2.5 text-xs leading-relaxed text-muted">
+                    <p className="mt-2.5 text-xs leading-relaxed text-muted break-words">
                       {principle.body}
                     </p>
                   </div>
@@ -383,7 +383,7 @@ export default function AboutPage() {
               return (
                 <div
                   key={item.layer}
-                  className="card-hover group relative flex flex-col justify-between rounded-xl border border-border bg-surface p-6 shadow-2xs transition-all duration-200 hover:border-interactive/40"
+                  className="card-hover group relative flex flex-col justify-between rounded-xl border border-border bg-surface p-4 sm:p-6 shadow-2xs transition-all duration-200 hover:border-interactive/40"
                 >
                   <div>
                     <div className="flex items-center justify-between">
@@ -519,7 +519,7 @@ export default function AboutPage() {
             {glossary.map((item) => (
               <div
                 key={item.term}
-                className="card-hover flex flex-col justify-between rounded-xl border border-border bg-surface p-5 shadow-2xs transition-all duration-200 hover:border-interactive/35"
+                className="card-hover flex flex-col justify-between rounded-xl border border-border bg-surface p-4 sm:p-5 shadow-2xs transition-all duration-200 hover:border-interactive/35"
               >
                 <div>
                   <div className="flex items-center justify-between">
@@ -536,7 +536,7 @@ export default function AboutPage() {
         </section>
 
         {/* 6. PERTANYAAN SERING MUNCUL (FAQ) */}
-        <section className="rounded-2xl border border-border bg-surface p-6 shadow-soft sm:p-9">
+        <section className="rounded-2xl border border-border bg-surface p-4 sm:p-7 md:p-9 shadow-soft">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface-2/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-interactive">
               <span className="size-1.5 rounded-full bg-interactive animate-pulse" />

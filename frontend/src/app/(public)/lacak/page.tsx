@@ -161,7 +161,7 @@ export default async function TrackFeedbackPage({
             {feedback ? (
               <div className="space-y-6">
                 {/* Visual Step Timeline Rail */}
-                <div className="card-hover overflow-hidden rounded-2xl border border-border bg-surface p-6 shadow-soft">
+                <div className="card-hover overflow-hidden rounded-2xl border border-border bg-surface p-4 sm:p-6 shadow-soft">
                   <div className="flex items-center justify-between border-b border-border/80 pb-4">
                     <div>
                       <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Progres penanganan</p>
@@ -198,7 +198,7 @@ export default async function TrackFeedbackPage({
                             {isComplete ? "✓" : stage.step}
                           </div>
                           <span
-                            className={`mt-2 text-[10px] font-semibold sm:text-[11px] ${
+                            className={`mt-2 text-[9px] font-semibold sm:text-[11px] leading-tight break-words text-center ${
                               isComplete ? "text-text" : "text-muted"
                             }`}
                           >

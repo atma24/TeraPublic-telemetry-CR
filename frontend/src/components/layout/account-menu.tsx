@@ -4,12 +4,14 @@ import Link from "next/link";
 import { ChevronDown, LayoutDashboard, LogOut, MessageSquare, Send, UserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import { useLanguage } from "@/components/i18n/language-provider";
 import { logoutAction } from "@/lib/auth/actions";
 import { ROLE_LABELS } from "@/lib/constants";
 import { initials } from "@/lib/utils";
 import type { User } from "@/types/auth";
 
 export function AccountMenu({ user }: { user: User }) {
+  const { language, t } = useLanguage();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -28,6 +30,15 @@ export function AccountMenu({ user }: { user: User }) {
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
+
+  const roleText =
+    user.role === "admin"
+      ? language === "en"
+        ? "Administrator"
+        : ROLE_LABELS.admin
+      : language === "en"
+        ? "Citizen"
+        : ROLE_LABELS.citizen;
 
   return (
     <div ref={containerRef} className="relative">
@@ -56,22 +67,22 @@ export function AccountMenu({ user }: { user: User }) {
             <p className="truncate text-sm font-semibold text-text">{user.name}</p>
             <p className="truncate text-[11px] text-muted">{user.email}</p>
             <p className="mt-1.5 inline-flex rounded-sm bg-surface-2 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted">
-              {ROLE_LABELS[user.role]}
+              {roleText}
             </p>
           </div>
           <div className="p-1.5">
             <MenuLink href="/aduan/saya" icon={UserRound} onClick={() => setOpen(false)}>
-              Aduan saya
+              {t("nav.my_feedback", "Aduan saya")}
             </MenuLink>
             <MenuLink href="/aduan/buat" icon={Send} onClick={() => setOpen(false)}>
-              Buat aduan
+              {t("nav.create_feedback", "Buat aduan")}
             </MenuLink>
             <MenuLink href="/chatbot" icon={MessageSquare} onClick={() => setOpen(false)}>
-              Asisten data
+              {t("nav.assistant", "Asisten data")}
             </MenuLink>
             {user.role === "admin" ? (
               <MenuLink href="/admin" icon={LayoutDashboard} onClick={() => setOpen(false)}>
-                Panel admin
+                {t("nav.admin", "Panel admin")}
               </MenuLink>
             ) : null}
           </div>
@@ -81,7 +92,7 @@ export function AccountMenu({ user }: { user: User }) {
               className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-xs font-semibold text-danger transition-colors hover:bg-danger/8"
             >
               <LogOut className="size-3.5" aria-hidden="true" />
-              Keluar
+              {t("nav.logout", "Keluar")}
             </button>
           </form>
         </div>

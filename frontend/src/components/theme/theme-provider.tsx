@@ -30,14 +30,14 @@ function systemTheme(): ResolvedTheme {
 }
 
 function readTheme(): Theme {
-  if (typeof window === "undefined") return "system";
+  if (typeof window === "undefined") return "light";
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored === "light" || stored === "dark" || stored === "system") return stored;
   } catch {
-    return "system";
+    return "light";
   }
-  return "system";
+  return "light";
 }
 
 function subscribeTheme(callback: () => void) {
@@ -66,7 +66,7 @@ function applyTheme(resolved: ResolvedTheme) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const theme = useSyncExternalStore(subscribeTheme, readTheme, () => "system" as Theme);
+  const theme = useSyncExternalStore(subscribeTheme, readTheme, () => "light" as Theme);
   const system = useSyncExternalStore(subscribeSystem, systemTheme, () => "light" as ResolvedTheme);
   const resolvedTheme = theme === "system" ? system : theme;
 
@@ -102,6 +102,6 @@ export function useTheme(): ThemeContextValue {
 }
 
 export function ThemeScript() {
-  const script = `(function(){try{var key="${STORAGE_KEY}";var saved=localStorage.getItem(key);var value=saved==="light"||saved==="dark"||saved==="system"?saved:"system";var dark=value==="dark"||(value==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);var root=document.documentElement;root.classList.toggle("dark",dark);root.dataset.theme=dark?"dark":"light";root.style.colorScheme=dark?"dark":"light";}catch(_){}})();`;
+  const script = `(function(){try{var key="${STORAGE_KEY}";var saved=localStorage.getItem(key);var value=saved==="light"||saved==="dark"?saved:"light";var dark=value==="dark";var root=document.documentElement;root.classList.toggle("dark",dark);root.dataset.theme=dark?"dark":"light";root.style.colorScheme=dark?"dark":"light";}catch(_){}})();`;
   return <script dangerouslySetInnerHTML={{ __html: script }} />;
 }
