@@ -220,7 +220,7 @@ export function SiteHeader({ user }: { user: User | null }) {
           <div className="flex-1 overflow-y-auto px-4 py-4 space-y-6">
             <div>
               <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-muted">
-                Menu Utama
+                {t("nav.main_menu", "Menu Utama")}
               </p>
               <nav aria-label="Navigasi seluler vertikal" className="mt-2 flex flex-col gap-1">
                 <Link
@@ -263,7 +263,7 @@ export function SiteHeader({ user }: { user: User | null }) {
             {user ? (
               <div className="border-t border-border/80 pt-4">
                 <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-muted">
-                  Akun Warga
+                  {t("nav.citizen_account", "Akun Warga")}
                 </p>
                 <nav aria-label="Navigasi akun seluler" className="mt-2 flex flex-col gap-1">
                   {PORTAL_LINKS.map((link) => (
@@ -326,13 +326,13 @@ export function SiteHeader({ user }: { user: User | null }) {
                 onClick={() => setOpen(false)}
                 className="w-full justify-center text-center"
               >
-                Daftar
+                {t("nav.register", "Daftar")}
               </ButtonLink>
             </div>
           )}
 
           <div className="flex items-center justify-between rounded-xl border border-border/80 bg-surface-2/40 px-3 py-2">
-            <span className="text-xs font-medium text-muted">Pengaturan</span>
+            <span className="text-xs font-medium text-muted">{t("nav.settings", "Pengaturan")}</span>
             <div className="flex items-center gap-2">
               <ThemeToggle />
               <LanguageSwitcher />

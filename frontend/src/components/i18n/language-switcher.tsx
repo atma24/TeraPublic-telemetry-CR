@@ -12,10 +12,10 @@ const languages: Array<{
   code: Language;
   label: string;
   native: string;
-  flag: string;
+  badge: string;
 }> = [
-  { code: "id", label: "Bahasa Indonesia", native: "Indonesia", flag: "🇮🇩" },
-  { code: "en", label: "English", native: "Inggris", flag: "🇬🇧" },
+  { code: "id", label: "Bahasa Indonesia", native: "Indonesia", badge: "ID" },
+  { code: "en", label: "English", native: "Inggris", badge: "EN" },
 ];
 
 export function LanguageSwitcher({ className }: { className?: string }) {
@@ -99,9 +99,17 @@ export function LanguageSwitcher({ className }: { className?: string }) {
                       : "font-medium text-text hover:bg-surface-2",
                   )}
                 >
-                  <span className="flex items-center gap-2">
-                    <span className="text-base leading-none" aria-hidden="true">
-                      {item.flag}
+                  <span className="flex items-center gap-2.5">
+                    <span
+                      className={cn(
+                        "inline-flex h-5 w-6 items-center justify-center rounded border text-[10px] font-bold tracking-wider",
+                        active
+                          ? "border-interactive/30 bg-interactive/15 text-interactive"
+                          : "border-border/80 bg-surface-2 text-muted",
+                      )}
+                      aria-hidden="true"
+                    >
+                      {item.badge}
                     </span>
                     <span>
                       <span>{item.label}</span>

@@ -18,6 +18,7 @@ import { useEffect, useId, useState } from "react";
 
 import { FacilityMapClient } from "@/components/map/facility-map-dynamic";
 import { ButtonLink } from "@/components/ui/button";
+import { useLanguage } from "@/components/i18n/language-provider";
 import { formatCompactRupiah, formatPercent } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { DashboardOverview, PublicFacility, RegionFeatureCollection } from "@/types/public";
@@ -28,68 +29,78 @@ interface CivicJourneyStepperProps {
   regions: RegionFeatureCollection | null;
 }
 
-const STEPS = [
-  {
-    id: "pemetaan",
-    number: "01",
-    tabLabel: "Peta Fasilitas",
-    stepBadge: "LANGKAH 01 · PEMETAAN & SEBARAN",
-    title: "Fasilitas Publik Terdata, Akses Terbuka.",
-    description:
-      "Telusuri 214 sekolah negeri dan pasar tradisional di seluruh 44 kecamatan DKI Jakarta. Setiap titik diverifikasi dengan koordinat presisi dan status operasional resmi.",
-    actionLabel: "Buka Direktori Peta Lengkap",
-    actionHref: "/data",
-    icon: MapPinned,
-  },
-  {
-    id: "aksesibilitas",
-    number: "02",
-    tabLabel: "Audit Aksesibilitas",
-    stepBadge: "LANGKAH 02 · STANDAR RAMAH WARGA",
-    title: "Periksa Fasilitas Ramah Disabilitas & Lansia.",
-    description:
-      "Transparansi bukan sekadar ada atau tidaknya gedung, tetapi memastikan fasilitas publik dapat dimasuki dan digunakan oleh semua warga tanpa hambatan.",
-    actionLabel: "Analisis Indeks Pemerataan",
-    actionHref: "/analitik",
-    icon: ShieldCheck,
-  },
-  {
-    id: "anggaran",
-    number: "03",
-    tabLabel: "Anggaran APBD",
-    stepBadge: "LANGKAH 03 · ALOKASI & REALISASI",
-    title: "Pantau Penyerapan Rp 35,47 T Anggaran Daerah.",
-    description:
-      "Lacak distribusi anggaran pembangunan fisik dan operasional per kota administrasi. Bandingkan antara rencana anggaran dan realisasi nyata di lapangan.",
-    actionLabel: "Telusuri 1.731 Proyek APBD",
-    actionHref: "/data?tab=anggaran",
-    icon: Wallet,
-  },
-  {
-    id: "aduan",
-    number: "04",
-    tabLabel: "Aduan Warga",
-    stepBadge: "LANGKAH 04 · PARTISIPASI & PELACAKAN",
-    title: "Suara Warga Menjadi Titik Data Terbuka.",
-    description:
-      "Temuan trotoar rusak atau fasilitas tidak ramah diubah menjadi tiket publik bernomor unik yang dapat dilacak progresnya hingga penanganan dinas terkait.",
-    actionLabel: "Kirim Laporan Lapangan",
-    actionHref: "/aduan/buat",
-    icon: MessageSquare,
-  },
-] as const;
-
 export function CivicJourneyStepper({
   overview,
   facilities,
   regions,
 }: CivicJourneyStepperProps) {
+  const { language } = useLanguage();
+  const isEn = language === "en";
+
+  const steps = [
+    {
+      id: "pemetaan",
+      number: "01",
+      tabLabel: isEn ? "Facility Map" : "Peta Fasilitas",
+      stepBadge: isEn ? "STEP 01 · MAPPING & COVERAGE" : "LANGKAH 01 · PEMETAAN & SEBARAN",
+      title: isEn ? "Public Facilities Mapped, Transparent Access." : "Fasilitas Publik Terdata, Akses Terbuka.",
+      description: isEn
+        ? "Explore 214 public schools and traditional markets across all 44 districts in DKI Jakarta. Each location is verified with precise coordinates and official operational status."
+        : "Telusuri 214 sekolah negeri dan pasar tradisional di seluruh 44 kecamatan DKI Jakarta. Setiap titik diverifikasi dengan koordinat presisi dan status operasional resmi.",
+      actionLabel: isEn ? "Open Full Interactive Map" : "Buka Direktori Peta Lengkap",
+      actionHref: "/data",
+      icon: MapPinned,
+      sublabel: isEn ? "214 real map points" : "214 titik peta nyata",
+    },
+    {
+      id: "aksesibilitas",
+      number: "02",
+      tabLabel: isEn ? "Accessibility Audit" : "Audit Aksesibilitas",
+      stepBadge: isEn ? "STEP 02 · CITIZEN INCLUSION STANDARDS" : "LANGKAH 02 · STANDAR RAMAH WARGA",
+      title: isEn ? "Check Disability & Senior-Friendly Facilities." : "Periksa Fasilitas Ramah Disabilitas & Lansia.",
+      description: isEn
+        ? "Transparency isn't just about buildings existing, but ensuring public facilities can be safely accessed and used by all citizens without barriers."
+        : "Transparansi bukan sekadar ada atau tidaknya gedung, tetapi memastikan fasilitas publik dapat dimasuki dan digunakan oleh semua warga tanpa hambatan.",
+      actionLabel: isEn ? "Analyze Regional Equity Index" : "Analisis Indeks Pemerataan",
+      actionHref: "/analitik",
+      icon: ShieldCheck,
+      sublabel: isEn ? "Disability inclusion standards" : "Standar ramah disabilitas",
+    },
+    {
+      id: "anggaran",
+      number: "03",
+      tabLabel: isEn ? "APBD Budget" : "Anggaran APBD",
+      stepBadge: isEn ? "STEP 03 · ALLOCATION & EXECUTION" : "LANGKAH 03 · ALOKASI & REALISASI",
+      title: isEn ? "Monitor Trillions in Regional Infrastructure Budgets." : "Pantau Penyerapan Rp 35,47 T Anggaran Daerah.",
+      description: isEn
+        ? "Track the distribution of physical and operational budgets per administrative city. Compare planned allocations against actual field execution."
+        : "Lacak distribusi anggaran pembangunan fisik dan operasional per kota administrasi. Bandingkan antara rencana anggaran dan realisasi nyata di lapangan.",
+      actionLabel: isEn ? "Explore 1,731 APBD Projects" : "Telusuri 1.731 Proyek APBD",
+      actionHref: "/data?tab=anggaran",
+      icon: Wallet,
+      sublabel: isEn ? "Rp 35.47 T APBD Budget" : "APBD Rp 35,47 Triliun",
+    },
+    {
+      id: "aduan",
+      number: "04",
+      tabLabel: isEn ? "Citizen Feedback" : "Aduan Warga",
+      stepBadge: isEn ? "STEP 04 · PARTICIPATION & TRACKING" : "LANGKAH 04 · PARTISIPASI & PELACAKAN",
+      title: isEn ? "Citizen Voices Become Open Data Points." : "Suara Warga Menjadi Titik Data Terbuka.",
+      description: isEn
+        ? "Damaged sidewalks or inaccessible facilities are converted into unique public tracking tickets, monitored until resolved by relevant municipal agencies."
+        : "Temuan trotoar rusak atau fasilitas tidak ramah diubah menjadi tiket publik bernomor unik yang dapat dilacak progresnya hingga penanganan dinas terkait.",
+      actionLabel: isEn ? "Submit Field Report" : "Kirim Laporan Lapangan",
+      actionHref: "/aduan/buat",
+      icon: MessageSquare,
+      sublabel: isEn ? "Citizen tracking tickets" : "Tiket pelacakan warga",
+    },
+  ];
+
   const [activeStep, setActiveStep] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<"all" | "sekolah" | "pasar-tradisional">("all");
   const [isPaused, setIsPaused] = useState(false);
   const componentId = useId();
 
-  // Invalidate Leaflet map size when returning to step 0
   useEffect(() => {
     if (activeStep === 0) {
       const timer = setTimeout(() => {
@@ -101,25 +112,24 @@ export function CivicJourneyStepper({
     }
   }, [activeStep]);
 
-  // Subtle auto-advance every 8 seconds if not paused by mouse hover
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % STEPS.length);
+      setActiveStep((prev) => (prev + 1) % steps.length);
     }, 9000);
     return () => clearInterval(interval);
-  }, [isPaused]);
+  }, [isPaused, steps.length]);
 
   const filteredFacilities = facilities.filter((f) => {
     if (selectedCategory === "all") return true;
     return f.category?.slug === selectedCategory;
   });
 
-  const currentStep = STEPS[activeStep];
+  const currentStep = steps[activeStep];
 
   return (
     <section
-      aria-label="Alur Keterbukaan Data TeraPublic"
+      aria-label={isEn ? "TeraPublic Data Transparency Pipeline" : "Alur Keterbukaan Data TeraPublic"}
       className="relative overflow-hidden border-b border-border bg-gradient-to-b from-surface to-surface-2/40 py-10 md:py-16"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -131,18 +141,21 @@ export function CivicJourneyStepper({
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-interactive/25 bg-interactive/8 px-3 py-1 text-[11px] font-semibold text-interactive backdrop-blur-sm sm:px-3.5 sm:text-xs">
             <Sparkles className="size-3.5 text-interactive" aria-hidden="true" />
-            <span>ALUR KETERBUKAAN DATA · TERAPUBLIC</span>
+            <span>{isEn ? "DATA TRANSPARENCY PIPELINE · TERAPUBLIC" : "ALUR KETERBUKAAN DATA · TERAPUBLIC"}</span>
           </div>
           <h2 className="mt-3.5 font-display text-xl font-bold tracking-[-0.03em] text-text sm:text-3xl lg:text-4xl">
-            Perjalanan Data: Dari Temuan Lapangan ke Transparansi Publik.
+            {isEn
+              ? "Data Journey: From Ground Findings to Public Transparency."
+              : "Perjalanan Data: Dari Temuan Lapangan ke Transparansi Publik."}
           </h2>
           <p className="mt-2.5 text-xs leading-relaxed text-muted sm:text-sm sm:leading-relaxed">
-            Ikuti bagaimana data fasilitas, standar aksesibilitas, alokasi APBD, dan partisipasi warga
-            terhubung dalam ekosistem digital terbuka yang bisa diperiksa semua orang.
+            {isEn
+              ? "Follow how facility data, accessibility standards, APBD budgets, and citizen participation connect into an open digital ecosystem anyone can inspect."
+              : "Ikuti bagaimana data fasilitas, standar aksesibilitas, alokasi APBD, dan partisipasi warga terhubung dalam ekosistem digital terbuka yang bisa diperiksa semua orang."}
           </p>
         </div>
 
-        {/* Two-Column Interactive Stage (Story Narrative Left + Visual Stage Right) */}
+        {/* Two-Column Interactive Stage */}
         <div className="mt-8 grid gap-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-stretch lg:gap-10 sm:mt-10">
           {/* LEFT: Contextual Narrative & Action Card */}
           <div className="flex flex-col justify-between rounded-2xl border border-border bg-surface p-5 shadow-soft transition-all sm:p-6 md:p-8">
@@ -153,7 +166,7 @@ export function CivicJourneyStepper({
                   {currentStep.stepBadge}
                 </span>
                 <span className="tabular text-xs font-bold text-muted">
-                  {activeStep + 1} / {STEPS.length}
+                  {activeStep + 1} / {steps.length}
                 </span>
               </div>
 
@@ -171,7 +184,7 @@ export function CivicJourneyStepper({
                   <div className="space-y-3 sm:space-y-4">
                     <div>
                       <p className="text-[10px] font-semibold uppercase tracking-wider text-muted sm:text-[11px]">
-                        Filter Titik Peta Secara Langsung:
+                        {isEn ? "Filter Live Map Markers:" : "Filter Titik Peta Secara Langsung:"}
                       </p>
                       <div className="mt-2 flex flex-wrap gap-1.5 sm:mt-2.5 sm:gap-2">
                         <button
@@ -184,7 +197,7 @@ export function CivicJourneyStepper({
                               : "border border-border bg-surface-2 text-text hover:border-interactive/40",
                           )}
                         >
-                          Semua ({facilities.length})
+                          {isEn ? `All (${facilities.length})` : `Semua (${facilities.length})`}
                         </button>
                         <button
                           type="button"
@@ -197,7 +210,7 @@ export function CivicJourneyStepper({
                           )}
                         >
                           <Building2 className="size-3" />
-                          Sekolah (196)
+                          {isEn ? "Schools (196)" : "Sekolah (196)"}
                         </button>
                         <button
                           type="button"
@@ -210,21 +223,27 @@ export function CivicJourneyStepper({
                           )}
                         >
                           <Landmark className="size-3" />
-                          Pasar (18)
+                          {isEn ? "Markets (18)" : "Pasar (18)"}
                         </button>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-2.5 rounded-lg border border-border/60 bg-surface-2/40 p-2.5 text-xs sm:gap-3 sm:p-3">
                       <div>
-                        <span className="text-muted block text-[10px] uppercase font-semibold">Aktif di Peta</span>
+                        <span className="text-muted block text-[10px] uppercase font-semibold">
+                          {isEn ? "Active on Map" : "Aktif di Peta"}
+                        </span>
                         <span className="font-display font-bold text-xs sm:text-sm text-text">
-                          {filteredFacilities.length} Fasilitas
+                          {filteredFacilities.length} {isEn ? "Facilities" : "Fasilitas"}
                         </span>
                       </div>
                       <div>
-                        <span className="text-muted block text-[10px] uppercase font-semibold">Cakupan Wilayah</span>
-                        <span className="font-display font-bold text-xs sm:text-sm text-text">44 Kecamatan</span>
+                        <span className="text-muted block text-[10px] uppercase font-semibold">
+                          {isEn ? "Regional Coverage" : "Cakupan Wilayah"}
+                        </span>
+                        <span className="font-display font-bold text-xs sm:text-sm text-text">
+                          44 {isEn ? "Districts" : "Kecamatan"}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -238,11 +257,15 @@ export function CivicJourneyStepper({
                           <CheckCircle2 className="size-3.5 sm:size-4" />
                         </span>
                         <div>
-                          <p className="font-semibold text-xs text-text">Ramp Kursi Roda</p>
-                          <p className="text-[10px] sm:text-[11px] text-muted">Kemiringan standar & pegangan aman</p>
+                          <p className="font-semibold text-xs text-text">{isEn ? "Wheelchair Ramp" : "Ramp Kursi Roda"}</p>
+                          <p className="text-[10px] sm:text-[11px] text-muted">
+                            {isEn ? "Standard slope & safe handrails" : "Kemiringan standar & pegangan aman"}
+                          </p>
                         </div>
                       </div>
-                      <span className="tabular text-[11px] sm:text-xs font-bold text-interactive shrink-0">143 Titik</span>
+                      <span className="tabular text-[11px] sm:text-xs font-bold text-interactive shrink-0">
+                        143 {isEn ? "Sites" : "Titik"}
+                      </span>
                     </div>
 
                     <div className="flex items-center justify-between rounded-lg border border-border/70 bg-surface-2/40 p-2.5 sm:p-3">
@@ -251,11 +274,15 @@ export function CivicJourneyStepper({
                           <CheckCircle2 className="size-3.5 sm:size-4" />
                         </span>
                         <div>
-                          <p className="font-semibold text-xs text-text">Toilet Disabilitas</p>
-                          <p className="text-[10px] sm:text-[11px] text-muted">Pintu lebar & tuas pegangan mandiri</p>
+                          <p className="font-semibold text-xs text-text">{isEn ? "Accessible Restrooms" : "Toilet Disabilitas"}</p>
+                          <p className="text-[10px] sm:text-[11px] text-muted">
+                            {isEn ? "Wide doors & self-support grab bars" : "Pintu lebar & tuas pegangan mandiri"}
+                          </p>
                         </div>
                       </div>
-                      <span className="tabular text-[11px] sm:text-xs font-bold text-interactive shrink-0">86 Titik</span>
+                      <span className="tabular text-[11px] sm:text-xs font-bold text-interactive shrink-0">
+                        86 {isEn ? "Sites" : "Titik"}
+                      </span>
                     </div>
                   </div>
                 )}
@@ -264,15 +291,21 @@ export function CivicJourneyStepper({
                   <div className="space-y-2.5 sm:space-y-3">
                     <div className="rounded-lg border border-border/70 bg-surface-2/40 p-2.5 sm:p-3">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="font-semibold text-text">Rasio Penyerapan APBD DKI</span>
-                        <span className="font-bold text-interactive">66,8% Realisasi</span>
+                        <span className="font-semibold text-text">
+                          {isEn ? "DKI APBD Budget Realization Ratio" : "Rasio Penyerapan APBD DKI"}
+                        </span>
+                        <span className="font-bold text-interactive">
+                          66,8% {isEn ? "Executed" : "Realisasi"}
+                        </span>
                       </div>
                       <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-surface-2">
                         <div className="h-full rounded-full bg-gradient-to-r from-brand-teal to-brand-mint w-[66.8%]" />
                       </div>
                     </div>
                     <p className="text-[10px] sm:text-[11px] text-muted leading-relaxed">
-                      Lacak komparasi alokasi dana dan progres fisik per paket tender untuk mencegah proyek mangkrak.
+                      {isEn
+                        ? "Compare budget allocations and physical progress per procurement package to prevent stalled civic projects."
+                        : "Lacak komparasi alokasi dana dan progres fisik per paket tender untuk mencegah proyek mangkrak."}
                     </p>
                   </div>
                 )}
@@ -283,18 +316,23 @@ export function CivicJourneyStepper({
                       <div className="flex items-center justify-between text-xs">
                         <span className="font-mono font-bold text-interactive text-[11px] sm:text-xs">#ADU-JKT-8492</span>
                         <span className="inline-flex items-center gap-1 rounded bg-interactive/20 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold text-interactive">
-                          ● DITINDAKLANJUTI
+                          ● {isEn ? "IN PROGRESS" : "DITINDAKLANJUTI"}
                         </span>
                       </div>
                       <p className="mt-1.5 text-xs font-medium text-text">
-                        Kerusakan ubin taktil di trotoar depan sekolah
+                        {isEn
+                          ? "Damaged tactile paving on sidewalk in front of public school"
+                          : "Kerusakan ubin taktil di trotoar depan sekolah"}
                       </p>
                       <p className="mt-1 text-[10px] sm:text-[11px] text-muted">
-                        Respon dinas: <span className="font-semibold text-text">&lt; 24 jam kerja</span>
+                        {isEn ? "Agency response:" : "Respon dinas:"}{" "}
+                        <span className="font-semibold text-text">{isEn ? "< 24 business hours" : "< 24 jam kerja"}</span>
                       </p>
                     </div>
                     <p className="text-[10px] sm:text-[11px] text-muted">
-                      Setiap aduan warga langsung diverifikasi dan diteruskan ke sistem penanganan resmi.
+                      {isEn
+                        ? "Every citizen report is verified and routed directly to official municipal maintenance systems."
+                        : "Setiap aduan warga langsung diverifikasi dan diteruskan ke sistem penanganan resmi."}
                     </p>
                   </div>
                 )}
@@ -310,7 +348,7 @@ export function CivicJourneyStepper({
             </div>
           </div>
 
-          {/* RIGHT: Visual Interactive Stage (Real Map on Step 0, High-End Visual Cards on others) */}
+          {/* RIGHT: Visual Interactive Stage */}
           <div className="relative min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] overflow-hidden rounded-2xl border border-border bg-surface shadow-lift">
             {/* STAGE 0: THE REAL LEAFLET MAP */}
             <div
@@ -327,17 +365,17 @@ export function CivicJourneyStepper({
                     <span className="relative inline-flex size-2 rounded-full bg-interactive" />
                   </span>
                   <span className="font-display text-[11px] sm:text-xs font-bold text-text">
-                    Peta Interaktif DKI
+                    {isEn ? "DKI Interactive Map" : "Peta Interaktif DKI"}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px] font-medium text-muted">
                   <span className="inline-flex items-center gap-1">
                     <span className="size-2 rounded-full bg-interactive" />
-                    Sekolah
+                    {isEn ? "Schools" : "Sekolah"}
                   </span>
                   <span className="inline-flex items-center gap-1">
                     <span className="size-2 rounded-full bg-brand-amber" />
-                    Pasar
+                    {isEn ? "Markets" : "Pasar"}
                   </span>
                 </div>
               </div>
@@ -348,7 +386,7 @@ export function CivicJourneyStepper({
                   facilities={filteredFacilities}
                   regions={regions}
                   height="100%"
-                  ariaLabel="Peta interaktif fasilitas publik DKI Jakarta"
+                  ariaLabel={isEn ? "Interactive map of DKI Jakarta public facilities" : "Peta interaktif fasilitas publik DKI Jakarta"}
                   showLegend={false}
                 />
               </div>
@@ -365,26 +403,29 @@ export function CivicJourneyStepper({
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3 sm:pb-4">
                   <div>
                     <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-muted">
-                      INSPEKTOR STANDAR AKSES
+                      {isEn ? "ACCESS STANDARDS INSPECTOR" : "INSPEKTOR STANDAR AKSES"}
                     </span>
                     <h4 className="font-display text-sm sm:text-lg font-bold text-text">
-                      Hasil Evaluasi Aksesibilitas DKI
+                      {isEn ? "DKI Accessibility Evaluation Results" : "Hasil Evaluasi Aksesibilitas DKI"}
                     </h4>
                   </div>
                   <span className="rounded-full bg-interactive/10 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[11px] sm:text-xs font-bold text-interactive">
-                    66,8% Lolos Standar
+                    {isEn ? "66.8% Met Standards" : "66,8% Lolos Standar"}
                   </span>
                 </div>
 
-                {/* 3 Metrics: In mobile clean 3-col grid, in desktop 3 cards */}
                 <div className="mt-3.5 sm:mt-6 grid grid-cols-3 gap-2 sm:gap-4">
                   <div className="rounded-xl border border-border bg-surface-2/40 p-2 sm:p-4 text-center">
                     <div className="mx-auto flex size-7 sm:size-10 items-center justify-center rounded-full bg-interactive/10 text-interactive">
                       <Building2 className="size-3.5 sm:size-5" />
                     </div>
                     <p className="mt-1.5 sm:mt-3 font-display text-sm sm:text-xl font-bold text-text">143</p>
-                    <p className="text-[10px] sm:text-xs font-semibold text-text">Fasilitas Ramah</p>
-                    <p className="hidden sm:block mt-1 text-[10px] text-muted">Ramp & akses mandiri</p>
+                    <p className="text-[10px] sm:text-xs font-semibold text-text">
+                      {isEn ? "Accessible Sites" : "Fasilitas Ramah"}
+                    </p>
+                    <p className="hidden sm:block mt-1 text-[10px] text-muted">
+                      {isEn ? "Ramp & independent access" : "Ramp & akses mandiri"}
+                    </p>
                   </div>
 
                   <div className="rounded-xl border border-border bg-surface-2/40 p-2 sm:p-4 text-center">
@@ -392,8 +433,12 @@ export function CivicJourneyStepper({
                       <ShieldCheck className="size-3.5 sm:size-5" />
                     </div>
                     <p className="mt-1.5 sm:mt-3 font-display text-sm sm:text-xl font-bold text-text">71</p>
-                    <p className="text-[10px] sm:text-xs font-semibold text-text">Perlu Perbaikan</p>
-                    <p className="hidden sm:block mt-1 text-[10px] text-muted">Jalur pemandu belum ada</p>
+                    <p className="text-[10px] sm:text-xs font-semibold text-text">
+                      {isEn ? "Needs Repair" : "Perlu Perbaikan"}
+                    </p>
+                    <p className="hidden sm:block mt-1 text-[10px] text-muted">
+                      {isEn ? "Missing guiding paths" : "Jalur pemandu belum ada"}
+                    </p>
                   </div>
 
                   <div className="rounded-xl border border-border bg-surface-2/40 p-2 sm:p-4 text-center">
@@ -401,29 +446,35 @@ export function CivicJourneyStepper({
                       <Compass className="size-3.5 sm:size-5" />
                     </div>
                     <p className="mt-1.5 sm:mt-3 font-display text-sm sm:text-xl font-bold text-text">44</p>
-                    <p className="text-[10px] sm:text-xs font-semibold text-text">Kecamatan</p>
-                    <p className="hidden sm:block mt-1 text-[10px] text-muted">Di 6 wilayah kota</p>
+                    <p className="text-[10px] sm:text-xs font-semibold text-text">
+                      {isEn ? "Districts" : "Kecamatan"}
+                    </p>
+                    <p className="hidden sm:block mt-1 text-[10px] text-muted">
+                      {isEn ? "Across 6 administrative areas" : "Di 6 wilayah kota"}
+                    </p>
                   </div>
                 </div>
 
                 <div className="mt-3.5 sm:mt-6 rounded-xl border border-border bg-surface-2/30 p-3 sm:p-4">
                   <div className="flex items-center justify-between text-[11px] sm:text-xs font-semibold text-text">
-                    <span>Indeks Kesetaraan Akses DKI</span>
+                    <span>{isEn ? "DKI Access Equality Index" : "Indeks Kesetaraan Akses DKI"}</span>
                     <span className="text-interactive font-bold">66.8 / 100</span>
                   </div>
                   <div className="mt-2 h-1.5 sm:h-2 w-full overflow-hidden rounded-full bg-surface-2">
                     <div className="h-full rounded-full bg-gradient-to-r from-brand-teal to-brand-mint w-[66.8%]" />
                   </div>
                   <p className="mt-2 text-[10px] sm:text-[11px] text-muted leading-relaxed">
-                    Data diolah dari observasi lapangan fasilitas pendidikan negeri dan pasar tradisional.
+                    {isEn
+                      ? "Data processed from verified field observations of public schools and markets."
+                      : "Data diolah dari observasi lapangan fasilitas pendidikan negeri dan pasar tradisional."}
                   </p>
                 </div>
               </div>
 
               <div className="mt-4 sm:mt-6 flex items-center justify-between border-t border-border pt-3 sm:pt-4 text-[11px] sm:text-xs text-muted">
-                <span>Standar: Permen PUPR No. 14/2017</span>
+                <span>{isEn ? "Standard: PUPR Ministerial Decree 14/2017" : "Standar: Permen PUPR No. 14/2017"}</span>
                 <Link href="/analitik" className="font-semibold text-interactive hover:underline inline-flex items-center gap-1">
-                  Buka data lengkap <ArrowUpRight className="size-3" />
+                  {isEn ? "Open full data" : "Buka data lengkap"} <ArrowUpRight className="size-3" />
                 </Link>
               </div>
             </div>
@@ -439,10 +490,10 @@ export function CivicJourneyStepper({
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3 sm:pb-4">
                   <div>
                     <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-muted">
-                      LEMBAR DATA APBD 2024–2026
+                      {isEn ? "APBD BUDGET LEDGER 2024–2026" : "LEMBAR DATA APBD 2024–2026"}
                     </span>
                     <h4 className="font-display text-sm sm:text-lg font-bold text-text">
-                      Distribusi Alokasi & Realisasi Kota
+                      {isEn ? "City Allocation & Execution Distribution" : "Distribusi Alokasi & Realisasi Kota"}
                     </h4>
                   </div>
                   <span className="font-mono text-[11px] sm:text-xs font-bold text-interactive">
@@ -450,7 +501,7 @@ export function CivicJourneyStepper({
                   </span>
                 </div>
 
-                {/* City Bars: 3 on mobile, 5 on desktop */}
+                {/* City Bars */}
                 <div className="mt-3.5 sm:mt-5 space-y-2 sm:space-y-3">
                   {overview?.city_breakdown ? (
                     overview.city_breakdown.slice(0, 5).map((city, cIdx) => (
@@ -474,7 +525,7 @@ export function CivicJourneyStepper({
                           />
                         </div>
                         <div className="mt-1 flex items-center justify-between text-[10px] text-muted">
-                          <span>Realisasi: {formatCompactRupiah(city.budget_realized)}</span>
+                          <span>{isEn ? "Executed:" : "Realisasi:"} {formatCompactRupiah(city.budget_realized)}</span>
                           <span className="font-semibold text-interactive">
                             {formatPercent(city.realization_rate)}
                           </span>
@@ -482,15 +533,17 @@ export function CivicJourneyStepper({
                       </div>
                     ))
                   ) : (
-                    <p className="text-xs text-muted">Memuat data alokasi kota...</p>
+                    <p className="text-xs text-muted">
+                      {isEn ? "Loading regional budget allocations..." : "Memuat data alokasi kota..."}
+                    </p>
                   )}
                 </div>
               </div>
 
               <div className="mt-4 sm:mt-5 flex items-center justify-between border-t border-border pt-3 text-[11px] sm:text-xs text-muted">
-                <span>Dokumen Resmi APBD DKI</span>
+                <span>{isEn ? "Official DKI APBD Documents" : "Dokumen Resmi APBD DKI"}</span>
                 <Link href="/data?tab=anggaran" className="font-semibold text-interactive hover:underline inline-flex items-center gap-1">
-                  Semua proyek APBD <ArrowUpRight className="size-3" />
+                  {isEn ? "All APBD projects" : "Semua proyek APBD"} <ArrowUpRight className="size-3" />
                 </Link>
               </div>
             </div>
@@ -506,15 +559,15 @@ export function CivicJourneyStepper({
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3 sm:pb-4">
                   <div>
                     <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-muted">
-                      SIMULASI TIKET LAPANGAN
+                      {isEn ? "FIELD TICKET SIMULATOR" : "SIMULASI TIKET LAPANGAN"}
                     </span>
                     <h4 className="font-display text-sm sm:text-lg font-bold text-text">
-                      Alur Pelaporan & Verifikasi Publik
+                      {isEn ? "Public Reporting & Verification Flow" : "Alur Pelaporan & Verifikasi Publik"}
                     </h4>
                   </div>
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-interactive/30 bg-interactive/10 px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold text-interactive">
                     <span className="size-1.5 rounded-full bg-interactive animate-pulse" />
-                    Transparan
+                    {isEn ? "Transparent" : "Transparan"}
                   </span>
                 </div>
 
@@ -522,13 +575,17 @@ export function CivicJourneyStepper({
                   <div className="flex flex-wrap items-center justify-between gap-1.5 border-b border-border/70 pb-2.5 sm:pb-3">
                     <span className="font-mono text-xs font-bold text-text sm:text-sm">#ADU-JKT-8492</span>
                     <span className="rounded bg-interactive/15 px-2 py-0.5 text-[9px] sm:text-[10px] font-bold text-interactive">
-                      DITINDAKLANJUTI
+                      {isEn ? "IN PROGRESS" : "DITINDAKLANJUTI"}
                     </span>
                   </div>
 
                   <div className="mt-2.5 sm:mt-3.5 space-y-1">
-                    <p className="text-xs sm:text-sm font-semibold text-text">Jalur Pemandu Tunanetra Rusak di Trotoar</p>
-                    <p className="text-[10px] sm:text-xs text-muted">Jl. Salemba Raya, Jakarta Pusat · Fasilitas Pejalan Kaki</p>
+                    <p className="text-xs sm:text-sm font-semibold text-text">
+                      {isEn ? "Damaged Tactile Paving on Sidewalk" : "Jalur Pemandu Tunanetra Rusak di Trotoar"}
+                    </p>
+                    <p className="text-[10px] sm:text-xs text-muted">
+                      {isEn ? "Salemba Raya St, Central Jakarta · Pedestrian Facility" : "Jl. Salemba Raya, Jakarta Pusat · Fasilitas Pejalan Kaki"}
+                    </p>
                   </div>
 
                   {/* 3 Steps timeline */}
@@ -538,8 +595,12 @@ export function CivicJourneyStepper({
                         ✓
                       </span>
                       <div>
-                        <p className="text-[11px] sm:text-xs font-semibold text-text">Laporan Terkirim oleh Warga</p>
-                        <p className="text-[9px] sm:text-[10px] text-muted">Disertai foto bukti lapangan & koordinat GPS</p>
+                        <p className="text-[11px] sm:text-xs font-semibold text-text">
+                          {isEn ? "Report Submitted by Citizen" : "Laporan Terkirim oleh Warga"}
+                        </p>
+                        <p className="text-[9px] sm:text-[10px] text-muted">
+                          {isEn ? "Includes photo proof & GPS coordinates" : "Disertai foto bukti lapangan & koordinat GPS"}
+                        </p>
                       </div>
                     </div>
 
@@ -548,8 +609,12 @@ export function CivicJourneyStepper({
                         ✓
                       </span>
                       <div>
-                        <p className="text-[11px] sm:text-xs font-semibold text-text">Terverifikasi oleh Administrator</p>
-                        <p className="text-[9px] sm:text-[10px] text-muted">Divalidasi ke kategori kerusakan fisik</p>
+                        <p className="text-[11px] sm:text-xs font-semibold text-text">
+                          {isEn ? "Verified by Administrator" : "Terverifikasi oleh Administrator"}
+                        </p>
+                        <p className="text-[9px] sm:text-[10px] text-muted">
+                          {isEn ? "Classified under physical infrastructure issue" : "Divalidasi ke kategori kerusakan fisik"}
+                        </p>
                       </div>
                     </div>
 
@@ -558,8 +623,12 @@ export function CivicJourneyStepper({
                         ●
                       </span>
                       <div>
-                        <p className="text-[11px] sm:text-xs font-semibold text-interactive">Diteruskan ke Suku Dinas (Proses)</p>
-                        <p className="text-[9px] sm:text-[10px] text-muted">Instruksi perbaikan ke Bina Marga setempat</p>
+                        <p className="text-[11px] sm:text-xs font-semibold text-interactive">
+                          {isEn ? "Routed to Agency (Action in progress)" : "Diteruskan ke Suku Dinas (Proses)"}
+                        </p>
+                        <p className="text-[9px] sm:text-[10px] text-muted">
+                          {isEn ? "Maintenance order sent to local Public Works agency" : "Instruksi perbaikan ke Bina Marga setempat"}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -567,16 +636,16 @@ export function CivicJourneyStepper({
               </div>
 
               <div className="mt-4 sm:mt-5 flex items-center justify-between border-t border-border pt-3 text-[11px] sm:text-xs text-muted">
-                <span>Semua laporan terbuka di dashboard</span>
+                <span>{isEn ? "All reports open on public dashboard" : "Semua laporan terbuka di dashboard"}</span>
                 <Link href="/lacak" className="font-semibold text-interactive hover:underline inline-flex items-center gap-1">
-                  Uji kode tiket <ArrowUpRight className="size-3" />
+                  {isEn ? "Test ticket code" : "Uji kode tiket"} <ArrowUpRight className="size-3" />
                 </Link>
               </div>
             </div>
           </div>
         </div>
 
-        {/* BOTTOM STEPPER TRACK (Responsive timeline navigation) */}
+        {/* BOTTOM STEPPER TRACK */}
         <div className="mt-8 sm:mt-12 rounded-2xl border border-border bg-surface p-3 sm:p-4 md:p-6 shadow-soft">
           <div className="relative">
             {/* Connecting Track Line */}
@@ -587,7 +656,7 @@ export function CivicJourneyStepper({
               <div
                 className="h-full bg-interactive transition-all duration-500 ease-out"
                 style={{
-                  width: `${(activeStep / (STEPS.length - 1)) * 100}%`,
+                  width: `${(activeStep / (steps.length - 1)) * 100}%`,
                 }}
               />
             </div>
@@ -595,10 +664,10 @@ export function CivicJourneyStepper({
             {/* Stepper Buttons */}
             <div
               role="tablist"
-              aria-label="Pilihan langkah keterbukaan data"
+              aria-label={isEn ? "Data transparency steps" : "Pilihan langkah keterbukaan data"}
               className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4 md:gap-4"
             >
-              {STEPS.map((step, idx) => {
+              {steps.map((step, idx) => {
                 const isActive = activeStep === idx;
                 const isPast = activeStep >= idx;
                 const Icon = step.icon;
@@ -647,10 +716,7 @@ export function CivicJourneyStepper({
                         {step.tabLabel}
                       </p>
                       <p className="hidden text-[10px] text-muted md:block mt-0.5">
-                        {idx === 0 && "214 titik peta nyata"}
-                        {idx === 1 && "Standar ramah disabilitas"}
-                        {idx === 2 && "APBD Rp 35,47 Triliun"}
-                        {idx === 3 && "Tiket pelacakan warga"}
+                        {step.sublabel}
                       </p>
                     </div>
                   </button>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -26,37 +27,11 @@ import { getDashboardOverview, getFacilities, getRegionsGeoJSON } from "@/lib/ap
 import { SITE_TAGLINE } from "@/lib/constants";
 import { formatCompactRupiah, formatDecimal, formatNumber, formatPercent } from "@/lib/format";
 
-const readingRooms = [
-  {
-    number: "01",
-    title: "Fasilitas & akses",
-    description:
-      "Telusuri sekolah dan pasar tradisional, lalu lihat apakah bangunannya ramah bagi pengguna kursi roda dan disabilitas.",
-    href: "/data",
-    action: "Buka direktori",
-    icon: MapPinned,
-  },
-  {
-    number: "02",
-    title: "Anggaran & proyek",
-    description:
-      "Bandingkan alokasi dengan realisasi, lacak proyek per wilayah, dan temukan daerah yang perlu perhatian lebih awal.",
-    href: "/data?tab=anggaran",
-    action: "Telusuri anggaran",
-    icon: Wallet,
-  },
-  {
-    number: "03",
-    title: "Suara warga",
-    description:
-      "Laporkan kerusakan atau hambatan akses. Setiap laporan mendapat kode pelacakan dan ruang tindak lanjut.",
-    href: "/aduan/buat",
-    action: "Kirim aduan",
-    icon: MessageSquare,
-  },
-];
-
 export default async function LandingPage() {
+  const cookieStore = await cookies();
+  const rawLang = cookieStore.get("tp-locale")?.value;
+  const isEn = rawLang === "en";
+
   const [overviewResult, facilitiesResult, regionsResult] = await Promise.allSettled([
     getDashboardOverview(),
     getFacilities({ per_page: 100, page: 1 }),
@@ -68,11 +43,44 @@ export default async function LandingPage() {
   const regions = regionsResult.status === "fulfilled" ? regionsResult.value : null;
   const isOnline = overview !== null;
 
-  const today = new Intl.DateTimeFormat("id-ID", {
+  const today = new Intl.DateTimeFormat(isEn ? "en-US" : "id-ID", {
     day: "numeric",
     month: "long",
     year: "numeric",
   }).format(new Date());
+
+  const readingRooms = [
+    {
+      number: "01",
+      title: isEn ? "Facilities & access" : "Fasilitas & akses",
+      description: isEn
+        ? "Browse schools and traditional markets, and verify whether buildings accommodate wheelchair users and people with disabilities."
+        : "Telusuri sekolah dan pasar tradisional, lalu lihat apakah bangunannya ramah bagi pengguna kursi roda dan disabilitas.",
+      href: "/data",
+      action: isEn ? "Open directory" : "Buka direktori",
+      icon: MapPinned,
+    },
+    {
+      number: "02",
+      title: isEn ? "Budgets & projects" : "Anggaran & proyek",
+      description: isEn
+        ? "Compare allocations with expenditures, track projects by district, and identify areas requiring early attention."
+        : "Bandingkan alokasi dengan realisasi, lacak proyek per wilayah, dan temukan daerah yang perlu perhatian lebih awal.",
+      href: "/data?tab=anggaran",
+      action: isEn ? "Explore budget" : "Telusuri anggaran",
+      icon: Wallet,
+    },
+    {
+      number: "03",
+      title: isEn ? "Citizen voices" : "Suara warga",
+      description: isEn
+        ? "Report physical damage or accessibility obstacles. Every submission receives a tracking code and follow-up timeline."
+        : "Laporkan kerusakan atau hambatan akses. Setiap laporan mendapat kode pelacakan dan ruang tindak lanjut.",
+      href: "/aduan/buat",
+      action: isEn ? "Submit report" : "Kirim aduan",
+      icon: MessageSquare,
+    },
+  ];
 
   return (
     <>
@@ -97,22 +105,29 @@ export default async function LandingPage() {
           className="pointer-events-none absolute right-8 top-6 hidden select-none font-mono text-[9px] uppercase tracking-[0.25em] text-muted/20 lg:block"
           aria-hidden="true"
         >
-          SYS // TERAPUBLIC TELEMETRY LIVE
+          {isEn ? "SYS // TERAPUBLIC TELEMETRY LIVE · OPEN DATA" : "SYS // TERAPUBLIC TELEMETRY LIVE"}
         </div>
 
         <div className="container-page relative grid gap-12 py-14 md:py-20 lg:grid-cols-[1.18fr_0.82fr] lg:items-center lg:gap-10 xl:gap-14">
           <div>
             <HeroBadge />
 
-            {/* Judul awal tetap dipertahankan sesuai permintaan */}
             <h1 className="mt-4 font-display text-2xl font-extrabold tracking-[-0.035em] text-text sm:mt-6 sm:text-4xl md:text-5xl md:max-w-[14ch] lg:display-1">
-              Fasilitas publik yang <span className="text-interactive">terlihat.</span> Anggaran yang bisa
-              ditelusuri.
+              {isEn ? (
+                <>
+                  Public facilities that are <span className="text-interactive">visible.</span> Budgets that can be traced.
+                </>
+              ) : (
+                <>
+                  Fasilitas publik yang <span className="text-interactive">terlihat.</span> Anggaran yang bisa ditelusuri.
+                </>
+              )}
             </h1>
 
             <p className="lede mt-6 max-w-xl text-base md:text-lg">
-              TeraPublic menyatukan data fasilitas pendidikan dan pasar, proyek anggaran, serta suara warga
-              dalam satu ruang baca yang bisa diperiksa.
+              {isEn
+                ? "TeraPublic unifies educational and market facility data, budget projects, and citizen voices in one transparent portal anyone can inspect."
+                : "TeraPublic menyatukan data fasilitas pendidikan dan pasar, proyek anggaran, serta suara warga dalam satu ruang baca yang bisa diperiksa."}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -121,57 +136,57 @@ export default async function LandingPage() {
                 size="lg"
                 className="group shadow-md shadow-interactive/15 transition-all hover:shadow-lg hover:shadow-interactive/25"
               >
-                Jelajahi data
+                {isEn ? "Explore data" : "Jelajahi data"}
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </ButtonLink>
               <ButtonLink href="/layanan-publik" variant="secondary" size="lg" className="hover:border-interactive/40">
-                Lihat layanan
+                {isEn ? "View services" : "Lihat layanan"}
               </ButtonLink>
             </div>
 
             {/* Akses Cepat Kategori */}
             <div className="mt-6 flex flex-wrap items-center gap-1.5 sm:mt-8">
               <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider text-muted mr-0.5">
-                Akses Cepat:
+                {isEn ? "Quick Access:" : "Akses Cepat:"}
               </span>
               <Link
                 href="/data?category=sekolah"
                 className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
               >
                 <Building2 className="size-3 text-interactive" />
-                Sekolah
+                {isEn ? "Schools" : "Sekolah"}
               </Link>
               <Link
                 href="/data?category=pasar-tradisional"
                 className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
               >
                 <Landmark className="size-3 text-interactive" />
-                Pasar Tradisional
+                {isEn ? "Traditional Markets" : "Pasar Tradisional"}
               </Link>
               <Link
                 href="/data?tab=anggaran"
                 className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
               >
                 <Wallet className="size-3 text-interactive" />
-                1.731 Proyek APBD
+                {isEn ? "1,731 APBD Projects" : "1.731 Proyek APBD"}
               </Link>
               <Link
                 href="/analitik"
                 className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-medium text-text transition-all hover:border-interactive hover:bg-interactive/5 hover:text-interactive"
               >
                 <Sparkles className="size-3 text-interactive" />
-                Klaster Wilayah
+                {isEn ? "District Clusters" : "Klaster Wilayah"}
               </Link>
             </div>
 
             <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-muted">
               <span className="inline-flex items-center gap-1.5">
                 <ShieldCheck className="size-3.5 text-interactive" aria-hidden="true" />
-                Sumber data terverifikasi (APBD & BPS)
+                {isEn ? "Verified data sources (APBD & BPS)" : "Sumber data terverifikasi (APBD & BPS)"}
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <Users className="size-3.5 text-interactive" aria-hidden="true" />
-                Partisipasi warga transparan
+                {isEn ? "Transparent citizen participation" : "Partisipasi warga transparan"}
               </span>
               <span className="uppercase tracking-[0.14em] text-[10px] font-semibold text-muted">
                 {SITE_TAGLINE}
@@ -191,7 +206,7 @@ export default async function LandingPage() {
                         <span className="relative inline-flex size-2 rounded-full bg-success" />
                       </span>
                       <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted">
-                        TERAPUBLIC / RINGKASAN DATA
+                        {isEn ? "TERAPUBLIC / DATA SUMMARY" : "TERAPUBLIC / RINGKASAN DATA"}
                       </span>
                     </div>
                     <span className="tabular text-[10px] font-medium text-muted">{today}</span>
@@ -202,30 +217,30 @@ export default async function LandingPage() {
                       <div className="grid grid-cols-2 border-b border-border">
                         <div className="border-r border-b border-border">
                           <LedgerMetric
-                            label="Fasilitas terdata"
+                            label={isEn ? "Monitored facilities" : "Fasilitas terdata"}
                             value={formatNumber(overview.kpis.total_facilities)}
-                            hint={`${formatNumber(overview.kpis.total_districts)} kecamatan`}
+                            hint={isEn ? `${formatNumber(overview.kpis.total_districts)} districts` : `${formatNumber(overview.kpis.total_districts)} kecamatan`}
                           />
                         </div>
                         <div className="border-b border-border">
                           <LedgerMetric
-                            label="Aksesibilitas"
+                            label={isEn ? "Accessibility" : "Aksesibilitas"}
                             value={formatPercent(overview.kpis.accessibility_percentage)}
-                            hint={`${formatNumber(overview.kpis.accessible_facilities)} fasilitas ramah`}
+                            hint={isEn ? `${formatNumber(overview.kpis.accessible_facilities)} accessible sites` : `${formatNumber(overview.kpis.accessible_facilities)} fasilitas ramah`}
                           />
                         </div>
                         <div className="border-r border-border">
                           <LedgerMetric
-                            label="Alokasi APBD"
+                            label={isEn ? "APBD Allocation" : "Alokasi APBD"}
                             value={formatCompactRupiah(overview.kpis.total_budget_allocated)}
-                            hint={`Realisasi ${formatPercent(overview.kpis.realization_percentage)}`}
+                            hint={isEn ? `Realized ${formatPercent(overview.kpis.realization_percentage)}` : `Realisasi ${formatPercent(overview.kpis.realization_percentage)}`}
                           />
                         </div>
                         <div>
                           <LedgerMetric
-                            label="Aduan warga"
+                            label={isEn ? "Citizen reports" : "Aduan warga"}
                             value={formatNumber(overview.kpis.total_citizen_feedbacks)}
-                            hint={`${formatNumber(overview.kpis.resolved_citizen_feedbacks)} ditangani`}
+                            hint={isEn ? `${formatNumber(overview.kpis.resolved_citizen_feedbacks)} resolved` : `${formatNumber(overview.kpis.resolved_citizen_feedbacks)} ditangani`}
                           />
                         </div>
                       </div>
@@ -233,13 +248,13 @@ export default async function LandingPage() {
                       <div className="px-4 py-4 bg-surface">
                         <div className="flex items-center justify-between gap-2">
                           <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">
-                            Kecamatan titik perhatian
+                            {isEn ? "Priority Attention Districts" : "Kecamatan titik perhatian"}
                           </p>
                           <Link
                             href="/analitik"
                             className="inline-flex items-center gap-1 text-[10px] font-semibold text-interactive hover:underline"
                           >
-                            Semua wilayah
+                            {isEn ? "All districts" : "Semua wilayah"}
                             <ArrowUpRight className="size-3" aria-hidden="true" />
                           </Link>
                         </div>
@@ -253,22 +268,27 @@ export default async function LandingPage() {
                                 {metric.region?.name ?? `Wilayah ${metric.region_id}`}
                               </span>
                               <span className="tabular text-[10px] text-muted">
-                                {formatNumber(metric.ratio_per_10k_population)} / 10rb jiwa
+                                {formatNumber(metric.ratio_per_10k_population)} {isEn ? "/ 10k pop." : "/ 10rb jiwa"}
                               </span>
                             </li>
                           ))}
                           {overview.top_underserved.length === 0 ? (
-                            <li className="text-xs text-muted">Tidak ada wilayah prioritas pada data ini.</li>
+                            <li className="text-xs text-muted">
+                              {isEn ? "No priority districts in this dataset." : "Tidak ada wilayah prioritas pada data ini."}
+                            </li>
                           ) : null}
                         </ol>
                       </div>
                     </>
                   ) : (
                     <div className="px-5 py-10">
-                      <p className="text-sm font-semibold text-text">Ringkasan belum tersedia</p>
+                      <p className="text-sm font-semibold text-text">
+                        {isEn ? "Summary Currently Unavailable" : "Ringkasan belum tersedia"}
+                      </p>
                       <p className="mt-2 text-xs leading-relaxed text-muted">
-                        Layanan data sedang tidak merespons. Halaman publik lain tetap dapat dibuka, dan
-                        angka akan muncul setelah koneksi data pulih.
+                        {isEn
+                          ? "Data service is not responding. Other public pages remain accessible."
+                          : "Layanan data sedang tidak merespons. Halaman publik lain tetap dapat dibuka, dan angka akan muncul setelah koneksi data pulih."}
                       </p>
                     </div>
                   )}
@@ -279,7 +299,13 @@ export default async function LandingPage() {
                         className={`size-1.5 rounded-full ${isOnline ? "bg-success" : "bg-danger"}`}
                         aria-hidden="true"
                       />
-                      {isOnline ? "Terhubung ke API Backend Terbuka" : "Layanan data offline"}
+                      {isOnline
+                        ? isEn
+                          ? "Connected to Open Backend API"
+                          : "Terhubung ke API Backend Terbuka"
+                        : isEn
+                          ? "Data service offline"
+                          : "Layanan data offline"}
                     </span>
                     <span className="inline-flex items-center gap-1 rounded bg-interactive/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-interactive">
                       Live
@@ -292,11 +318,11 @@ export default async function LandingPage() {
               <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 px-1 text-[11px] text-muted">
                 <span className="inline-flex items-center gap-1.5 font-medium">
                   <ShieldCheck className="size-3.5 text-interactive" aria-hidden="true" />
-                  100% Data BPS & LPSE Resmi
+                  {isEn ? "100% Official BPS & LPSE Data" : "100% Data BPS & LPSE Resmi"}
                 </span>
                 <span className="inline-flex items-center gap-1.5 font-medium">
                   <Sparkles className="size-3.5 text-interactive" aria-hidden="true" />
-                  ML Intelligence Terintegrasi
+                  {isEn ? "Integrated ML Intelligence" : "ML Intelligence Terintegrasi"}
                 </span>
               </div>
             </div>
@@ -317,7 +343,9 @@ export default async function LandingPage() {
                   <p className="font-display text-base sm:text-lg font-bold text-text truncate">
                     {formatNumber(overview.kpis.total_facilities)}
                   </p>
-                  <p className="text-[10px] sm:text-[11px] text-muted truncate">Fasilitas Publik</p>
+                  <p className="text-[10px] sm:text-[11px] text-muted truncate">
+                    {isEn ? "Public Facilities" : "Fasilitas Publik"}
+                  </p>
                 </div>
               </div>
 
@@ -329,7 +357,9 @@ export default async function LandingPage() {
                   <p className="font-display text-base sm:text-lg font-bold text-text truncate">
                     {formatPercent(overview.kpis.accessibility_percentage)}
                   </p>
-                  <p className="text-[10px] sm:text-[11px] text-muted truncate">Aksesibilitas</p>
+                  <p className="text-[10px] sm:text-[11px] text-muted truncate">
+                    {isEn ? "Accessibility" : "Aksesibilitas"}
+                  </p>
                 </div>
               </div>
 
@@ -341,7 +371,9 @@ export default async function LandingPage() {
                   <p className="font-display text-base sm:text-lg font-bold text-text truncate">
                     {formatCompactRupiah(overview.kpis.total_budget_allocated)}
                   </p>
-                  <p className="text-[10px] sm:text-[11px] text-muted truncate">Alokasi APBD</p>
+                  <p className="text-[10px] sm:text-[11px] text-muted truncate">
+                    {isEn ? "APBD Allocation" : "Alokasi APBD"}
+                  </p>
                 </div>
               </div>
 
@@ -351,9 +383,11 @@ export default async function LandingPage() {
                 </span>
                 <div className="min-w-0">
                   <p className="font-display text-base sm:text-lg font-bold text-text truncate">
-                    {formatNumber(overview.kpis.total_districts)} Kec.
+                    {formatNumber(overview.kpis.total_districts)} {isEn ? "Dist." : "Kec."}
                   </p>
-                  <p className="text-[10px] sm:text-[11px] text-muted truncate">Seluruh Jakarta</p>
+                  <p className="text-[10px] sm:text-[11px] text-muted truncate">
+                    {isEn ? "Across Jakarta" : "Seluruh Jakarta"}
+                  </p>
                 </div>
               </div>
             </div>
@@ -361,7 +395,7 @@ export default async function LandingPage() {
         </section>
       ) : null}
 
-      {/* 3. INTERACTIVE CIVIC JOURNEY STEPPER (Walkthrough matching video reference with real map) */}
+      {/* 3. INTERACTIVE CIVIC JOURNEY STEPPER */}
       <CivicJourneyStepper
         overview={overview}
         facilities={facilities}
@@ -415,12 +449,16 @@ export default async function LandingPage() {
         <div className="container-page">
           <Reveal>
             <SectionHeading
-              eyebrow="Potret hari ini"
-              title="Yang bisa dibaca dari data"
-              description="Angka di bawah berasal langsung dari layanan TeraPublic. Gunakan sebagai pintu masuk, lalu periksa detail per wilayah dan per proyek."
+              eyebrow={isEn ? "Today's snapshot" : "Potret hari ini"}
+              title={isEn ? "Insights from the data" : "Yang bisa dibaca dari data"}
+              description={
+                isEn
+                  ? "The figures below come directly from verified TeraPublic services. Use them as an entry point, then explore district and project breakdowns."
+                  : "Angka di bawah berasal langsung dari layanan TeraPublic. Gunakan sebagai pintu masuk, lalu periksa detail per wilayah dan per proyek."
+              }
               action={
                 <ButtonLink href="/analitik" variant="secondary" size="sm" className="hover:border-interactive/40">
-                  Baca analitik
+                  {isEn ? "Read analytics" : "Baca analitik"}
                   <ArrowRight className="size-3.5" aria-hidden="true" />
                 </ButtonLink>
               }
@@ -432,18 +470,18 @@ export default async function LandingPage() {
               <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <Reveal>
                   <StatCard
-                    label="Fasilitas publik"
+                    label={isEn ? "Public facilities" : "Fasilitas publik"}
                     value={formatNumber(overview.kpis.total_facilities)}
-                    hint="Sekolah dan pasar tradisional"
+                    hint={isEn ? "Schools and traditional markets" : "Sekolah dan pasar tradisional"}
                     icon={Building2}
                     className="card-hover transition-all"
                   />
                 </Reveal>
                 <Reveal delay={60}>
                   <StatCard
-                    label="Aksesibilitas"
+                    label={isEn ? "Accessibility" : "Aksesibilitas"}
                     value={formatPercent(overview.kpis.accessibility_percentage)}
-                    hint="Fasilitas dengan dukungan akses"
+                    hint={isEn ? "Facilities with access support" : "Fasilitas dengan dukungan akses"}
                     icon={ShieldCheck}
                     tone="accent"
                     className="card-hover transition-all"
@@ -451,18 +489,18 @@ export default async function LandingPage() {
                 </Reveal>
                 <Reveal delay={120}>
                   <StatCard
-                    label="Alokasi anggaran"
+                    label={isEn ? "Budget allocation" : "Alokasi anggaran"}
                     value={formatCompactRupiah(overview.kpis.total_budget_allocated)}
-                    hint={`Realisasi ${formatPercent(overview.kpis.realization_percentage)}`}
+                    hint={isEn ? `Realized ${formatPercent(overview.kpis.realization_percentage)}` : `Realisasi ${formatPercent(overview.kpis.realization_percentage)}`}
                     icon={Wallet}
                     className="card-hover transition-all"
                   />
                 </Reveal>
                 <Reveal delay={180}>
                   <StatCard
-                    label="Wilayah prioritas"
+                    label={isEn ? "Priority districts" : "Wilayah prioritas"}
                     value={formatNumber(overview.kpis.underserved_districts)}
-                    hint={`Dari ${formatNumber(overview.kpis.total_districts)} kecamatan`}
+                    hint={isEn ? `Of ${formatNumber(overview.kpis.total_districts)} districts` : `Dari ${formatNumber(overview.kpis.total_districts)} kecamatan`}
                     icon={MapPinned}
                     tone="warning"
                     className="card-hover transition-all"
@@ -475,16 +513,18 @@ export default async function LandingPage() {
                   <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-soft">
                     <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-3.5">
                       <div>
-                        <h3 className="font-display text-sm font-semibold text-text">Peta jangkauan interaktif</h3>
+                        <h3 className="font-display text-sm font-semibold text-text">
+                          {isEn ? "Interactive Coverage Map" : "Peta jangkauan interaktif"}
+                        </h3>
                         <p className="mt-0.5 text-[11px] text-muted">
-                          Warna wilayah menunjukkan indeks pemerataan akses per kecamatan.
+                          {isEn ? "District colors indicate the access equity index." : "Warna wilayah menunjukkan indeks pemerataan akses per kecamatan."}
                         </p>
                       </div>
                       <Link
                         href="/data"
                         className="inline-flex items-center gap-1 text-[11px] font-semibold text-interactive hover:underline"
                       >
-                        Peta penuh
+                        {isEn ? "Full map" : "Peta penuh"}
                         <ArrowUpRight className="size-3" aria-hidden="true" />
                       </Link>
                     </div>
@@ -492,7 +532,7 @@ export default async function LandingPage() {
                       facilities={facilities}
                       regions={regions}
                       height={410}
-                      ariaLabel="Peta jangkauan fasilitas dan pemerataan wilayah DKI Jakarta"
+                      ariaLabel={isEn ? "Facility coverage and equity map of DKI Jakarta" : "Peta jangkauan fasilitas dan pemerataan wilayah DKI Jakarta"}
                     />
                   </div>
                 </Reveal>
@@ -500,8 +540,12 @@ export default async function LandingPage() {
                 <Reveal delay={80}>
                   <div className="flex h-full flex-col rounded-xl border border-border bg-surface shadow-soft">
                     <div className="border-b border-border px-5 py-3.5">
-                      <h3 className="font-display text-sm font-semibold text-text">Titik perhatian</h3>
-                      <p className="mt-0.5 text-[11px] text-muted">Kecamatan dengan akses paling rendah.</p>
+                      <h3 className="font-display text-sm font-semibold text-text">
+                        {isEn ? "Areas of Attention" : "Titik perhatian"}
+                      </h3>
+                      <p className="mt-0.5 text-[11px] text-muted">
+                        {isEn ? "Districts with lowest facility access ratios." : "Kecamatan dengan akses paling rendah."}
+                      </p>
                     </div>
                     <div className="flex-1 px-5 py-4">
                       <ol className="space-y-4">
@@ -514,7 +558,7 @@ export default async function LandingPage() {
                                   {metric.region?.name ?? `Wilayah ${metric.region_id}`}
                                 </span>
                                 <span className="shrink-0 tabular text-[10px] text-muted">
-                                  {formatNumber(metric.facility_count)} fasilitas
+                                  {formatNumber(metric.facility_count)} {isEn ? "facilities" : "fasilitas"}
                                 </span>
                               </div>
                               <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-surface-2">
@@ -524,8 +568,8 @@ export default async function LandingPage() {
                                 />
                               </div>
                               <div className="mt-1 flex justify-between text-[10px] text-muted">
-                                <span>Indeks {formatDecimal(metric.equity_index)}</span>
-                                <span>Rasio {formatNumber(metric.ratio_per_10k_population)} / 10rb</span>
+                                <span>{isEn ? "Index" : "Indeks"} {formatDecimal(metric.equity_index)}</span>
+                                <span>{isEn ? "Ratio" : "Rasio"} {formatNumber(metric.ratio_per_10k_population)} {isEn ? "/ 10k pop." : "/ 10rb"}</span>
                               </div>
                             </li>
                           );
@@ -537,7 +581,7 @@ export default async function LandingPage() {
                         href="/analitik"
                         className="inline-flex items-center gap-1 text-[11px] font-semibold text-interactive hover:underline"
                       >
-                        Lihat analisis pemerataan lengkap
+                        {isEn ? "View full equity analysis" : "Lihat analisis pemerataan lengkap"}
                         <ArrowRight className="size-3" aria-hidden="true" />
                       </Link>
                     </div>
@@ -548,11 +592,15 @@ export default async function LandingPage() {
           ) : (
             <Reveal className="mt-10">
               <ErrorState
-                title="Ringkasan data belum dapat dimuat"
-                description="Frontend tidak dapat menjangkau API Laravel. Nyalakan backend di http://127.0.0.1:8000, lalu muat ulang halaman ini."
+                title={isEn ? "Data Summary Unavailable" : "Ringkasan data belum dapat dimuat"}
+                description={
+                  isEn
+                    ? "Frontend cannot reach Laravel API. Ensure backend is running, then reload this page."
+                    : "Frontend tidak dapat menjangkau API Laravel. Nyalakan backend di http://127.0.0.1:8000, lalu muat ulang halaman ini."
+                }
                 action={
                   <ButtonLink href="/" variant="secondary" size="sm">
-                    Muat ulang
+                    {isEn ? "Reload" : "Muat ulang"}
                   </ButtonLink>
                 }
               />
@@ -561,18 +609,22 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* 5. FITUR DATA KOTA ADMINISTRASI (Using city_breakdown from Backend) */}
+      {/* 5. FITUR DATA KOTA ADMINISTRASI */}
       {overview?.city_breakdown && overview.city_breakdown.length > 0 ? (
         <section className="section-y border-t border-border bg-surface">
           <div className="container-page">
             <Reveal>
               <SectionHeading
-                eyebrow="Pemerataan Teritorial"
-                title="Distribusi data 6 wilayah DKI Jakarta"
-                description="Perbandingan alokasi anggaran, persentase penyerapan, dan sebaran fasilitas publik di setiap kota dan kabupaten administrasi."
+                eyebrow={isEn ? "Territorial Equity" : "Pemerataan Teritorial"}
+                title={isEn ? "Data distribution across 6 DKI Jakarta regions" : "Distribusi data 6 wilayah DKI Jakarta"}
+                description={
+                  isEn
+                    ? "Comparison of budget allocations, absorption percentages, and public facility distribution across each administrative city and regency."
+                    : "Perbandingan alokasi anggaran, persentase penyerapan, dan sebaran fasilitas publik di setiap kota dan kabupaten administrasi."
+                }
                 action={
                   <ButtonLink href="/data" variant="secondary" size="sm" className="hover:border-interactive/40">
-                    Buka data per wilayah
+                    {isEn ? "Open data by district" : "Buka data per wilayah"}
                     <ArrowRight className="size-3.5" aria-hidden="true" />
                   </ButtonLink>
                 }
@@ -594,14 +646,14 @@ export default async function LandingPage() {
                           {city.city}
                         </span>
                         <span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[10px] font-semibold text-muted">
-                          {city.district_count} Kecamatan
+                          {city.district_count} {isEn ? "Districts" : "Kecamatan"}
                         </span>
                       </div>
 
                       <div className="mt-4 grid grid-cols-2 gap-3 border-y border-border/60 py-3">
                         <div>
                           <span className="block text-[10px] font-semibold uppercase tracking-wider text-muted">
-                            Fasilitas
+                            {isEn ? "Facilities" : "Fasilitas"}
                           </span>
                           <span className="mt-0.5 font-display text-base font-bold text-text">
                             {formatNumber(city.facility_count)}
@@ -609,7 +661,7 @@ export default async function LandingPage() {
                         </div>
                         <div>
                           <span className="block text-[10px] font-semibold uppercase tracking-wider text-muted">
-                            Alokasi APBD
+                            {isEn ? "APBD Allocation" : "Alokasi APBD"}
                           </span>
                           <span className="mt-0.5 font-display text-base font-bold text-text">
                             {formatCompactRupiah(city.budget_allocated)}
@@ -620,7 +672,7 @@ export default async function LandingPage() {
 
                     <div className="mt-4">
                       <div className="flex items-center justify-between text-[11px]">
-                        <span className="text-muted">Tingkat Realisasi</span>
+                        <span className="text-muted">{isEn ? "Execution Rate" : "Tingkat Realisasi"}</span>
                         <span className="font-bold text-text">{formatPercent(city.realization_rate)}</span>
                       </div>
                       <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-surface-2">
@@ -630,12 +682,12 @@ export default async function LandingPage() {
                         />
                       </div>
                       <div className="mt-2.5 flex flex-wrap items-center justify-between gap-1 text-[10px] text-muted">
-                        <span>Realisasi: {formatCompactRupiah(city.budget_realized)}</span>
+                        <span>{isEn ? "Executed:" : "Realisasi:"} {formatCompactRupiah(city.budget_realized)}</span>
                         <Link
                           href={`/data?search=${encodeURIComponent(city.city.replace("Kota ", "").replace("Kab. ", ""))}`}
                           className="font-semibold text-interactive hover:underline inline-flex items-center gap-0.5"
                         >
-                          Lihat detail <ArrowUpRight className="size-3" />
+                          {isEn ? "View details" : "Lihat detail"} <ArrowUpRight className="size-3" />
                         </Link>
                       </div>
                     </div>
@@ -651,31 +703,46 @@ export default async function LandingPage() {
       <section className="border-y border-border bg-surface">
         <div className="container-page grid gap-8 py-14 md:grid-cols-[0.8fr_1.2fr] md:items-center md:py-20">
           <Reveal>
-            <p className="eyebrow">Cara membaca</p>
-            <h2 className="display-3 mt-3 text-text">Setiap angka punya jejak.</h2>
+            <p className="eyebrow">{isEn ? "How to read" : "Cara membaca"}</p>
+            <h2 className="display-3 mt-3 text-text">
+              {isEn ? "Every number has a trail." : "Setiap angka punya jejak."}
+            </h2>
             <p className="lede mt-4 text-sm">
-              TeraPublic tidak mengganti dokumen resmi. Platform ini membantu Anda menemukan pertanyaan yang tepat
-              sebelum memeriksa sumber data aslinya.
+              {isEn
+                ? "TeraPublic does not replace official documents. This platform helps you formulate the right questions before examining the original records."
+                : "TeraPublic tidak mengganti dokumen resmi. Platform ini membantu Anda menemukan pertanyaan yang tepat sebelum memeriksa sumber data aslinya."}
             </p>
           </Reveal>
           <Reveal delay={80}>
             <div className="divide-y divide-border border-y border-border">
               <ReadingRow
                 icon={Database}
-                title="Fasilitas"
-                body="Nama, lokasi, kapasitas, dan penanda akses dari data sektor pemerintah."
+                title={isEn ? "Facilities" : "Fasilitas"}
+                body={
+                  isEn
+                    ? "Names, locations, capacities, and accessibility tags from municipal data."
+                    : "Nama, lokasi, kapasitas, dan penanda akses dari data sektor pemerintah."
+                }
                 href="/data"
               />
               <ReadingRow
                 icon={Landmark}
-                title="Anggaran"
-                body="Alokasi APBD, realisasi penyerapan, progres fisik, dan status proyek per tahun."
+                title={isEn ? "Budgets" : "Anggaran"}
+                body={
+                  isEn
+                    ? "APBD allocations, expenditure realization, physical progress, and yearly project status."
+                    : "Alokasi APBD, realisasi penyerapan, progres fisik, dan status proyek per tahun."
+                }
                 href="/data?tab=anggaran"
               />
               <ReadingRow
                 icon={Sparkles}
-                title="Analitik"
-                body="Klaster wilayah, prioritas anggaran, dan proyeksi model penyerapan data."
+                title={isEn ? "Analytics" : "Analitik"}
+                body={
+                  isEn
+                    ? "District clusters, budget prioritization, and predictive absorption models."
+                    : "Klaster wilayah, prioritas anggaran, dan proyeksi model penyerapan data."
+                }
                 href="/analitik"
               />
             </div>

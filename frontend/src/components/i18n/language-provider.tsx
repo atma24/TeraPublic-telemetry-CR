@@ -9,6 +9,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
+import { useRouter } from "next/navigation";
 
 import { translations, type Language, type TranslationKey } from "@/lib/i18n/translations";
 
@@ -22,47 +23,59 @@ const STORAGE_KEY = "tp-locale";
 const LANGUAGE_EVENT = "tp-locale-change";
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-function readLanguage(): Language {
+function getInitialLanguage(): Language {
   if (typeof window === "undefined") return "id";
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored === "id" || stored === "en") return stored;
+    const match = document.cookie.match(/tp-locale=(id|en)/);
+    if (match?.[1]) return match[1] as Language;
   } catch {
     return "id";
   }
   return "id";
 }
 
-function subscribeLanguage(callback: () => void) {
-  const onStorage = (event: StorageEvent) => {
-    if (event.key === STORAGE_KEY || event.key === null) callback();
-  };
-  window.addEventListener("storage", onStorage);
+function subscribe(callback: () => void) {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("storage", callback);
   window.addEventListener(LANGUAGE_EVENT, callback);
   return () => {
-    window.removeEventListener("storage", onStorage);
+    window.removeEventListener("storage", callback);
     window.removeEventListener(LANGUAGE_EVENT, callback);
   };
 }
 
+function getSnapshot(): Language {
+  return getInitialLanguage();
+}
+
+function getServerSnapshot(): Language {
+  return "id";
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const language = useSyncExternalStore(subscribeLanguage, readLanguage, () => "id" as Language);
+  const language = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const router = useRouter();
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = language;
-    }
+    document.documentElement.lang = language;
   }, [language]);
 
-  const setLanguage = useCallback((nextLang: Language) => {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, nextLang);
-      document.cookie = `${STORAGE_KEY}=${nextLang}; path=/; max-age=31536000; SameSite=Lax`;
-    } catch {
-      void 0;
-    }
-    window.dispatchEvent(new Event(LANGUAGE_EVENT));
-  }, []);
+  const setLanguage = useCallback(
+    (nextLang: Language) => {
+      try {
+        window.localStorage.setItem(STORAGE_KEY, nextLang);
+        document.cookie = `${STORAGE_KEY}=${nextLang}; path=/; max-age=31536000; SameSite=Lax`;
+      } catch {
+        void 0;
+      }
+      document.documentElement.lang = nextLang;
+      window.dispatchEvent(new Event(LANGUAGE_EVENT));
+      router.refresh();
+    },
+    [router],
+  );
 
   const t = useCallback(
     (key: TranslationKey, fallback?: string): string => {
