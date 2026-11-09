@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 
 import { LanguageProvider } from "@/components/i18n/language-provider";
 import { ThemeProvider, ThemeScript } from "@/components/theme/theme-provider";
@@ -8,17 +7,7 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, TEAM_NAME } from "@/lib/cons
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
-  subsets: ["latin"],
-  display: "swap",
-});
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -75,9 +64,15 @@ export default function RootLayout({
     <html
       lang="id"
       suppressHydrationWarning
-      className={`${jakarta.variable} ${inter.variable}`}
+      
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap"
+          rel="stylesheet"
+        />
         <ThemeScript />
       </head>
       <body className="min-h-dvh antialiased">

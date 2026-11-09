@@ -3,8 +3,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --font-sans: var(--font-inter);
-  --font-display: var(--font-jakarta);
+  --font-sans: var(--font-inter, 'Inter', system-ui, -apple-system, sans-serif);
+  --font-display: var(--font-jakarta, 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif);
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
