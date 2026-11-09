@@ -17,6 +17,7 @@ import {
 import { FacilityMapClient } from "@/components/map/facility-map-dynamic";
 import { CivicJourneyStepper } from "@/components/home/civic-journey-stepper";
 import { HeroBadge } from "@/components/home/hero-badge";
+import { LiveTelemetryRadar } from "@/components/home/live-telemetry-radar";
 import { CivicCtaCard } from "@/components/feedback/civic-cta-card";
 import { Reveal } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
@@ -194,125 +195,10 @@ export default async function LandingPage() {
             </div>
           </div>
 
-          {/* Hero Right Widget - Animated Civic Ledger Card */}
+          {/* Hero Right Widget - Interactive Live Telemetry Radar */}
           <Reveal delay={80} className="lg:pl-4">
             <div className="relative sm:animate-float-soft">
-              <div className="card-hover overflow-hidden rounded-2xl border border-border/80 bg-surface/95 p-1 shadow-lift backdrop-blur-md">
-                <div className="rounded-xl border border-border bg-surface">
-                  <div className="flex flex-wrap items-center justify-between gap-1.5 border-b border-border px-3.5 py-2.5 sm:px-4 sm:py-3 bg-surface-2/40">
-                    <div className="flex items-center gap-2">
-                      <span className="relative flex size-2">
-                        <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-75" />
-                        <span className="relative inline-flex size-2 rounded-full bg-success" />
-                      </span>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted">
-                        {isEn ? "TERAPUBLIC / DATA SUMMARY" : "TERAPUBLIC / RINGKASAN DATA"}
-                      </span>
-                    </div>
-                    <span className="tabular text-[10px] font-medium text-muted">{today}</span>
-                  </div>
-
-                  {isOnline ? (
-                    <>
-                      <div className="grid grid-cols-2 border-b border-border">
-                        <div className="border-r border-b border-border">
-                          <LedgerMetric
-                            label={isEn ? "Monitored facilities" : "Fasilitas terdata"}
-                            value={formatNumber(overview.kpis.total_facilities)}
-                            hint={isEn ? `${formatNumber(overview.kpis.total_districts)} districts` : `${formatNumber(overview.kpis.total_districts)} kecamatan`}
-                          />
-                        </div>
-                        <div className="border-b border-border">
-                          <LedgerMetric
-                            label={isEn ? "Accessibility" : "Aksesibilitas"}
-                            value={formatPercent(overview.kpis.accessibility_percentage)}
-                            hint={isEn ? `${formatNumber(overview.kpis.accessible_facilities)} accessible sites` : `${formatNumber(overview.kpis.accessible_facilities)} fasilitas ramah`}
-                          />
-                        </div>
-                        <div className="border-r border-border">
-                          <LedgerMetric
-                            label={isEn ? "APBD Allocation" : "Alokasi APBD"}
-                            value={formatCompactRupiah(overview.kpis.total_budget_allocated)}
-                            hint={isEn ? `Realized ${formatPercent(overview.kpis.realization_percentage)}` : `Realisasi ${formatPercent(overview.kpis.realization_percentage)}`}
-                          />
-                        </div>
-                        <div>
-                          <LedgerMetric
-                            label={isEn ? "Citizen reports" : "Aduan warga"}
-                            value={formatNumber(overview.kpis.total_citizen_feedbacks)}
-                            hint={isEn ? `${formatNumber(overview.kpis.resolved_citizen_feedbacks)} resolved` : `${formatNumber(overview.kpis.resolved_citizen_feedbacks)} ditangani`}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="px-4 py-4 bg-surface">
-                        <div className="flex items-center justify-between gap-2">
-                          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">
-                            {isEn ? "Priority Attention Districts" : "Kecamatan titik perhatian"}
-                          </p>
-                          <Link
-                            href="/analitik"
-                            className="inline-flex items-center gap-1 text-[10px] font-semibold text-interactive hover:underline"
-                          >
-                            {isEn ? "All districts" : "Semua wilayah"}
-                            <ArrowUpRight className="size-3" aria-hidden="true" />
-                          </Link>
-                        </div>
-                        <ol className="mt-3 space-y-2.5">
-                          {overview.top_underserved.slice(0, 3).map((metric, index) => (
-                            <li key={metric.id} className="flex items-center gap-3">
-                              <span className="tabular text-[10px] font-bold text-muted">
-                                {String(index + 1).padStart(2, "0")}
-                              </span>
-                              <span className="min-w-0 flex-1 truncate text-xs font-semibold text-text">
-                                {metric.region?.name ?? `Wilayah ${metric.region_id}`}
-                              </span>
-                              <span className="tabular text-[10px] text-muted">
-                                {formatNumber(metric.ratio_per_10k_population)} {isEn ? "/ 10k pop." : "/ 10rb jiwa"}
-                              </span>
-                            </li>
-                          ))}
-                          {overview.top_underserved.length === 0 ? (
-                            <li className="text-xs text-muted">
-                              {isEn ? "No priority districts in this dataset." : "Tidak ada wilayah prioritas pada data ini."}
-                            </li>
-                          ) : null}
-                        </ol>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="px-5 py-10">
-                      <p className="text-sm font-semibold text-text">
-                        {isEn ? "Summary Currently Unavailable" : "Ringkasan belum tersedia"}
-                      </p>
-                      <p className="mt-2 text-xs leading-relaxed text-muted">
-                        {isEn
-                          ? "Data service is not responding. Other public pages remain accessible."
-                          : "Layanan data sedang tidak merespons. Halaman publik lain tetap dapat dibuka, dan angka akan muncul setelah koneksi data pulih."}
-                      </p>
-                    </div>
-                  )}
-
-                  <div className="flex items-center justify-between border-t border-border bg-surface-2/60 px-4 py-2.5">
-                    <span className="inline-flex items-center gap-1.5 text-[10px] text-muted">
-                      <span
-                        className={`size-1.5 rounded-full ${isOnline ? "bg-success" : "bg-danger"}`}
-                        aria-hidden="true"
-                      />
-                      {isOnline
-                        ? isEn
-                          ? "Connected to Open Backend API"
-                          : "Terhubung ke API Backend Terbuka"
-                        : isEn
-                          ? "Data service offline"
-                          : "Layanan data offline"}
-                    </span>
-                    <span className="inline-flex items-center gap-1 rounded bg-interactive/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-interactive">
-                      Live
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <LiveTelemetryRadar overview={overview} isOnline={isOnline} isEn={isEn} today={today} />
 
               {/* Floating Hero Quick Chips */}
               <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 px-1 text-[11px] text-muted">
@@ -762,23 +648,6 @@ export default async function LandingPage() {
   );
 }
 
-function LedgerMetric({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint: string;
-}) {
-  return (
-    <div className="p-4 transition-colors hover:bg-surface-2/40">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">{label}</p>
-      <p className="tabular mt-1.5 font-display text-xl font-bold tracking-[-0.04em] text-text">{value}</p>
-      <p className="mt-1 text-[10px] leading-relaxed text-muted">{hint}</p>
-    </div>
-  );
-}
 
 function ReadingRow({
   icon: Icon,

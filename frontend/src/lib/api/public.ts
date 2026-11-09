@@ -13,6 +13,7 @@ import type {
   FacilityDetailResponse,
   FeedbackListResponse,
   FeedbackTrackResponse,
+  PublicFeedbacksResponse,
   PublicFacility,
   RegionFeatureCollection,
   RegionsResponse,
@@ -124,6 +125,32 @@ export function getBudgetProjects(query: BudgetProjectQuery = {}) {
 export function getPublicFeedbackByCode(code: string) {
   return apiRequest<FeedbackTrackResponse>(`/feedback/track/${encodeURIComponent(code)}`, {
     next: { revalidate: 30, tags: ["feedback"] },
+  });
+}
+
+export interface PublicFeedbackQuery {
+  page?: number;
+  per_page?: number;
+  category?: string;
+  sort?: "latest" | "most_confirmed";
+}
+
+export function getPublicFeedbacks(query: PublicFeedbackQuery = {}) {
+  const params = new URLSearchParams();
+  if (query.page) params.set("page", String(query.page));
+  if (query.per_page) params.set("per_page", String(query.per_page));
+  if (query.category) params.set("category", query.category);
+  if (query.sort) params.set("sort", query.sort);
+  const suffix = params.toString() ? `?${params.toString()}` : "";
+
+  return apiRequest<PublicFeedbacksResponse>(`/feedbacks/public${suffix}`, {
+    next: { revalidate: 30, tags: ["feedback-public"] },
+  });
+}
+
+export function confirmFeedbackApi(id: number) {
+  return apiRequest<{ status: string; message: string; confirmations_count: number }>(`/feedbacks/${id}/confirm`, {
+    method: "POST",
   });
 }
 

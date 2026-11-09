@@ -52,8 +52,10 @@ Route::get('/dashboard', [DashboardController::class, 'fullDashboard']);
 Route::get('/dashboard/overview', [DashboardController::class, 'overview']);
 Route::get('/dashboard/budget-predictions', [DashboardController::class, 'budgetPredictions']);
 
-// Public Feedback Tracking by Code
+// Public Feedback Tracking & Open Civic Feed
 Route::get('/feedback/track/{code}', [CitizenFeedbackController::class, 'track']);
+Route::get('/feedbacks/public', [CitizenFeedbackController::class, 'publicFeedbacks']);
+Route::post('/feedbacks/{id}/confirm', [CitizenFeedbackController::class, 'confirm']);
 
 // Authentication (Public)
 Route::post('/auth/register', [AuthController::class, 'register']);

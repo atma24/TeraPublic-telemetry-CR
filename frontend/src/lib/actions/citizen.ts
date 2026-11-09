@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { askAssistant, createFeedback } from "@/lib/api/citizen";
+import { confirmFeedbackApi } from "@/lib/api/public";
 import { ApiError } from "@/lib/api/client";
 import { requireSession } from "@/lib/auth/session";
 import type { AssistantActionResult, FeedbackActionState } from "@/types/actions";
@@ -134,5 +135,21 @@ export async function askAssistantAction(message: string): Promise<AssistantActi
       return { ok: false, message: error.message };
     }
     throw error;
+  }
+}
+
+
+export async function confirmFeedbackAction(
+  feedbackId: number,
+): Promise<{ ok: boolean; count?: number; message?: string }> {
+  try {
+    const res = await confirmFeedbackApi(feedbackId);
+    revalidatePath("/lacak");
+    return { ok: true, count: res.confirmations_count, message: res.message };
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return { ok: false, message: error.message };
+    }
+    return { ok: false, message: "Gagal mengonfirmasi laporan." };
   }
 }

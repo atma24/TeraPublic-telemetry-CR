@@ -12,12 +12,15 @@ import {
 } from "lucide-react";
 
 import { BudgetForecastChart } from "@/components/insight/budget-forecast-chart";
+import { DistrictBudgetBarChart } from "@/components/insight/district-budget-bar-chart";
+import { DisabilityAccessChart } from "@/components/insight/disability-access-chart";
+import { RiskDistrictsTable } from "@/components/insight/risk-districts-table";
 import { Badge, type BadgeTone } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
 import { ErrorState } from "@/components/ui/states";
 import { StatCard } from "@/components/ui/stat-card";
-import { getBudgetPredictions, getClustering } from "@/lib/api/public";
+import { getBudgetPredictions, getClustering, getDashboardOverview } from "@/lib/api/public";
 import { RISK_LEVEL } from "@/lib/constants";
 import {
   formatCompactRupiah,
@@ -53,13 +56,15 @@ const riskTone: Record<string, BadgeTone> = {
 };
 
 export default async function AnalyticsPage() {
-  const [clusteringResult, predictionsResult] = await Promise.allSettled([
+  const [clusteringResult, predictionsResult, overviewResult] = await Promise.allSettled([
     getClustering(),
     getBudgetPredictions(),
+    getDashboardOverview(),
   ]);
 
   const clustering = clusteringResult.status === "fulfilled" ? clusteringResult.value : null;
   const predictions = predictionsResult.status === "fulfilled" ? predictionsResult.value : null;
+  const overview = overviewResult.status === "fulfilled" ? overviewResult.value.data : null;
 
   if (!clustering && !predictions) {
     return (
@@ -238,6 +243,10 @@ export default async function AnalyticsPage() {
                 <p className="px-5 py-6 text-xs text-muted">Tidak ada anomali yang terdeteksi.</p>
               )}
             </div>
+
+            <div className="mt-6">
+              <RiskDistrictsTable clusters={clusters} />
+            </div>
           </section>
         ) : (
           <div className="mt-10">
@@ -299,6 +308,50 @@ export default async function AnalyticsPage() {
                 </div>
               </div>
             </section>
+
+            {overview && (
+              <section className="mt-12">
+                <p className="eyebrow">Komparasi & Aksesibilitas Wilayah</p>
+                <h2 className="display-3 mt-3 text-text">Peta Serapan APBD & Fasilitas Disabilitas</h2>
+                <p className="lede mt-3 max-w-3xl text-sm">
+                  Perbandingan alokasi terhadap realisasi belanja modal pada 5 kota administrasi & Kepulauan Seribu, serta proporsi pemenuhan aksesibilitas fisik.
+                </p>
+
+                <div className="mt-6 grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">
+                  <div className="rounded-lg border border-border bg-surface">
+                    <div className="border-b border-border px-5 py-3.5">
+                      <h3 className="font-display text-sm font-semibold text-text">
+                        Alokasi vs Realisasi APBD per Wilayah Kota
+                      </h3>
+                      <p className="mt-0.5 text-[11px] text-muted">
+                        Berdasarkan data 1.731 paket proyek belanja modal fisik riil.
+                      </p>
+                    </div>
+                    <div className="px-3 py-4 sm:px-4">
+                      <DistrictBudgetBarChart cityBreakdown={overview.city_breakdown} />
+                    </div>
+                  </div>
+
+                  <div className="rounded-lg border border-border bg-surface">
+                    <div className="border-b border-border px-5 py-3.5">
+                      <h3 className="font-display text-sm font-semibold text-text">
+                        Dukungan Akses Disabilitas
+                      </h3>
+                      <p className="mt-0.5 text-[11px] text-muted">
+                        Proporsi ramp kursi roda, ubin pemandu, dan toilet difabel.
+                      </p>
+                    </div>
+                    <div className="px-3 py-4 sm:px-4">
+                      <DisabilityAccessChart
+                        rampCount={overview.kpis.ramp_count ?? 0}
+                        tactileCount={overview.kpis.tactile_count ?? 0}
+                        toiletCount={overview.kpis.toilet_count ?? 0}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
 
             <section className="mt-12 grid gap-4 lg:grid-cols-[0.68fr_1.32fr]">
               <div className="rounded-lg border border-border bg-surface">

@@ -108,6 +108,7 @@ export interface CitizenFeedback {
   latitude?: number | null;
   longitude?: number | null;
   status: "submitted" | "verified" | "in_review" | "resolved" | "rejected";
+  confirmations_count?: number;
   admin_response?: string | null;
   resolved_at?: string | null;
   created_at: string;
@@ -179,6 +180,9 @@ export interface DashboardKpis {
   total_facilities: number;
   accessible_facilities: number;
   accessibility_percentage: number;
+  ramp_count?: number;
+  tactile_count?: number;
+  toilet_count?: number;
   total_budget_allocated: number;
   total_budget_realized: number;
   realization_percentage: number;
@@ -224,6 +228,16 @@ export interface FeedbackCreateResponse {
   status: string;
   message: string;
   data: CitizenFeedback;
+}
+
+export interface PublicFeedbacksResponse {
+  status: string;
+  data: CitizenFeedback[];
+  meta: {
+    current_page: number;
+    last_page: number;
+    total: number;
+  };
 }
 
 export interface FeedbackTrackResponse {

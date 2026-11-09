@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckCircle2, Clock3, FileText, Search, Sparkles, Ticket } from "lucide-react";
+import { CheckCircle2, Clock3, FileText, Search, Ticket, Users } from "lucide-react";
+import { PublicFeedList } from "@/components/feedback/public-feed-list";
 
 import { FeedbackCard } from "@/components/feedback/feedback-card";
 import { Button } from "@/components/ui/button";
 import { inputClass } from "@/components/ui/form";
 import { PageHeader } from "@/components/ui/page-header";
-import { EmptyState } from "@/components/ui/states";
-import { getPublicFeedbackByCode } from "@/lib/api/public";
+import { EmptyState, ErrorState } from "@/components/ui/states";
+import { getPublicFeedbackByCode, getPublicFeedbacks } from "@/lib/api/public";
 import { isApiError } from "@/lib/api/client";
 import { firstParam } from "@/lib/utils";
 import type { SearchParams } from "@/types/api";
@@ -39,11 +40,25 @@ export default async function TrackFeedbackPage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
+  const rawTab = firstParam(params.tab);
+  const activeTab = rawTab === "publik" ? "publik" : "lacak";
   const rawCode = firstParam(params.kode)?.trim().toUpperCase() ?? "";
   const code = rawCode.slice(0, 40);
 
   let feedback: CitizenFeedback | null = null;
   let errorMessage: string | null = null;
+  let publicFeedbacks: CitizenFeedback[] = [];
+  let feedError = false;
+
+  if (activeTab === "publik") {
+    try {
+      const res = await getPublicFeedbacks({ per_page: 20 });
+      publicFeedbacks = res.data;
+    } catch {
+      feedError = true;
+      publicFeedbacks = [];
+    }
+  }
 
   if (code) {
     try {
@@ -109,6 +124,51 @@ export default async function TrackFeedbackPage({
 
       <div className="container-page py-8 md:py-12">
         <div className="mx-auto max-w-3xl">
+          {/* Tab Navigation */}
+          <div className="mb-6 flex items-center gap-2 border-b border-border pb-3 overflow-x-auto sm:overflow-visible">
+            <Link
+              href="/lacak?tab=lacak"
+              className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-semibold transition-all ${
+                activeTab === "lacak"
+                  ? "bg-interactive text-white shadow-xs"
+                  : "text-muted hover:text-text hover:bg-surface-2"
+              }`}
+            >
+              <Ticket className="size-3.5" aria-hidden="true" />
+              Lacak Tiket Mandiri
+            </Link>
+            <Link
+              href="/lacak?tab=publik"
+              className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-semibold transition-all ${
+                activeTab === "publik"
+                  ? "bg-interactive text-white shadow-xs"
+                  : "text-muted hover:text-text hover:bg-surface-2"
+              }`}
+            >
+              <Users className="size-3.5" aria-hidden="true" />
+              Feed Laporan Terbuka
+            </Link>
+          </div>
+
+          {activeTab === "publik" ? (
+            feedError ? (
+              <ErrorState
+                title="Laporan publik belum dapat dimuat"
+                description="Layanan data aduan warga sedang tidak merespons. Pastikan backend Laravel aktif."
+                action={
+                  <Link
+                    href="/lacak?tab=publik"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3.5 py-1.5 text-xs font-semibold text-text shadow-2xs hover:bg-surface-2"
+                  >
+                    Muat ulang
+                  </Link>
+                }
+              />
+            ) : (
+              <PublicFeedList initialFeedbacks={publicFeedbacks} />
+            )
+          ) : (
+            <>
           <form
             method="get"
             action="/lacak"
@@ -232,6 +292,8 @@ export default async function TrackFeedbackPage({
               </Link>
             </p>
           </div>
+            </>
+          )}
         </div>
       </div>
     </>

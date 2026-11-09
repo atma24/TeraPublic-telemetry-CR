@@ -25,6 +25,7 @@ class CitizenFeedback extends Model
         'latitude',
         'longitude',
         'status',
+        'confirmations_count',
         'admin_response',
         'resolved_at',
     ];
@@ -32,6 +33,7 @@ class CitizenFeedback extends Model
     protected $casts = [
         'latitude' => 'float',
         'longitude' => 'float',
+        'confirmations_count' => 'integer',
         'resolved_at' => 'datetime',
     ];
 

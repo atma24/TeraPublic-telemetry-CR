@@ -77,4 +77,60 @@ class CitizenFeedbackController extends Controller
             'data' => $feedback,
         ]);
     }
+
+    /**
+     * Public list of verified/in-review/resolved feedbacks with sanitized PII.
+     */
+    public function publicFeedbacks(Request $request): JsonResponse
+    {
+        $query = CitizenFeedback::with('facility.region')
+            ->whereIn('status', ['verified', 'in_review', 'resolved']);
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->query('category'));
+        }
+
+        $sort = $request->query('sort', 'latest');
+        if ($sort === 'most_confirmed') {
+            $query->orderBy('confirmations_count', 'desc')->orderBy('created_at', 'desc');
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $perPage = min(50, max(1, (int) $request->query('per_page', 10)));
+        $feedbacks = $query->paginate($perPage);
+
+        // Mask / sanitize PII
+        $feedbacks->getCollection()->transform(function ($item) {
+            $item->makeHidden(['citizen_email', 'user_id']);
+            $item->citizen_name = $item->citizen_name ? mb_substr($item->citizen_name, 0, 3).'***' : 'Warga Jakarta';
+
+            return $item;
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $feedbacks->items(),
+            'meta' => [
+                'current_page' => $feedbacks->currentPage(),
+                'last_page' => $feedbacks->lastPage(),
+                'total' => $feedbacks->total(),
+            ],
+        ]);
+    }
+
+    /**
+     * Frictionless field confirmation / urgency affirmation for citizen feedback.
+     */
+    public function confirm(int $id): JsonResponse
+    {
+        $feedback = CitizenFeedback::whereIn('status', ['verified', 'in_review', 'resolved'])->findOrFail($id);
+        $feedback->increment('confirmations_count');
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Konfirmasi kondisi lapangan berhasil dicatat.',
+            'confirmations_count' => (int) $feedback->fresh()->confirmations_count,
+        ]);
+    }
 }

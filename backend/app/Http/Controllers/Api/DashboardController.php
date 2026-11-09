@@ -31,6 +31,9 @@ class DashboardController extends Controller
             ->orWhere('has_disabled_toilet', true)
             ->count();
         $accessibilityPct = $totalFacilities > 0 ? round(($accessibleCount / $totalFacilities) * 100, 1) : 0.0;
+        $rampCount = PublicFacility::where('has_wheelchair_ramp', true)->count();
+        $tactileCount = PublicFacility::where('has_tactile_paving', true)->count();
+        $toiletCount = PublicFacility::where('has_disabled_toilet', true)->count();
 
         // 2. Budget Stats (From 1,731 real projects)
         $totalAllocated = (float) BudgetProject::sum('budget_allocated');
@@ -76,6 +79,9 @@ class DashboardController extends Controller
                     'total_facilities' => $totalFacilities,
                     'accessible_facilities' => $accessibleCount,
                     'accessibility_percentage' => $accessibilityPct,
+                    'ramp_count' => $rampCount,
+                    'tactile_count' => $tactileCount,
+                    'toilet_count' => $toiletCount,
                     'total_budget_allocated' => $totalAllocated,
                     'total_budget_realized' => $totalRealized,
                     'realization_percentage' => $realizationPct,
